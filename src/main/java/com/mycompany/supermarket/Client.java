@@ -1,15 +1,15 @@
 package com.mycompany.supermarket;
 
 public class Client extends Person {
-    private int home_number,paid,payment;
-    private boolean isGolden;
+    private int home_number;
+    private double payments;
+    public boolean isGolden;
     
     public Client(String id, String name, String telephone, int age, Adress adress,
-            int home_number, int paid,int payment, boolean isGolden){
+            int home_number ,int payment, boolean isGolden){
         super(id, name, telephone, age, adress);
         this.home_number=home_number;
-        this.paid=paid;
-        this.payment=payment;
+        this.payments=payment;
         this.isGolden=isGolden;
     }
     
@@ -21,24 +21,21 @@ public class Client extends Person {
         return home_number;
     }
     
-    public void setPaid(int paid){
-        this.paid=paid;
+    public void addPayments(int payment){
+        this.payments=payment;
+    }
+
+    public double getPayments() {
+        return payments;
     }
     
-    public int getPaid(){
-        return paid;
-    }
-    
-    public void addPayment(int payment){
-        this.payment=payment;
-    }
     
     public void setIsGolden(boolean isGolden){
         this.isGolden=isGolden;
     }
     
-    public boolean getIsGolden(){
-        return isGolden;
-    }
+//    public boolean getIsGolden(){
+//        return isGolden;
+//    }
     
 }
