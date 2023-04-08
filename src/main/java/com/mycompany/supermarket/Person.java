@@ -1,6 +1,6 @@
 package com.mycompany.supermarket;
 
-public class Person
+public abstract class Person
 {
     private String id, name, telephone;
     private int age;
