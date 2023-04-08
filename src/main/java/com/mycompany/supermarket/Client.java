@@ -1,10 +1,12 @@
 package com.mycompany.supermarket;
 
-public class Client {
+public class Client extends Person {
     private int home_number,paid,payment;
     private boolean isGolden;
     
-    public Client(int home_number, int paid,int payment, boolean isGolden){
+    public Client(String id, String name, String telephone, int age, Adress adress,
+            int home_number, int paid,int payment, boolean isGolden){
+        super(id, name, telephone, age, adress);
         this.home_number=home_number;
         this.paid=paid;
         this.payment=payment;
