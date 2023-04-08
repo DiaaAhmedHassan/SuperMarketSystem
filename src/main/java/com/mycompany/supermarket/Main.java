@@ -12,8 +12,6 @@ package com.mycompany.supermarket;
 public class Main {
 
     public static void main(String[] args) {
-        Bill b1 = new Bill("7oda", "11", "fish", "meat", "chicken", "milk", "eggs");
         
-        b1.print_bill();
     }
 }
