@@ -7,19 +7,23 @@ public class Bill
 {
     Calendar date = new GregorianCalendar();
     //ArrayList<Product> products;
+    Client client;
     String[] products;
-    double initial_price;
-    Staff staff_member;
-    String pos_id;
+    double initialPrice;
+    Staff staffMember;
+    String posId;
 
     
-    //test constructor (staff is an object from Staff class)
-    public Bill(String staff, String pos_id, String...products)
+    //test constructor
+    //client => Client class
+    //staff => Staff class
+    public Bill(Client client, String staff, String pos_id, String...products)
     {
+        this.client = client;
         //this.staff_member = staff;
-        this.pos_id = pos_id;
+        this.posId = pos_id;
         this.products = products;
-    };
+    }
     
     private double getInitialPrice()
     {
@@ -36,6 +40,27 @@ public class Bill
         {
             System.out.println(product);
         }
+    }
+    public void getFinalPrice()
+    {
+        if(client.isGolden)
+        {
+            /////////
+        }else{
+            if(client.getPayments() >= 4000)
+            {
+                discount_5(initialPrice);
+            }
+        }
+    }
+    public static double discount_5(double initial_cost)
+    {
+        double new_cost = 0;
+        if(initial_cost >= 4000)
+        {
+            new_cost = initial_cost * 0.05;
+        }
+        return new_cost;
     }
     
     

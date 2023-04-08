@@ -17,7 +17,5 @@ public class SuperMarket {
                 new NewJFrame().setVisible(true);
             }
         });
-        Bill b1 = new Bill("7oda", "11", "fish", "meat", "chicken", "milk", "eggs");
-        b1.printBill();
     }
 }
