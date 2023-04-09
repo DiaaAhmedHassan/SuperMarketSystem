@@ -13,17 +13,17 @@ import java.util.Date;
 public class Product {
     private String id, name ,category;
     private double BuyingPrice, sellingPrice;
-    private Date expirationDate;
-    private static int  ITEMS_NUMBER;
+    private String expirationDate;
+    private static int  itemNo;
 
-    public Product(String id, String name, String category, double BuyingPrice, double sellingPrice, Date expirationDate) {
+    public Product(String id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.BuyingPrice = BuyingPrice;
         this.sellingPrice = sellingPrice;
         this.expirationDate = expirationDate;
-        ITEMS_NUMBER++;
+        itemNo++;
     }
 
     public String getId() {
@@ -66,12 +66,26 @@ public class Product {
         this.sellingPrice = sellingPrice;
     }
 
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(Date expirationDate) {
+    public void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
+    }
+    
+    public String weeklyTopItems(){
+        //to do return weekly top sold items
+        return "";
+    }
+    
+    public int decreaseItemNo(){
+        return itemNo--;
+    }
+    
+    public double weeklyDiscount(){
+        //todo weekly discount code
+        return 0;
     }
 
 
