@@ -25,6 +25,41 @@ public class NewJFrame extends javax.swing.JFrame {
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
+ 
+        
+        //read the product data from file using BufferedReader
+        try {
+    reader = new BufferedReader(new FileReader("productData.csv"));
+    String line = "";
+    /*
+    loop the file line by line 
+    then split every line to defirent data fields */
+    while ((line = reader.readLine()) != null) {
+        String[] oneValues = line.split(","); //spiliting 
+        
+        //store the data in variables to generat new Product objects
+        String id = oneValues[0];
+        String name = oneValues[1];
+        String category = oneValues[2];
+        double buyingPrice = Double.parseDouble(oneValues[3]);
+        double sellingPrice = Double.parseDouble(oneValues[4]);
+        String expDate = oneValues[5];
+        
+        //enter the data as paramiters in the object
+        Product pro = new Product(id, name, category, buyingPrice, sellingPrice, expDate);
+        //enter the object to the arrayList 
+        products.add(pro);
+        
+        //finish reading
+        reader.close();
+    }
+
+} catch (IOException ex) {
+    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+} 
+
+
+System.out.println(products);
         
     }
     
@@ -625,21 +660,32 @@ public class NewJFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_FindNumberActionPerformed
 
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
-        // TODO add your handling code here:
-        /*Id
-        Name
-        String id, String name, String category, double BuyingPrice, double sellingPrice, Date expirationDate*/
-       
+
+        /*get the data from the texts then add the data to the Arraylist*/
+        
        Product pro = new Product(ProductID.getText(),productName.getText(),productCategory.getText()
         ,Double.parseDouble(ProductBuyingPrice.getText()),Double.parseDouble(productSellingPrice.getText()),expirationDate.getText());
         products.add(pro);
+        
+        //try to write the new product to the csv file
         try {
             writer = new BufferedWriter(new FileWriter("productData.csv"));
-            writer.write(String.valueOf(products));
+            /*
+            remove all unused simbols to write the data in the file like that
+           4545,Milk,diary,20.0,28.0,4-8-2024
+           7241,chease,diary,35.0,40.0,4-9-2024
+            
+            instate of writing it like that
+            [4545/Milk/diary/20.0/28.0/4-8-2024
+            , 7241/chease/diary/35.0/40.0/4-9-2024
+            ]
+            bec these formate will be the csv file hard to read]
+            */
+            writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("/", ","));
             writer.close();
             System.out.println("Added to file succefuly");
            
-           
+           //catch the expetion
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
