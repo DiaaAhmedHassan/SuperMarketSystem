@@ -88,6 +88,13 @@ public class Product {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return id+"/"+name+"/"+category+"/"+BuyingPrice+"/"+sellingPrice+"/"+expirationDate+"\n";
+    }
+    
+    
+
 
     
     
