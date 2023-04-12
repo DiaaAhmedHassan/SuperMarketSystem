@@ -27,8 +27,8 @@ public class NewJFrame extends javax.swing.JFrame {
         products = new ArrayList<>();
  
         
-        //read the product data from file using BufferedReader
-        try {
+    //read the product data from file using BufferedReader
+    try {
     reader = new BufferedReader(new FileReader("productData.csv"));
     String line = "";
     /*
@@ -623,7 +623,11 @@ System.out.println(products);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
+       java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new StaffForm().setVisible(true);
+            }
+        });
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void ProductIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ProductIDActionPerformed
