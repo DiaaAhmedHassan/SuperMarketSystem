@@ -1,11 +1,11 @@
 package com.mycompany.supermarket;
 
-public class Adress
+public class Address
 {
     private String town, street;
     private int homeNumber;
 
-    public Adress(String town, String street, int homeNumber) {
+    public Address(String town, String street, int homeNumber) {
         this.town = town;
         this.street = street;
         this.homeNumber = homeNumber;

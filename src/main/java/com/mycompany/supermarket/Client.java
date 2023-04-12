@@ -5,7 +5,7 @@ public class Client extends Person {
     private double payments;
     public boolean isGolden;
     
-    public Client(String id, String name, String telephone, int age, Adress adress,
+    public Client(String id, String name, String telephone, int age, Address adress,
             int home_number ,int payment, boolean isGolden){
         super(id, name, telephone, age, adress);
         this.home_number=home_number;

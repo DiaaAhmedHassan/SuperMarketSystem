@@ -4,9 +4,9 @@ public abstract class Person
 {
     private String id, name, telephone;
     private int age;
-    private Adress adress;
+    private Address adress;
 
-    public Person(String id, String name, String telephone, int age, Adress adress) {
+    public Person(String id, String name, String telephone, int age, Address adress) {
         this.id = id;
         this.name = name;
         this.telephone = telephone;
@@ -47,11 +47,11 @@ public abstract class Person
         this.age = age;
     }
 
-    public Adress getAdress() {
+    public Address getAdress() {
         return adress;
     }
 
-    public void setAdress(Adress adress) {
+    public void setAdress(Address adress) {
         this.adress = adress;
     }
     
