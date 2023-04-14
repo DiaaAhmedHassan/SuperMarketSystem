@@ -28,8 +28,44 @@ public class StaffForm extends javax.swing.JFrame {
     public StaffForm() {
         initComponents();
         staffMembers = new ArrayList();
+        String row = "";
+        String memberId = "";
+        String memberName = "";
+        String memberPhone = "";
+        int memberAge = 0;
+        String street = "";
+        String town = "";
+        int homeNumber = 0;
+        double memberSalary = 0;
         
         
+        try {
+            reader = new BufferedReader(new FileReader("StaffMembers.csv"));
+            
+            while((row = reader.readLine()) != null)
+            {
+                String[] parts = row.split(",");
+                memberId = parts[0];
+                memberName = parts[1];
+                memberPhone = parts[2];
+                memberAge = Integer.parseInt(parts[3]);
+                String[] addresss = parts[4].split("-");
+                homeNumber = Integer.parseInt(addresss[2]);
+                street = addresss[0];
+                town = addresss[1];
+                memberSalary = Double.parseDouble(parts[5]);
+                
+                Address staffAddress = new Address(homeNumber, street, town);
+                Staff member = new Staff(memberId, memberName, memberPhone, memberAge, staffAddress, memberSalary);
+                staffMembers.add(member);
+            }
+            reader.close();
+            System.out.println(staffMembers);
+            
+        } 
+        catch (IOException ex) {
+            Logger.getLogger(StaffForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -90,6 +126,11 @@ public class StaffForm extends javax.swing.JFrame {
         findButtonStaff.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         findButtonStaff.setForeground(new java.awt.Color(255, 255, 255));
         findButtonStaff.setText("Find");
+        findButtonStaff.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findButtonStaffActionPerformed(evt);
+            }
+        });
 
         addButtonStaff.setBackground(new java.awt.Color(0, 0, 0));
         addButtonStaff.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -285,7 +326,7 @@ public class StaffForm extends javax.swing.JFrame {
         
         Address address = new Address(homeNumber,street,town);
         
-        Staff member = new Staff(memberId.getText(),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Integer.parseInt(memberSalary.getText()));
+        Staff member = new Staff(memberId.getText(),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Double.parseDouble(memberSalary.getText()));
         staffMembers.add(member);
         try {
             //write
@@ -315,6 +356,10 @@ public class StaffForm extends javax.swing.JFrame {
     private void memberSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_memberSalaryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_memberSalaryActionPerformed
+
+    private void findButtonStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonStaffActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_findButtonStaffActionPerformed
 
     /**
      * @param args the command line arguments
