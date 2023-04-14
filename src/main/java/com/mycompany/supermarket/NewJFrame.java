@@ -51,15 +51,17 @@ public class NewJFrame extends javax.swing.JFrame {
         products.add(pro);
         
         //finish reading
-        reader.close();
+        
     }
+    reader.close();
 
 } catch (IOException ex) {
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
 
-
 System.out.println(products);
+        
+
         
     }
     
@@ -685,7 +687,7 @@ System.out.println(products);
             ]
             bec these formate will be the csv file hard to read]
             */
-            writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("/", ","));
+            writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
             writer.close();
             System.out.println("Added to file succefuly");
            

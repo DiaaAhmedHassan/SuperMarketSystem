@@ -5,7 +5,7 @@ public class Address
     private String town, street;
     private int homeNumber;
 
-    public Address(String town, String street, int homeNumber) {
+    public Address(int homeNumber, String street,String town ) {
         this.town = town;
         this.street = street;
         this.homeNumber = homeNumber;
@@ -34,6 +34,13 @@ public class Address
     public void setHomeNumber(int homeNumber) {
         this.homeNumber = homeNumber;
     }
+
+    @Override
+    public String toString() {
+        return street+"-"+town+"-"+homeNumber;
+    }
+    
+    
     
     
 }
