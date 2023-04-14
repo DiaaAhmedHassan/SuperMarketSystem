@@ -359,6 +359,8 @@ public class StaffForm extends javax.swing.JFrame {
 
     private void findButtonStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonStaffActionPerformed
         // TODO add your handling code here:
+        //use getters
+        //search accourding to the filled field
     }//GEN-LAST:event_findButtonStaffActionPerformed
 
     /**
