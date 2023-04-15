@@ -104,7 +104,7 @@ System.out.println(products);
         ClientId = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         ClientName = new javax.swing.JTextField();
-        ClientTelphone = new javax.swing.JTextField();
+        ClientTelephone = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         AddressStr = new javax.swing.JTextField();
@@ -166,15 +166,15 @@ System.out.println(products);
             }
         });
 
-        ClientTelphone.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        ClientTelphone.addActionListener(new java.awt.event.ActionListener() {
+        ClientTelephone.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        ClientTelephone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClientTelphoneActionPerformed(evt);
+                ClientTelephoneActionPerformed(evt);
             }
         });
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("Telphon number");
+        jLabel3.setText("Telephon number");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("Address");
@@ -346,7 +346,7 @@ System.out.println(products);
         });
 
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel14.setText("Number of avilabile items");
+        jLabel14.setText("available items");
 
         numberItem.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         numberItem.addActionListener(new java.awt.event.ActionListener() {
@@ -452,7 +452,7 @@ System.out.println(products);
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(DeleteClient, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(ClearClient, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(ClientTelphone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(ClientTelephone, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(FindClient, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -528,7 +528,7 @@ System.out.println(products);
                         .addGap(18, 18, 18)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(ClientTelphone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ClientTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -604,9 +604,9 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_ClientNameActionPerformed
 
-    private void ClientTelphoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientTelphoneActionPerformed
+    private void ClientTelephoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientTelephoneActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClientTelphoneActionPerformed
+    }//GEN-LAST:event_ClientTelephoneActionPerformed
 
     private void AddressStrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressStrActionPerformed
         // TODO add your handling code here:
@@ -636,7 +636,12 @@ System.out.println(products);
     }//GEN-LAST:event_AddClientActionPerformed
 
     private void ClearClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearClientActionPerformed
-        // TODO add your handling code here:
+        ClientId.setText("");
+        ClientName.setText("");
+        ClientTelephone.setText("");
+        AddressStr.setText("");
+        AddressTown.setText("");
+        AddressHome.setText("");
     }//GEN-LAST:event_ClearClientActionPerformed
 
     private void DeleteClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteClientActionPerformed
@@ -756,7 +761,13 @@ System.out.println(products);
     }//GEN-LAST:event_AddProductActionPerformed
 
     private void clearProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearProductActionPerformed
-        // TODO add your handling code here:
+        ProductID.setText("");
+        productName.setText("");
+        productCategory.setText("");
+        ProductBuyingPrice.setText("");
+        productSellingPrice.setText("");
+        expirationDate.setText("");
+        numberItem.setText("");
     }//GEN-LAST:event_clearProductActionPerformed
 
     private void DeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteProductActionPerformed
@@ -783,7 +794,7 @@ System.out.println(products);
     private javax.swing.JButton ClearClient;
     private javax.swing.JTextField ClientId;
     private javax.swing.JTextField ClientName;
-    private javax.swing.JTextField ClientTelphone;
+    private javax.swing.JTextField ClientTelephone;
     private javax.swing.JButton DeleteClient;
     private javax.swing.JButton DeleteProduct;
     private javax.swing.JButton FindClient;

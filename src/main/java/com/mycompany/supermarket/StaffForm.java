@@ -317,7 +317,12 @@ public class StaffForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void clearStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearStaffActionPerformed
-        // TODO add your handling code here:
+        memberId.setText("");
+        memberName.setText("");
+        memberAge.setText("");
+        memberPhone.setText("");
+        memberAddress.setText("");
+        memberSalary.setText("");
     }//GEN-LAST:event_clearStaffActionPerformed
 
     private void deleteStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStaffActionPerformed
