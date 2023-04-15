@@ -14,16 +14,24 @@ public class Product {
     private String id, name ,category;
     private double BuyingPrice, sellingPrice;
     private String expirationDate;
-    private static int  itemNo;
+    private int  itemNo;
 
-    public Product(String id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate) {
+    public Product(String id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate, int itemNo) {
         this.id = id;
         this.name = name;
         this.category = category;
         this.BuyingPrice = BuyingPrice;
         this.sellingPrice = sellingPrice;
         this.expirationDate = expirationDate;
-        itemNo++;
+        this.itemNo = itemNo;
+    }
+
+    public int getItemNo() {
+        return itemNo;
+    }
+
+    public void setItemNo(int itemNo) {
+        this.itemNo = itemNo;
     }
 
     public String getId() {

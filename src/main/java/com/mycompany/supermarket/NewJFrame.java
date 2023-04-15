@@ -2,6 +2,21 @@
 
 package com.mycompany.supermarket;
 
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.LuminanceSource;
+import com.google.zxing.MultiFormatReader;
+import com.google.zxing.NotFoundException;
+import com.google.zxing.PlanarYUVLuminanceSource;
+import com.google.zxing.Result;
+import com.google.zxing.client.result.ProductParsedResult;
+import com.google.zxing.common.HybridBinarizer;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,11 +24,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 
 
@@ -22,11 +40,13 @@ public class NewJFrame extends javax.swing.JFrame {
     BufferedWriter writer;
     BufferedReader reader;
     ArrayList<Product> products;
+    
+    
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
- 
         
+       
     //read the product data from file using BufferedReader
     try {
     reader = new BufferedReader(new FileReader("productData.csv"));
@@ -44,9 +64,10 @@ public class NewJFrame extends javax.swing.JFrame {
         double buyingPrice = Double.parseDouble(oneValues[3]);
         double sellingPrice = Double.parseDouble(oneValues[4]);
         String expDate = oneValues[5];
+        int items = Integer.parseInt(oneValues[6]);
         
         //enter the data as paramiters in the object
-        Product pro = new Product(id, name, category, buyingPrice, sellingPrice, expDate);
+        Product pro = new Product(id, name, category, buyingPrice, sellingPrice, expDate, items);
         //enter the object to the arrayList 
         products.add(pro);
         
@@ -65,7 +86,10 @@ System.out.println(products);
         
     }
     
+   
     
+    
+   
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -109,14 +133,14 @@ System.out.println(products);
         jLabel13 = new javax.swing.JLabel();
         expirationDate = new javax.swing.JTextField();
         jLabel14 = new javax.swing.JLabel();
-        NumberItems = new javax.swing.JTextField();
+        numberItem = new javax.swing.JTextField();
         FindNumber = new javax.swing.JButton();
         AddProduct = new javax.swing.JButton();
         clearProduct = new javax.swing.JButton();
         DeleteProduct = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Bill = new javax.swing.JTextArea();
-        jPanel2 = new javax.swing.JPanel();
+        qrPanel = new javax.swing.JPanel();
         AddToBill = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -324,10 +348,10 @@ System.out.println(products);
         jLabel14.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel14.setText("Number of avilabile items");
 
-        NumberItems.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        NumberItems.addActionListener(new java.awt.event.ActionListener() {
+        numberItem.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        numberItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NumberItemsActionPerformed(evt);
+                numberItemActionPerformed(evt);
             }
         });
 
@@ -377,16 +401,16 @@ System.out.println(products);
         Bill.setText("Date:00/00/2023\nClient: some one\nStaff member: some one\nPoint of sale:000\n-------------------------------\n");
         jScrollPane1.setViewportView(Bill);
 
-        jPanel2.setBackground(new java.awt.Color(0, 0, 0));
+        qrPanel.setBackground(new java.awt.Color(0, 0, 0));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout qrPanelLayout = new javax.swing.GroupLayout(qrPanel);
+        qrPanel.setLayout(qrPanelLayout);
+        qrPanelLayout.setHorizontalGroup(
+            qrPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 225, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        qrPanelLayout.setVerticalGroup(
+            qrPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 66, Short.MAX_VALUE)
         );
 
@@ -463,7 +487,7 @@ System.out.println(products);
                                     .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(productSellingPrice)
                                     .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(NumberItems, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(numberItem, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -472,7 +496,7 @@ System.out.println(products);
                                 .addGap(53, 53, 53)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(qrPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
@@ -528,7 +552,7 @@ System.out.println(products);
                                 .addComponent(ProductID, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(7, 7, 7)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(qrPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -552,7 +576,7 @@ System.out.println(products);
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(ProductBuyingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(NumberItems, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(numberItem, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(FindNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -565,8 +589,7 @@ System.out.println(products);
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(AddToBill, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(AddToBill, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -656,13 +679,47 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_expirationDateActionPerformed
 
-    private void NumberItemsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NumberItemsActionPerformed
+    private void numberItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_numberItemActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_NumberItemsActionPerformed
+    }//GEN-LAST:event_numberItemActionPerformed
 
     private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
 
-        System.out.println(products);
+        /*Search arrayList*/
+        if(ProductID.getText().isEmpty()&&productName.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
+        }else{
+        
+        for(Product productSearch: products){
+            /*Search by id*/
+            if(ProductID.getText().equals(productSearch.getId())){
+               ProductID.setText(productSearch.getId());
+               productName.setText(productSearch.getName());
+               productCategory.setText(productSearch.getCategory());
+               ProductBuyingPrice.setText(String.valueOf(productSearch.getBuyingPrice()));
+               productSellingPrice.setText(String.valueOf(productSearch.getSellingPrice()));
+               expirationDate.setText(String.valueOf(productSearch.getExpirationDate()));
+               numberItem.setText(String.valueOf(productSearch.getItemNo()));
+               break;
+               /*Search by name*/
+            }else if(productName.getText().replaceAll(" ", "").toLowerCase().equals(productSearch.getName().toLowerCase().replaceAll(" ", ""))){
+                ProductID.setText(productSearch.getId());
+                productName.setText(productSearch.getName());
+                productCategory.setText(productSearch.getCategory());
+                ProductBuyingPrice.setText(String.valueOf(productSearch.getBuyingPrice()));
+                productSellingPrice.setText(String.valueOf(productSearch.getSellingPrice()));
+                expirationDate.setText(productSearch.getExpirationDate());
+                numberItem.setText(String.valueOf(productSearch.getItemNo()));
+                break;
+            }
+            else    
+            {
+                JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
+                       
+            }
+        }
+        }
+        
     }//GEN-LAST:event_FindNumberActionPerformed
 
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
@@ -670,7 +727,7 @@ System.out.println(products);
         /*get the data from the texts then add the data to the Arraylist*/
         
        Product pro = new Product(ProductID.getText(),productName.getText(),productCategory.getText()
-        ,Double.parseDouble(ProductBuyingPrice.getText()),Double.parseDouble(productSellingPrice.getText()),expirationDate.getText());
+        ,Double.parseDouble(ProductBuyingPrice.getText()),Double.parseDouble(productSellingPrice.getText()),expirationDate.getText(),Integer.parseInt(numberItem.getText()));
         products.add(pro);
         
         //try to write the new product to the csv file
@@ -731,7 +788,6 @@ System.out.println(products);
     private javax.swing.JButton DeleteProduct;
     private javax.swing.JButton FindClient;
     private javax.swing.JButton FindNumber;
-    private javax.swing.JTextField NumberItems;
     private javax.swing.JTextField ProductBuyingPrice;
     private javax.swing.JTextField ProductID;
     private javax.swing.JButton clearProduct;
@@ -753,10 +809,11 @@ System.out.println(products);
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField numberItem;
     private javax.swing.JTextField productCategory;
     private javax.swing.JTextField productName;
     private javax.swing.JTextField productSellingPrice;
+    private javax.swing.JPanel qrPanel;
     // End of variables declaration//GEN-END:variables
 }
