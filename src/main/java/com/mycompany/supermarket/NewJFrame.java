@@ -729,8 +729,13 @@ System.out.println(products);
 
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
 
-        /*get the data from the texts then add the data to the Arraylist*/
+        if(ProductID.getText().isEmpty()|| productName.getText().isEmpty()|| productCategory.getText().isEmpty() || ProductBuyingPrice.getText().isEmpty() || productSellingPrice.getText().isEmpty() || expirationDate.getText().isEmpty() || numberItem.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "The data fieleds are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+            
+        }else{
+        /*get the data from the texts then add the data to the Arraylist*
         
+        */
        Product pro = new Product(ProductID.getText(),productName.getText(),productCategory.getText()
         ,Double.parseDouble(ProductBuyingPrice.getText()),Double.parseDouble(productSellingPrice.getText()),expirationDate.getText(),Integer.parseInt(numberItem.getText()));
         products.add(pro);
@@ -756,6 +761,7 @@ System.out.println(products);
            //catch the expetion
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         }
       
     }//GEN-LAST:event_AddProductActionPerformed

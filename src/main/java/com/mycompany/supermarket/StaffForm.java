@@ -331,6 +331,10 @@ public class StaffForm extends javax.swing.JFrame {
 
     private void addButtonStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonStaffActionPerformed
 
+        if(memberId.getText().isEmpty()|| memberName.getText().isEmpty()|| memberAge.getText().isEmpty() || memberPhone.getText().isEmpty()){
+          JOptionPane.showMessageDialog(null, "The data fieleds are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+
+        }else{
         String addresText = memberAddress.getText();
         String street="";
         String town="";
@@ -356,7 +360,7 @@ public class StaffForm extends javax.swing.JFrame {
             Logger.getLogger(StaffForm.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-         
+        }
     }//GEN-LAST:event_addButtonStaffActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
