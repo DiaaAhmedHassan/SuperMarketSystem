@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 ;
 
 /*
@@ -38,7 +39,8 @@ public class StaffForm extends javax.swing.JFrame {
         int homeNumber = 0;
         double memberSalary = 0;
         
-        
+        //input variables
+        String id, name, phoneNumber = "";
         try {
             reader = new BufferedReader(new FileReader("StaffMembers.csv"));
             
@@ -58,9 +60,15 @@ public class StaffForm extends javax.swing.JFrame {
                 Address staffAddress = new Address(homeNumber, street, town);
                 Staff member = new Staff(memberId, memberName, memberPhone, memberAge, staffAddress, memberSalary);
                 staffMembers.add(member);
+                
+                //consistantly checking for new inputs
+//                id = this.memberId.getText();
+//                name = this.memberName.getText();
+//                phoneNumber = this.memberPhone.getText();
             }
             reader.close();
             System.out.println(staffMembers);
+            
             
         } 
         catch (IOException ex) {
@@ -154,6 +162,11 @@ public class StaffForm extends javax.swing.JFrame {
         jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         memberName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        memberName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                memberNameActionPerformed(evt);
+            }
+        });
 
         memberPhone.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
@@ -361,7 +374,44 @@ public class StaffForm extends javax.swing.JFrame {
         // TODO add your handling code here:
         //use getters
         //search accourding to the filled field
+        //
+        
+        if(memberId.getText().isEmpty() && memberName.getText().isEmpty() && memberPhone.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
+        }else{
+        
+        for(Staff staff: staffMembers){
+            /*Search by id*/
+            if(memberId.getText().equals(staff.getId())){
+                memberId.setText(staff.getId());
+                memberName.setText(staff.getName());
+                memberAge.setText(String.valueOf(staff.getAge()));
+                memberPhone.setText(staff.getTelephone());
+                memberAddress.setText(staff.getAdress().toString());
+                memberSalary.setText(String.valueOf(staff.getSalary()));
+                break;
+               /*Search by name*/
+            }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(staff.getName().toLowerCase().replaceAll(" ", ""))){
+                memberId.setText(staff.getId());
+                memberName.setText(staff.getName());
+                memberAge.setText(String.valueOf(staff.getAge()));
+                memberPhone.setText(staff.getTelephone());
+                memberAddress.setText(staff.getAdress().toString());
+                memberSalary.setText(String.valueOf(staff.getSalary()));
+                break;
+            }
+            else    
+            {
+                JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
+                       
+            }
+        }
+        }
     }//GEN-LAST:event_findButtonStaffActionPerformed
+
+    private void memberNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_memberNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_memberNameActionPerformed
 
     /**
      * @param args the command line arguments

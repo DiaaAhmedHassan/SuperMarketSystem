@@ -229,6 +229,9 @@
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="memberNameActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="memberPhone">
       <Properties>
