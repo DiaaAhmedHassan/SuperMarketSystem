@@ -4,34 +4,20 @@ package com.mycompany.supermarket;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
-import com.github.sarxos.webcam.WebcamResolution;
-import com.google.zxing.BinaryBitmap;
-import com.google.zxing.LuminanceSource;
-import com.google.zxing.MultiFormatReader;
-import com.google.zxing.NotFoundException;
-import com.google.zxing.PlanarYUVLuminanceSource;
-import com.google.zxing.Result;
-import com.google.zxing.client.result.ProductParsedResult;
+import com.google.zxing.*;
 import com.google.zxing.common.HybridBinarizer;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Reader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.Timer;
+
 
 
 
@@ -39,6 +25,8 @@ public class NewJFrame extends javax.swing.JFrame {
     
     BufferedWriter writer;
     BufferedReader reader;
+    private Webcam webcam = null;
+    private WebcamPanel panel = null;
     ArrayList<Product> products;
     
     
@@ -46,6 +34,11 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         products = new ArrayList<>();
         
+        
+           
+       
+      initWebcam();
+        //finish reading Qr code
        
     //read the product data from file using BufferedReader
     try {
@@ -87,6 +80,64 @@ System.out.println(products);
     }
     
    
+    private void initWebcam(){
+       
+       
+       webcam = Webcam.getDefault();
+       
+       webcam.open();
+       
+       panel = new WebcamPanel(webcam);
+       qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,470,300));
+       panel.setFPSDisplayed(true);
+       panel.setMirrored(true);
+       
+       
+       Thread qrCodeThred = new Thread(()->{
+           while(true){
+               BufferedImage image = webcam.getImage();
+               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
+               MultiFormatReader qrBarcodeReade = new MultiFormatReader();
+              
+               Result result;
+               try {
+                   result = qrBarcodeReade.decode(bitmap);
+                   if(result != null){
+                   String qrCodeData = result.getText();
+                   
+                   
+                   ProductID.setText(qrCodeData);
+                   if(findProduct()){
+                   findProduct();
+                   }else{
+                       JOptionPane.showMessageDialog(null, "Not found","Error 404", JOptionPane.ERROR_MESSAGE);
+                       ProductID.setText("");
+                       productName.setText("");
+                       productCategory.setText("");
+                       ProductBuyingPrice.setText("");
+                       productSellingPrice.setText("");
+                       expirationDate.setText("");
+                       numberItem.setText("");
+                       
+                   }
+                  
+               }
+                   
+               } catch (NotFoundException ex) {
+                   Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+               }
+               
+               
+           }
+       });
+       qrCodeThred.start();
+        
+       
+        
+        
+                
+    }
+    
     
     
    
@@ -401,8 +452,6 @@ System.out.println(products);
         Bill.setText("Date:00/00/2023\nClient: some one\nStaff member: some one\nPoint of sale:000\n-------------------------------\n");
         jScrollPane1.setViewportView(Bill);
 
-        qrPanel.setBackground(new java.awt.Color(0, 0, 0));
-
         javax.swing.GroupLayout qrPanelLayout = new javax.swing.GroupLayout(qrPanel);
         qrPanel.setLayout(qrPanelLayout);
         qrPanelLayout.setHorizontalGroup(
@@ -621,12 +670,7 @@ System.out.println(products);
     }//GEN-LAST:event_AddressTownActionPerformed
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
-        
-        
-     
-           
-        
-        
+ 
             
             
     }//GEN-LAST:event_FindClientActionPerformed
@@ -688,26 +732,27 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_numberItemActionPerformed
 
-    private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
-
-        /*Search arrayList*/
-        if(ProductID.getText().isEmpty()&&productName.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
-        }else{
+    public boolean findProduct(){
         
+        boolean isFound = false;
+        if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Not found", "Error 404",JOptionPane.ERROR_MESSAGE);   
+        }else{        /*Search arrayList*/
         for(Product productSearch: products){
             /*Search by id*/
             if(ProductID.getText().equals(productSearch.getId())){
+               isFound = true;
                ProductID.setText(productSearch.getId());
                productName.setText(productSearch.getName());
                productCategory.setText(productSearch.getCategory());
                ProductBuyingPrice.setText(String.valueOf(productSearch.getBuyingPrice()));
                productSellingPrice.setText(String.valueOf(productSearch.getSellingPrice()));
                expirationDate.setText(String.valueOf(productSearch.getExpirationDate()));
-               numberItem.setText(String.valueOf(productSearch.getItemNo()));
+               numberItem.setText(String.valueOf(productSearch.getItemNo())); 
                break;
                /*Search by name*/
             }else if(productName.getText().replaceAll(" ", "").toLowerCase().equals(productSearch.getName().toLowerCase().replaceAll(" ", ""))){
+                isFound = true;
                 ProductID.setText(productSearch.getId());
                 productName.setText(productSearch.getName());
                 productCategory.setText(productSearch.getCategory());
@@ -717,16 +762,39 @@ System.out.println(products);
                 numberItem.setText(String.valueOf(productSearch.getItemNo()));
                 break;
             }
-            else    
-            {
-                JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
-                       
-            }
+//           
         }
         }
-        
+        return isFound;
+    }
+    private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
+       /*
+        1-Start algorithm
+        2-check id and name texts are not empty*
+        3-if both are empty *
+        4-show message the fields are empty*
+        5-else
+        6-search for id *
+        7-if id found 
+        8-show data of the product 
+        9-else
+        10-search name 
+        11-if name found 
+        12- show data of the product
+        13- else 
+        14- show message not found
+        15- end algorithm
+      
+       */
+        if(findProduct() == false){
+            JOptionPane.showMessageDialog(null, "Not found","Error 404", JOptionPane.ERROR_MESSAGE);
+        }else{
+        findProduct();
+        }
+   
     }//GEN-LAST:event_FindNumberActionPerformed
 
+    
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
 
         if(ProductID.getText().isEmpty()|| productName.getText().isEmpty()|| productCategory.getText().isEmpty() || ProductBuyingPrice.getText().isEmpty() || productSellingPrice.getText().isEmpty() || expirationDate.getText().isEmpty() || numberItem.getText().isEmpty()){
