@@ -25,17 +25,22 @@ public class SuperMarket {
                }
            });
            
-           //- the program will not be operating in real time
-           //we will need to save the time in a file
-           //or
-           //- the program runs in the real time, we have the ability to move forward or backwards
-           //in time to be able to see the effects imply on time passing
-           //-------------------
-           //we need to:
-           //check 2 dates equallity: product expiration
-           //check the difference between 2 dates: toGolden() condition
-           //check for a spacific month and day : golden client birthday
-           //check the number of the week in year for the weekly report
+            //* workflow "decission"
+            //1. the program will not be operating in real time
+            //we will need to save the time in a file
+            //or
+            //2. the program runs in the real time, we have the ability to move forward or backwards
+            //in time to be able to see the effects imply on time passing
+            
+            //* we need to:
+            //check 2 dates equallity: product expiration                   done
+            //check the difference between 2 dates: toGolden() condition    done
+            //check for a spacific month and day : golden client birthday   done
+           
+            //* for the main function
+            //track the number of "week in year" for the weekly report
+            //current date
+            
            
            
     }
