@@ -22,8 +22,8 @@ public class GoldenClient extends Client{
         this.fav_Product = fav_product;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public String getBirthday() {
+        return SuperMarket.format(this.birthday);
     }
 
     public void setBirthday(Date birthday) {
@@ -42,5 +42,10 @@ public class GoldenClient extends Client{
    ToDo 1-fav_discount method 
         2-birthday discount method
 */
-    
+    public boolean checkBirthday()
+    {
+        //return SuperMarket.dateDifference(current date, this.getBirthday());
+        //waiting for the current date to be difined !!
+        return false;
+    }
 }

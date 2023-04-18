@@ -1,9 +1,16 @@
 package com.mycompany.supermarket;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 public class Client extends Person {
     private int home_number;
     private double payments;
     public boolean isGolden;
+    private Date c = Calendar.getInstance().getTime();//date of each instance initialization.
+    private String dateSubscribed;//date of initialization saved to CSV as a string
     
     public Client(String id, String name, String telephone, int age, Address adress,
             int home_number ,int payment, boolean isGolden){
@@ -34,8 +41,5 @@ public class Client extends Person {
         this.isGolden=isGolden;
     }
     
-//    public boolean getIsGolden(){
-//        return isGolden;
-//    }
-    
+        
 }
