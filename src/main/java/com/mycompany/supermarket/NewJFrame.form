@@ -55,19 +55,13 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="FindClient" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="AddClient" max="32767" attributes="0"/>
+                                  <Component id="AddClient" pref="140" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                      <Component id="jLabel4" alignment="0" pref="78" max="32767" attributes="0"/>
-                                      <Component id="AddressStr" alignment="0" max="32767" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="AddressTown" min="-2" pref="106" max="-2" attributes="0"/>
-                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="AddressHome" min="-2" pref="84" max="-2" attributes="0"/>
+                              <Component id="jLabel4" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="AddressStr" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ClientName" alignment="0" pref="277" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="ClientName" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -150,11 +144,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" pref="24" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="AddressStr" alignment="3" max="32767" attributes="0"/>
-                          <Component id="AddressHome" alignment="3" max="32767" attributes="0"/>
-                          <Component id="AddressTown" alignment="3" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="AddressStr" max="32767" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="FindClient" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
@@ -301,28 +291,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddressStrActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="AddressHome">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="18" style="1"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Home number"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddressHomeActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JTextField" name="AddressTown">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="18" style="1"/>
-        </Property>
-        <Property name="toolTipText" type="java.lang.String" value="Town"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AddressTownActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="FindClient">

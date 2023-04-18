@@ -25,6 +25,7 @@ public class NewJFrame extends javax.swing.JFrame {
     
     BufferedWriter writer;
     BufferedReader reader;
+    boolean isFound = false;
     private Webcam webcam = null;
     private WebcamPanel panel = null;
     ArrayList<Product> products;
@@ -95,6 +96,7 @@ System.out.println(products);
        
        Thread qrCodeThred = new Thread(()->{
            while(true){
+               isFound = false; 
                BufferedImage image = webcam.getImage();
                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
                MultiFormatReader qrBarcodeReade = new MultiFormatReader();
@@ -107,19 +109,39 @@ System.out.println(products);
                    
                    
                    ProductID.setText(qrCodeData);
-                   if(findProduct()){
-                   findProduct();
-                   }else{
-                       JOptionPane.showMessageDialog(null, "Not found","Error 404", JOptionPane.ERROR_MESSAGE);
-                       ProductID.setText("");
-                       productName.setText("");
-                       productCategory.setText("");
-                       ProductBuyingPrice.setText("");
-                       productSellingPrice.setText("");
-                       expirationDate.setText("");
-                       numberItem.setText("");
+                   for(Product searchQr : products){
+                       if(ProductID.getText().equals(searchQr.getId())){
+                           ProductID.setText("");
+                           productName.setText("");
+                           productCategory.setText("");
+                           ProductBuyingPrice.setText("");
+                           productSellingPrice.setText("");
+                           expirationDate.setText("");
+                           numberItem.setText("");
+                           isFound = true;
+                           ProductID.setText(searchQr.getId());
+                           productName.setText(searchQr.getName());
+                           productCategory.setText(searchQr.getCategory());
+                           ProductBuyingPrice.setText(String.valueOf(searchQr.getBuyingPrice()));
+                           productSellingPrice.setText(String.valueOf(searchQr.getSellingPrice()));
+                           expirationDate.setText(String.valueOf(searchQr.getExpirationDate()));
+                           numberItem.setText(String.valueOf(searchQr.getItemNo())); 
+                         break;
+                       }
+                   }
+                   
+                   if(isFound == false){
+                       JOptionPane.showMessageDialog(null, "Not Found!", "Error 404",JOptionPane.ERROR_MESSAGE);
+                         ProductID.setText("");
+                           productName.setText("");
+                           productCategory.setText("");
+                           ProductBuyingPrice.setText("");
+                           productSellingPrice.setText("");
+                           expirationDate.setText("");
+                           numberItem.setText("");
                        
                    }
+                
                   
                }
                    
@@ -132,7 +154,7 @@ System.out.println(products);
        });
        qrCodeThred.start();
         
-       
+      
         
         
                 
@@ -159,8 +181,6 @@ System.out.println(products);
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         AddressStr = new javax.swing.JTextField();
-        AddressHome = new javax.swing.JTextField();
-        AddressTown = new javax.swing.JTextField();
         FindClient = new javax.swing.JButton();
         AddClient = new javax.swing.JButton();
         ClearClient = new javax.swing.JButton();
@@ -235,22 +255,6 @@ System.out.println(products);
         AddressStr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 AddressStrActionPerformed(evt);
-            }
-        });
-
-        AddressHome.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        AddressHome.setToolTipText("Home number");
-        AddressHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddressHomeActionPerformed(evt);
-            }
-        });
-
-        AddressTown.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        AddressTown.setToolTipText("Town");
-        AddressTown.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AddressTownActionPerformed(evt);
             }
         });
 
@@ -505,16 +509,11 @@ System.out.println(products);
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(FindClient, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(AddClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                                        .addComponent(AddressStr, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(AddressTown, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(AddressHome, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(ClientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(AddClient, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
+                                .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(AddressStr, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ClientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
@@ -581,10 +580,7 @@ System.out.println(products);
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(AddressStr)
-                            .addComponent(AddressHome)
-                            .addComponent(AddressTown))
+                        .addComponent(AddressStr)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(FindClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -657,18 +653,6 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
-    private void AddressStrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressStrActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddressStrActionPerformed
-
-    private void AddressHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressHomeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddressHomeActionPerformed
-
-    private void AddressTownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressTownActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_AddressTownActionPerformed
-
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
  
             
@@ -684,8 +668,7 @@ System.out.println(products);
         ClientName.setText("");
         ClientTelephone.setText("");
         AddressStr.setText("");
-        AddressTown.setText("");
-        AddressHome.setText("");
+        
     }//GEN-LAST:event_ClearClientActionPerformed
 
     private void DeleteClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteClientActionPerformed
@@ -732,16 +715,18 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_numberItemActionPerformed
 
-    public boolean findProduct(){
+    
         
-        boolean isFound = false;
+    
+    private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
+     
         if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Not found", "Error 404",JOptionPane.ERROR_MESSAGE);   
-        }else{        /*Search arrayList*/
-        for(Product productSearch: products){
+            JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
+        }else{
+            for(Product productSearch: products){
             /*Search by id*/
             if(ProductID.getText().equals(productSearch.getId())){
-               isFound = true;
+                isFound = true;
                ProductID.setText(productSearch.getId());
                productName.setText(productSearch.getName());
                productCategory.setText(productSearch.getCategory());
@@ -751,7 +736,7 @@ System.out.println(products);
                numberItem.setText(String.valueOf(productSearch.getItemNo())); 
                break;
                /*Search by name*/
-            }else if(productName.getText().replaceAll(" ", "").toLowerCase().equals(productSearch.getName().toLowerCase().replaceAll(" ", ""))){
+            }else if(productName.getText().replaceAll(" ", "").toLowerCase().equals(productSearch.getName().toLowerCase().replaceAll(" ", "")));
                 isFound = true;
                 ProductID.setText(productSearch.getId());
                 productName.setText(productSearch.getName());
@@ -762,34 +747,10 @@ System.out.println(products);
                 numberItem.setText(String.valueOf(productSearch.getItemNo()));
                 break;
             }
-//           
         }
-        }
-        return isFound;
-    }
-    private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
-       /*
-        1-Start algorithm
-        2-check id and name texts are not empty*
-        3-if both are empty *
-        4-show message the fields are empty*
-        5-else
-        6-search for id *
-        7-if id found 
-        8-show data of the product 
-        9-else
-        10-search name 
-        11-if name found 
-        12- show data of the product
-        13- else 
-        14- show message not found
-        15- end algorithm
-      
-       */
-        if(findProduct() == false){
-            JOptionPane.showMessageDialog(null, "Not found","Error 404", JOptionPane.ERROR_MESSAGE);
-        }else{
-        findProduct();
+        
+        if(isFound == false){
+            JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
         }
    
     }//GEN-LAST:event_FindNumberActionPerformed
@@ -852,6 +813,10 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_AddToBillActionPerformed
 
+    private void AddressStrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressStrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_AddressStrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -861,9 +826,7 @@ System.out.println(products);
     private javax.swing.JButton AddClient;
     private javax.swing.JButton AddProduct;
     private javax.swing.JButton AddToBill;
-    private javax.swing.JTextField AddressHome;
     private javax.swing.JTextField AddressStr;
-    private javax.swing.JTextField AddressTown;
     private javax.swing.JTextArea Bill;
     private javax.swing.JButton ClearClient;
     private javax.swing.JTextField ClientId;

@@ -27,10 +27,10 @@ public class SuperMarket {
            
             //* workflow "decission"
             //1. the program will not be operating in real time
-            //we will need to save the time in a file
+            //we will need to save the time in a file                           *Refused*
             //or
             //2. the program runs in the real time, we have the ability to move forward or backwards
-            //in time to be able to see the effects imply on time passing
+            //in time to be able to see the effects imply on time passing       *Accepted*
             
             //* we need to:
             //check 2 dates equallity: product expiration                   done
