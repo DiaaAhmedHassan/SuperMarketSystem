@@ -9,9 +9,15 @@ public class Staff extends Person{
         this.salary = salary;
         this.age = age;
     }
-    
-    
-    
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+       
     public void setSalary(int salary){
         this.salary=salary;
 }

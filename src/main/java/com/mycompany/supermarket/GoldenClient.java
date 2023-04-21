@@ -15,9 +15,9 @@ public class GoldenClient extends Client{
     Product fav_Product;
     
     
-    public GoldenClient(String id, String name, String telephone, int age, Address adress
-            , int homeNumber, int paid, int payment, boolean isGolden, Date birthday, Product fav_product) {
-        super(id, name, telephone, age, adress, homeNumber, paid, isGolden);
+    public GoldenClient(String id, String name, String telephone, Address adress
+            , int payment, boolean isGolden, Date birthday, Product fav_product) {
+        super(id, name, telephone, adress);
         this.birthday = birthday;
         this.fav_Product = fav_product;
     }
