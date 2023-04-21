@@ -12,12 +12,11 @@ public class Client extends Person {
     private Date c = Calendar.getInstance().getTime();//date of each instance initialization.
     private String dateSubscribed;//date of initialization saved to CSV as a string
     
-    public Client(String id, String name, String telephone, int age, Address adress,
-            int home_number ,int payment, boolean isGolden){
-        super(id, name, telephone, age, adress);
-        this.home_number=home_number;
-        this.payments=payment;
-        this.isGolden=isGolden;
+
+    public Client(String id, String name, String telephone, Address adress){
+        super(id, name, telephone,adress);
+        isGolden=false;
+    
     }
     
     public void setHomeNumber(int home_number){
