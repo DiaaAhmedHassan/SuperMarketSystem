@@ -29,12 +29,12 @@ public class NewJFrame extends javax.swing.JFrame {
     private Webcam webcam = null;
     private WebcamPanel panel = null;
     ArrayList<Product> products;
-    
+    ArrayList<Client> clients;
     
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
-        
+        clients = new ArrayList<>();
         
            
        
@@ -660,7 +660,29 @@ System.out.println(products);
     }//GEN-LAST:event_FindClientActionPerformed
 
     private void AddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddClientActionPerformed
-        // TODO add your handling code here:
+     if(ClientId.getText().isEmpty()|| ClientName.getText().isEmpty()|| ClientTelephone.getText().isEmpty() || AddressStr.getText().isEmpty() ){
+            JOptionPane.showMessageDialog(null, "The data fieleds are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+         
+        }else{   
+      int homeNumber;
+      String street;
+      String town;
+      String ad=AddressStr.getText();
+      String[]parts=ad.split("-");
+      Address address = new Address(Integer.parseInt(parts[0]),parts[1],parts[2]);
+      Client c = new Client(ClientId.getText(),ClientName.getText(),ClientTelephone.getText(),address); 
+      clients.add(c);
+      
+       try {
+            writer = new BufferedWriter(new FileWriter("clientsData.csv"));
+            writer.write(String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+            writer.close();
+            System.out.println("Added to file succefuly");
+           
+           //catch the expetion
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_AddClientActionPerformed
 
     private void ClearClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearClientActionPerformed

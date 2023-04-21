@@ -58,10 +58,8 @@
                                   <Component id="AddClient" pref="140" max="32767" attributes="0"/>
                               </Group>
                               <Component id="jLabel4" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
-                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="AddressStr" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="ClientName" alignment="0" pref="277" max="32767" attributes="0"/>
-                              </Group>
+                              <Component id="AddressStr" alignment="0" max="32767" attributes="0"/>
+                              <Component id="ClientName" alignment="0" pref="277" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
