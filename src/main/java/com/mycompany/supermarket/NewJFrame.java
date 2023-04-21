@@ -682,7 +682,7 @@ System.out.println(products);
            //catch the expetion
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }}
     }//GEN-LAST:event_AddClientActionPerformed
 
     private void ClearClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearClientActionPerformed
