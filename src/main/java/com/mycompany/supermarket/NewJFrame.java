@@ -36,18 +36,23 @@ public class NewJFrame extends javax.swing.JFrame {
         products = new ArrayList<>();
         clients = new ArrayList<>();
         
-           
+         
        
-      initWebcam();
+      
         //finish reading Qr code
        
     //read the product data from file using BufferedReader
     try {
+    
     reader = new BufferedReader(new FileReader("productData.csv"));
     String line = "";
     /*
     loop the file line by line 
     then split every line to defirent data fields */
+   
+    if((line = reader.readLine()) == null){
+        System.out.println("null reader");
+    }else{
     while ((line = reader.readLine()) != null) {
         String[] oneValues = line.split(","); //spiliting 
         
@@ -64,6 +69,7 @@ public class NewJFrame extends javax.swing.JFrame {
         Product pro = new Product(id, name, category, buyingPrice, sellingPrice, expDate, items);
         //enter the object to the arrayList 
         products.add(pro);
+    }
         
         //finish reading
         
@@ -73,7 +79,8 @@ public class NewJFrame extends javax.swing.JFrame {
 } catch (IOException ex) {
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
-
+initWebcam(); 
+    
 System.out.println(products);
         
 
@@ -89,7 +96,7 @@ System.out.println(products);
        webcam.open();
        
        panel = new WebcamPanel(webcam);
-       qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,470,300));
+       qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,0,0));
        panel.setFPSDisplayed(true);
        panel.setMirrored(true);
        
@@ -460,7 +467,7 @@ System.out.println(products);
         qrPanel.setLayout(qrPanelLayout);
         qrPanelLayout.setHorizontalGroup(
             qrPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 225, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         qrPanelLayout.setVerticalGroup(
             qrPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,11 +518,10 @@ System.out.println(products);
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(AddClient, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(AddressStr, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ClientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(AddressStr, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(ClientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(productName, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -544,7 +550,8 @@ System.out.println(products);
                                 .addGap(53, 53, 53)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(qrPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(qrPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(1, 1, 1)))
                         .addGap(100, 100, 100)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE)
@@ -741,14 +748,14 @@ System.out.println(products);
         
     
     private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
-     
+
         if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
+            JOptionPane.showMessageDialog(null, "The fields are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
         }else{
             for(Product productSearch: products){
             /*Search by id*/
             if(ProductID.getText().equals(productSearch.getId())){
-                isFound = true;
+               isFound = true;
                ProductID.setText(productSearch.getId());
                productName.setText(productSearch.getName());
                productCategory.setText(productSearch.getCategory());
@@ -781,7 +788,7 @@ System.out.println(products);
     private void AddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddProductActionPerformed
 
         if(ProductID.getText().isEmpty()|| productName.getText().isEmpty()|| productCategory.getText().isEmpty() || ProductBuyingPrice.getText().isEmpty() || productSellingPrice.getText().isEmpty() || expirationDate.getText().isEmpty() || numberItem.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "The data fieleds are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "The data fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
             
         }else{
         /*get the data from the texts then add the data to the Arraylist*
@@ -808,12 +815,19 @@ System.out.println(products);
             writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
             writer.close();
             System.out.println("Added to file succefuly");
+            ProductID.setText("");
+            productName.setText("");
+            productCategory.setText("");
+            ProductBuyingPrice.setText("");
+            productSellingPrice.setText("");
+            expirationDate.setText("");
+            numberItem.setText("");
            
            //catch the expetion
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
-        }
+       }
       
     }//GEN-LAST:event_AddProductActionPerformed
 
@@ -828,7 +842,42 @@ System.out.println(products);
     }//GEN-LAST:event_clearProductActionPerformed
 
     private void DeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteProductActionPerformed
-        // TODO add your handling code here:
+  
+        
+        
+        //check the feildes are not empty
+        if(ProductID.getText().isEmpty() || productName.getText().isEmpty() || productCategory.getText().isEmpty() || ProductBuyingPrice.getText().isEmpty() 
+                || productSellingPrice.getText().isEmpty() || expirationDate.getText().isEmpty() || numberItem.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "there is an empty fields");
+        }else{
+            //find the product
+            for(Product searchPro : products){
+                if(ProductID.getText().equals(searchPro.getId())){
+                    //ask if the user sure
+                    int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record", "Warning",JOptionPane.YES_OPTION);
+                    if(option == JOptionPane.YES_OPTION){
+                        products.remove(searchPro);
+                        try {
+                            writer = new BufferedWriter(new FileWriter("productData.csv"));
+                            writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                        
+                            ProductID.setText("");
+                            productName.setText("");
+                            productCategory.setText("");
+                            ProductBuyingPrice.setText("");
+                            productSellingPrice.setText("");
+                            expirationDate.setText("");
+                            numberItem.setText("");
+           
+                        } catch (IOException ex) {
+                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                                
+                    }
+                }
+            }
+        }
+     
     }//GEN-LAST:event_DeleteProductActionPerformed
 
     private void AddToBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddToBillActionPerformed
