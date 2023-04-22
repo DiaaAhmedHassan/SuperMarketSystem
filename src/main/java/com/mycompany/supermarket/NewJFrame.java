@@ -25,7 +25,7 @@ public class NewJFrame extends javax.swing.JFrame {
     
     BufferedWriter writer;
     BufferedReader reader;
-    boolean isFound = false;
+    boolean isFound;
     private Webcam webcam = null;
     private WebcamPanel panel = null;
     ArrayList<Product> products;
@@ -75,16 +75,49 @@ public class NewJFrame extends javax.swing.JFrame {
         
     }
     reader.close();
-
+  
 } catch (IOException ex) {
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
 initWebcam(); 
     
 System.out.println(products);
+ //reading client       
+    try {
+    reader = new BufferedReader(new FileReader("clientData.csv"));
+    String line = "";
+    /*
+    loop the file line by line 
+    then split every line to defirent data fields */
+    while ((line = reader.readLine()) != null) {
+        String[] oneValues = line.split(","); //spiliting 
         
+        //store the data in variables to generat new Product objects
+        String id = oneValues[0];
+        String name = oneValues[1];
+        String telephone = oneValues[2];
+        String address = oneValues[3];       
+        String[] splited =address.split("-");
+        
+        
+        //enter the data as paramiters in the object
+        Client client = new Client(id,name,telephone,new Address(Integer.parseInt(splited[0]),splited[1],splited[2]));
+        //enter the object to the arrayList 
+        clients.add(client);
+        
+        //finish reading
+        
+    }
+    reader.close();
+        System.out.println(clients);
+    
+} catch (IOException ex) {
+    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+} 
 
-        
+System.out.println(products);
+    
+
     }
     
    
@@ -661,7 +694,32 @@ System.out.println(products);
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
- 
+    if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
+        }else{
+            for(Client clientSearch: clients){
+            /*Search by id*/
+            if(ClientId.getText().equals(clientSearch.getId())){
+                isFound = true;
+               ClientId.setText(clientSearch.getId());
+               ClientName.setText(clientSearch.getName());
+               ClientTelephone.setText(clientSearch.getTelephone());
+               AddressStr.setText(String.valueOf(clientSearch.getAdress()));
+               break;
+               /*Search by name*/
+            }else if(ClientName.getText().replaceAll(" ", "").toLowerCase().equals(clientSearch.getName().toLowerCase().replaceAll(" ", "")));
+                isFound = true;
+                ClientId.setText(clientSearch.getId());
+                ClientName.setText(clientSearch.getName());
+                ClientTelephone.setText(clientSearch.getTelephone());
+                AddressStr.setText(String.valueOf(clientSearch.getAdress()));
+                break;
+            }
+        }
+        
+        if(isFound == false){
+            JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
+        } 
             
             
     }//GEN-LAST:event_FindClientActionPerformed
