@@ -119,7 +119,7 @@ System.out.println(products);
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
 
-    initWebcam(); 
+    //initWebcam(); 
 
     
 
@@ -668,9 +668,9 @@ System.out.println(products);
                                     .addComponent(ProductBuyingPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(numberItem, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(FindNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(AddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(AddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(FindNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(clearProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -699,7 +699,8 @@ System.out.println(products);
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
-    if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
+        boolean objectFound = false;
+        if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
         }else{
             for(Client clientSearch: clients){
@@ -764,7 +765,40 @@ System.out.println(products);
     }//GEN-LAST:event_ClearClientActionPerformed
 
     private void DeleteClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteClientActionPerformed
-        // TODO add your handling code here:
+        if(ClientId.getText().isEmpty() || ClientName.getText().isEmpty() || ClientTelephone.getText().isEmpty() || AddressStr.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "there is an empty fields");
+        }else{
+            //find object
+            for(Client client : clients){
+                if(ClientId.getText().equals(client.getId())){
+                    
+                    //int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record", "Warning",JOptionPane.YES_OPTION);
+                    //if(option == JOptionPane.YES_OPTION){
+                    
+                    int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record ?", "warning", JOptionPane.YES_OPTION);
+                    if(option == JOptionPane.YES_OPTION){
+                        clients.remove(client);
+                        try {
+                            writer = new BufferedWriter(new FileWriter("clientsData.csv"));
+                            writer.write(String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                        
+                            ProductID.setText("");
+                            productName.setText("");
+                            productCategory.setText("");
+                            ProductBuyingPrice.setText("");
+                            productSellingPrice.setText("");
+                            expirationDate.setText("");
+                            numberItem.setText("");
+
+                            
+                        } catch (IOException ex) {
+                            //Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                            System.out.println("ERROR");
+                        }
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_DeleteClientActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -811,7 +845,7 @@ System.out.println(products);
         
     
     private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
-
+        boolean objectFound = false;
         System.out.println("Button clicked");
         //check the texts are not empty
         if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
@@ -828,6 +862,7 @@ System.out.println(products);
                     productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
                     expirationDate.setText(pro.getExpirationDate());
                     numberItem.setText(String.valueOf(pro.getItemNo()));
+                    objectFound = true;
                     break;
                 }//search by name
                 else if(productName.getText().toLowerCase().replaceAll(" ","").equals(pro.getName().toLowerCase().replaceAll(" ", ""))){
@@ -838,8 +873,12 @@ System.out.println(products);
                       productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
                       expirationDate.setText(pro.getExpirationDate());
                       numberItem.setText(String.valueOf(pro.getItemNo()));
+                      objectFound = true;
                       break;
                 }
+            }
+            if(objectFound == false){
+                JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_FindNumberActionPerformed
