@@ -39,6 +39,12 @@ public class Client extends Person {
     public void setIsGolden(boolean isGolden){
         this.isGolden=isGolden;
     }
+
+    @Override
+    public String toString() {
+        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress();
+    }
     
         
+    
 }

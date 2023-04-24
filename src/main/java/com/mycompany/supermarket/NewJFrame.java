@@ -51,7 +51,7 @@ public class NewJFrame extends javax.swing.JFrame {
     then split every line to defirent data fields */
    
     if((line = reader.readLine()) == null){
-        System.out.println("null reader");
+        System.out.println("products null reader");
     }else{
     while ((line = reader.readLine()) != null) {
         String[] oneValues = line.split(","); //spiliting 
@@ -79,16 +79,19 @@ public class NewJFrame extends javax.swing.JFrame {
 } catch (IOException ex) {
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
-initWebcam(); 
+
     
 System.out.println(products);
  //reading client       
     try {
-    reader = new BufferedReader(new FileReader("clientData.csv"));
+    reader = new BufferedReader(new FileReader("clientsData.csv"));
     String line = "";
     /*
     loop the file line by line 
     then split every line to defirent data fields */
+    if((line = reader.readLine()) == null){
+        System.out.println("clients Null reader");
+    }else{
     while ((line = reader.readLine()) != null) {
         String[] oneValues = line.split(","); //spiliting 
         
@@ -108,6 +111,7 @@ System.out.println(products);
         //finish reading
         
     }
+    }
     reader.close();
         System.out.println(clients);
     
@@ -115,7 +119,8 @@ System.out.println(products);
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
 
-System.out.println(products);
+    initWebcam(); 
+
     
 
     }
@@ -807,39 +812,36 @@ System.out.println(products);
     
     private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
 
+        System.out.println("Button clicked");
+        //check the texts are not empty
         if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "The fields are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
-        }else{
-            for(Product productSearch: products){
-            /*Search by id*/
-            if(ProductID.getText().equals(productSearch.getId())){
-               isFound = true;
-               ProductID.setText(productSearch.getId());
-               productName.setText(productSearch.getName());
-               productCategory.setText(productSearch.getCategory());
-               ProductBuyingPrice.setText(String.valueOf(productSearch.getBuyingPrice()));
-               productSellingPrice.setText(String.valueOf(productSearch.getSellingPrice()));
-               expirationDate.setText(String.valueOf(productSearch.getExpirationDate()));
-               numberItem.setText(String.valueOf(productSearch.getItemNo())); 
-               break;
-               /*Search by name*/
-            }else if(productName.getText().replaceAll(" ", "").toLowerCase().equals(productSearch.getName().toLowerCase().replaceAll(" ", "")));
-                isFound = true;
-                ProductID.setText(productSearch.getId());
-                productName.setText(productSearch.getName());
-                productCategory.setText(productSearch.getCategory());
-                ProductBuyingPrice.setText(String.valueOf(productSearch.getBuyingPrice()));
-                productSellingPrice.setText(String.valueOf(productSearch.getSellingPrice()));
-                expirationDate.setText(productSearch.getExpirationDate());
-                numberItem.setText(String.valueOf(productSearch.getItemNo()));
-                break;
+            JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+        }//search
+        else{
+            for(Product pro: products){
+                //search by id
+                if(ProductID.getText().equals(pro.getId())){
+                    ProductID.setText(pro.getId());
+                    productName.setText(pro.getName());
+                    productCategory.setText(pro.getCategory());
+                    ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
+                    productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
+                    expirationDate.setText(pro.getExpirationDate());
+                    numberItem.setText(String.valueOf(pro.getItemNo()));
+                    break;
+                }//search by name
+                else if(productName.getText().toLowerCase().replaceAll(" ","").equals(pro.getName().toLowerCase().replaceAll(" ", ""))){
+                      ProductID.setText(pro.getId());
+                      productName.setText(pro.getName());
+                      productCategory.setText(pro.getCategory());
+                      ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
+                      productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
+                      expirationDate.setText(pro.getExpirationDate());
+                      numberItem.setText(String.valueOf(pro.getItemNo()));
+                      break;
+                }
             }
         }
-        
-        if(isFound == false){
-            JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
-        }
-   
     }//GEN-LAST:event_FindNumberActionPerformed
 
     
