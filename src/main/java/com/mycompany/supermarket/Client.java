@@ -42,7 +42,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress();
+        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"\n";
     }
     
         

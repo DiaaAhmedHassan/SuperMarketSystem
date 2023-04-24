@@ -14,6 +14,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -104,7 +105,7 @@ System.out.println(products);
         
         
         //enter the data as paramiters in the object
-        Client client = new Client(id,name,telephone,new Address(Integer.parseInt(splited[0]),splited[1],splited[2]));
+        Client client = new Client(id,name,telephone,new Address(Integer.parseInt(splited[2]),splited[1],splited[0]));
         //enter the object to the arrayList 
         clients.add(client);
         
@@ -746,7 +747,7 @@ System.out.println(products);
       
        try {
             writer = new BufferedWriter(new FileWriter("clientsData.csv"));
-            writer.write(String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+            writer.write(("id,name,phone,address\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
             writer.close();
             System.out.println("Added to file succefuly");
            
@@ -772,15 +773,14 @@ System.out.println(products);
             for(Client client : clients){
                 if(ClientId.getText().equals(client.getId())){
                     
-                    //int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record", "Warning",JOptionPane.YES_OPTION);
-                    //if(option == JOptionPane.YES_OPTION){
-                    
                     int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record ?", "warning", JOptionPane.YES_OPTION);
                     if(option == JOptionPane.YES_OPTION){
-                        clients.remove(client);
+                        //working
+                        
                         try {
+                            clients.remove(client);
                             writer = new BufferedWriter(new FileWriter("clientsData.csv"));
-                            writer.write(String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                            writer.write(("id,name,phone,address\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
                         
                             ProductID.setText("");
                             productName.setText("");
@@ -792,7 +792,7 @@ System.out.println(products);
 
                             
                         } catch (IOException ex) {
-                            //Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                             System.out.println("ERROR");
                         }
                     }
@@ -911,7 +911,7 @@ System.out.println(products);
             ]
             bec these formate will be the csv file hard to read]
             */
-            writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+            writer.write(("id,name,category,buying,selling,expiration,number\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
             writer.close();
             System.out.println("Added to file succefuly");
             ProductID.setText("");
@@ -940,26 +940,52 @@ System.out.println(products);
         numberItem.setText("");
     }//GEN-LAST:event_clearProductActionPerformed
 
+    public boolean thereIsEmptyFields(String identfier){
+        if("product".equals(identfier)){
+            if(ProductID.getText().isEmpty() || 
+                    productName.getText().isEmpty() ||
+                    productCategory.getText().isEmpty() ||
+                    ProductBuyingPrice.getText().isEmpty() ||
+                    productSellingPrice.getText().isEmpty() ||
+                    expirationDate.getText().isEmpty() ||
+                    numberItem.getText().isEmpty()){
+                return true;
+                
+            }else if("client".equals(identfier)){
+                if(ClientId.getText().isEmpty() ||
+                        ClientName.getText().isEmpty() ||
+                        ClientTelephone.getText().isEmpty() ||
+                        AddressStr.getText().isEmpty()){
+                    return true;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+        
+        return false;      
+    }
     private void DeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteProductActionPerformed
-  
-        
-        
-        //check the feildes are not empty
-        if(ProductID.getText().isEmpty() || productName.getText().isEmpty() || productCategory.getText().isEmpty() || ProductBuyingPrice.getText().isEmpty() 
-                || productSellingPrice.getText().isEmpty() || expirationDate.getText().isEmpty() || numberItem.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "there is an empty fields");
+
+        if(thereIsEmptyFields("product")){
+            JOptionPane.showMessageDialog(null, "There is an empty feilds!","Error 404",JOptionPane.ERROR_MESSAGE);
         }else{
             //find the product
-            for(Product searchPro : products){
-                if(ProductID.getText().equals(searchPro.getId())){
-                    //ask if the user sure
-                    int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record", "Warning",JOptionPane.YES_OPTION);
+            for (Product proSearch : products) {
+                System.out.println("objectiv not found");
+                if(ProductID.getText().equals(proSearch.getId())){
+                    int option = JOptionPane.showConfirmDialog(null,"Are you sure you want to permanently delete this record","Warrning",JOptionPane.YES_NO_OPTION);
                     if(option == JOptionPane.YES_OPTION){
-                        products.remove(searchPro);
+                        products.remove(proSearch);
+                        System.out.println(products);
+                       
                         try {
                             writer = new BufferedWriter(new FileWriter("productData.csv"));
-                            writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
-                        
+                            writer.write(("id,name,category,buying,selling,expiration,itemNo\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                
+                           
                             ProductID.setText("");
                             productName.setText("");
                             productCategory.setText("");
@@ -967,15 +993,19 @@ System.out.println(products);
                             productSellingPrice.setText("");
                             expirationDate.setText("");
                             numberItem.setText("");
-           
+                            System.out.println("data deleted");
+                            writer.close();
                         } catch (IOException ex) {
+                            
                             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                                
+                        break;
                     }
                 }
             }
         }
+        
+       
      
     }//GEN-LAST:event_DeleteProductActionPerformed
 
