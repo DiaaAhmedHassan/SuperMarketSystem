@@ -326,7 +326,36 @@ public class StaffForm extends javax.swing.JFrame {
     }//GEN-LAST:event_clearStaffActionPerformed
 
     private void deleteStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStaffActionPerformed
-        // TODO add your handling code here:
+      if(memberId.getText().isEmpty() || memberName.getText().isEmpty() || memberAge.getText().isEmpty() || memberPhone.getText().isEmpty() 
+                || memberAddress.getText().isEmpty() || memberSalary.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "there is an empty fields");
+        }else{
+            //find the member
+            for(Staff searchStaff : staffMembers){
+                if(memberId.getText().equals(searchStaff.getId())){
+                    //ask if the user sure
+                    int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record", "Warning",JOptionPane.YES_OPTION);
+                    if(option == JOptionPane.YES_OPTION){
+                        staffMembers.remove(searchStaff);
+                        try {
+                            writer = new BufferedWriter(new FileWriter("productData.csv"));
+                            writer.write(String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                        
+                            memberId.setText("");
+                            memberName.setText("");
+                            memberAge.setText("");
+                            memberPhone.setText("");
+                            memberAddress.setText("");
+                            memberSalary.setText("");
+                                     
+                        } catch (IOException ex) {
+                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                                
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_deleteStaffActionPerformed
 
     private void addButtonStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonStaffActionPerformed
