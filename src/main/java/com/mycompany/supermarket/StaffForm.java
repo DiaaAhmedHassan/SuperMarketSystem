@@ -108,8 +108,6 @@ public class StaffForm extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         memberAge = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         deleteStaff.setBackground(new java.awt.Color(255, 0, 0));
         deleteStaff.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         deleteStaff.setForeground(new java.awt.Color(255, 255, 255));

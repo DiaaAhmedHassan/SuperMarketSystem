@@ -4,6 +4,7 @@ package com.mycompany.supermarket;
 
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
 import com.google.zxing.*;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
@@ -18,6 +19,7 @@ import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import java.awt.*;
 
 
 
@@ -120,7 +122,7 @@ System.out.println(products);
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
 
-    //initWebcam(); 
+    
 
     
 
@@ -128,13 +130,13 @@ System.out.println(products);
     
    
     private void initWebcam(){
-       
-       
+      
        webcam = Webcam.getDefault();
        
-       webcam.open();
        
+       webcam.open();
        panel = new WebcamPanel(webcam);
+      
        qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,0,0));
        panel.setFPSDisplayed(true);
        panel.setMirrored(true);
@@ -259,8 +261,10 @@ System.out.println(products);
         Bill = new javax.swing.JTextArea();
         qrPanel = new javax.swing.JPanel();
         AddToBill = new javax.swing.JButton();
+        readQr = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Supermarket");
         setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -523,6 +527,16 @@ System.out.println(products);
             }
         });
 
+        readQr.setBackground(new java.awt.Color(0, 0, 0));
+        readQr.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        readQr.setForeground(new java.awt.Color(255, 255, 255));
+        readQr.setText("Read Qr");
+        readQr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                readQrActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -536,11 +550,13 @@ System.out.println(products);
                         .addGap(18, 18, 18)
                         .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(25, 25, 25)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(52, 52, 52)
+                        .addComponent(readQr)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
+                        .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -606,7 +622,8 @@ System.out.println(products);
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(readQr, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1021,6 +1038,16 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_AddressStrActionPerformed
 
+    private void readQrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_readQrActionPerformed
+       if(readQr.getText().equals("Read Qr")){
+        initWebcam(); 
+        readQr.setText("Stop reading");
+       }else{
+           readQr.setText("Read Qr");
+           webcam.close();
+       }
+    }//GEN-LAST:event_readQrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1067,5 +1094,6 @@ System.out.println(products);
     private javax.swing.JTextField productName;
     private javax.swing.JTextField productSellingPrice;
     private javax.swing.JPanel qrPanel;
+    private javax.swing.JButton readQr;
     // End of variables declaration//GEN-END:variables
 }
