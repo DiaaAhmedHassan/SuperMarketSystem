@@ -704,27 +704,31 @@ System.out.println(products);
         if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
         }else{
-            for(Client clientSearch: clients){
-            /*Search by id*/
-            if(ClientId.getText().equals(clientSearch.getId())){
-                isFound = true;
-               ClientId.setText(clientSearch.getId());
-               ClientName.setText(clientSearch.getName());
-               ClientTelephone.setText(clientSearch.getTelephone());
-               AddressStr.setText(String.valueOf(clientSearch.getAdress()));
-               break;
-               /*Search by name*/
-            }else if(ClientName.getText().replaceAll(" ", "").toLowerCase().equals(clientSearch.getName().toLowerCase().replaceAll(" ", "")));
-                isFound = true;
-                ClientId.setText(clientSearch.getId());
-                ClientName.setText(clientSearch.getName());
-                ClientTelephone.setText(clientSearch.getTelephone());
-                AddressStr.setText(String.valueOf(clientSearch.getAdress()));
-                break;
-            }
+           for(Client search: clients){
+               if(ClientId.getText().replaceAll(" ", "").equals(search.getId().replaceAll(" ", ""))){
+                   System.out.println("id found");
+                   ClientId.setText(search.getId());
+                   ClientName.setText(search.getName());
+                   ClientTelephone.setText(search.getTelephone());
+                   AddressStr.setText(String.valueOf(search.getAdress()));
+                   isFound = true;
+                   break;
+               }else if(ClientName.getText().toLowerCase().replaceAll(" ", "").equals(search.getName().toLowerCase().replaceAll(" ", ""))){
+                   System.out.println("Name found found");
+                   ClientId.setText(search.getId());
+                   ClientName.setText(search.getName());
+                   ClientTelephone.setText(search.getTelephone());
+                   AddressStr.setText(String.valueOf(search.getAdress()));
+                   isFound = true;
+                   break;
+               }else{
+                   System.out.println("Not found");
+                   isFound = false;
+               }
+           }
         }
         
-        if(isFound == false){
+        if(!isFound){
             JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
         } 
             
