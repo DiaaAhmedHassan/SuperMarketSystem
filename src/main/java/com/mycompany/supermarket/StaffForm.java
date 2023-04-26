@@ -20,7 +20,7 @@ public class StaffForm extends javax.swing.JFrame {
     
     BufferedWriter writer;
     BufferedReader reader;
-    ArrayList<Staff> staffMembers;
+    public static ArrayList<Staff> staffMembers;
     
 
     /**
@@ -58,7 +58,7 @@ public class StaffForm extends javax.swing.JFrame {
                 memberSalary = Double.parseDouble(parts[5]);
                 
                 Address staffAddress = new Address(homeNumber, street, town);
-                Staff member = new Staff(memberId, memberName, memberPhone, memberAge, staffAddress, memberSalary);
+                Staff member = new Staff(Integer.parseInt(memberId), memberName, memberPhone, memberAge, staffAddress, memberSalary);
                 staffMembers.add(member);
                 
                 //consistantly checking for new inputs
@@ -375,7 +375,7 @@ public class StaffForm extends javax.swing.JFrame {
         
         Address address = new Address(homeNumber,street,town);
         
-        Staff member = new Staff(memberId.getText(),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Double.parseDouble(memberSalary.getText()));
+        Staff member = new Staff(Integer.parseInt(memberId.getText()),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Double.parseDouble(memberSalary.getText()));
         staffMembers.add(member);
         try {
             //write
@@ -419,7 +419,7 @@ public class StaffForm extends javax.swing.JFrame {
         for(Staff staff: staffMembers){
             /*Search by id*/
             if(memberId.getText().equals(staff.getId())){
-                memberId.setText(staff.getId());
+                memberId.setText(String.valueOf(staff.getId()));
                 memberName.setText(staff.getName());
                 memberAge.setText(String.valueOf(staff.getAge()));
                 memberPhone.setText(staff.getTelephone());
@@ -428,7 +428,7 @@ public class StaffForm extends javax.swing.JFrame {
                 break;
                /*Search by name*/
             }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(staff.getName().toLowerCase().replaceAll(" ", ""))){
-                memberId.setText(staff.getId());
+                memberId.setText(String.valueOf(staff.getId()));
                 memberName.setText(staff.getName());
                 memberAge.setText(String.valueOf(staff.getAge()));
                 memberPhone.setText(staff.getTelephone());

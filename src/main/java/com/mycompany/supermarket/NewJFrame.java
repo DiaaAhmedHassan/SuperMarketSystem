@@ -34,6 +34,83 @@ public class NewJFrame extends javax.swing.JFrame {
     ArrayList<Product> products;
     ArrayList<Client> clients;
     
+    
+    public Object find(String object, String name)
+    {
+        //search my name
+        //if found return the obeject
+        //if not return null
+        Object returned = null;
+        
+        switch(object){
+            case "product":
+                name = name.toLowerCase().replaceAll(" ", "");
+                for(Product product : products)
+                {
+                    if(name.equals(product.getName().toLowerCase().replaceAll(" ", "")))
+                    {
+                        isFound = true;
+                        returned = product;
+                        System.out.println(product.toString());
+                        break;
+                    }
+                }
+            break;
+            case "client":
+                
+                name = name.toLowerCase().replaceAll(" ", "");
+                for(Client client : clients)
+                {
+                    if(name.equals(client.getName().toLowerCase().replaceAll(" ", "")))
+                    {
+                        isFound = true;
+                        returned = client;
+                        System.out.println(client.toString());
+                        break;
+                    }
+                }
+                
+            break;
+            case "staff":
+                
+                name = name.toLowerCase().replaceAll(" ", "");
+                for(Staff staff : StaffForm.staffMembers)
+                {
+                    if(name.equals(staff.getName().toLowerCase().replaceAll(" ", "")))
+                    {
+                        isFound = true;
+                        returned = staff;
+                        System.out.println(staff.toString());
+                        break;
+                    }
+                }
+                
+            break;
+        }
+        
+        return(returned);
+        
+    }
+    public Object find(int id, String object)
+    {
+        //search my id
+        //if found return the obeject
+        //if not return null
+        boolean isFound = false;
+        Object returned = null;
+        // in case of product
+        for(Product product : products)
+        {
+            if(id == product.getId())
+            {
+                isFound = true;
+                returned = product;
+                System.out.println(product.toString());
+                break;
+            }
+        }
+        return(returned);
+    }
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
@@ -60,7 +137,7 @@ public class NewJFrame extends javax.swing.JFrame {
         String[] oneValues = line.split(","); //spiliting 
         
         //store the data in variables to generat new Product objects
-        String id = oneValues[0];
+        int id = Integer.parseInt(oneValues[0].replaceAll(" ", ""));
         String name = oneValues[1];
         String category = oneValues[2];
         double buyingPrice = Double.parseDouble(oneValues[3]);
@@ -99,7 +176,7 @@ System.out.println(products);
         String[] oneValues = line.split(","); //spiliting 
         
         //store the data in variables to generat new Product objects
-        String id = oneValues[0];
+        int id = Integer.parseInt(oneValues[0].replaceAll(" ", ""));
         String name = oneValues[1];
         String telephone = oneValues[2];
         String address = oneValues[3];       
@@ -130,81 +207,81 @@ System.out.println(products);
     
    
     private void initWebcam(){
-      
-       webcam = Webcam.getDefault();
+        boolean isFound = false;
+        webcam = Webcam.getDefault();
        
        
-       webcam.open();
-       panel = new WebcamPanel(webcam);
-      
-       qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,0,0));
-       panel.setFPSDisplayed(true);
-       panel.setMirrored(true);
-       
-       
-       Thread qrCodeThred = new Thread(()->{
-           while(true){
-               isFound = false; 
-               BufferedImage image = webcam.getImage();
-               BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
-               MultiFormatReader qrBarcodeReade = new MultiFormatReader();
-              
-               Result result;
-               try {
-                   result = qrBarcodeReade.decode(bitmap);
-                   if(result != null){
-                   String qrCodeData = result.getText();
-                   
-                   
-                   ProductID.setText(qrCodeData);
-                   for(Product searchQr : products){
-                       if(ProductID.getText().equals(searchQr.getId())){
-                           ProductID.setText("");
-                           productName.setText("");
-                           productCategory.setText("");
-                           ProductBuyingPrice.setText("");
-                           productSellingPrice.setText("");
-                           expirationDate.setText("");
-                           numberItem.setText("");
-                           isFound = true;
-                           ProductID.setText(searchQr.getId());
-                           productName.setText(searchQr.getName());
-                           productCategory.setText(searchQr.getCategory());
-                           ProductBuyingPrice.setText(String.valueOf(searchQr.getBuyingPrice()));
-                           productSellingPrice.setText(String.valueOf(searchQr.getSellingPrice()));
-                           expirationDate.setText(String.valueOf(searchQr.getExpirationDate()));
-                           numberItem.setText(String.valueOf(searchQr.getItemNo())); 
-                         break;
-                       }
-                   }
-                   
-                   if(isFound == false){
-                       JOptionPane.showMessageDialog(null, "Not Found!", "Error 404",JOptionPane.ERROR_MESSAGE);
-                         ProductID.setText("");
-                           productName.setText("");
-                           productCategory.setText("");
-                           ProductBuyingPrice.setText("");
-                           productSellingPrice.setText("");
-                           expirationDate.setText("");
-                           numberItem.setText("");
-                       
-                   }
-                
-                  
-               }
-                   
-               } catch (NotFoundException ex) {
-                   Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-               }
-               
-               
-           }
-       });
-       qrCodeThred.start();
-        
-      
-        
-        
+        webcam.open();
+        panel = new WebcamPanel(webcam);
+
+        qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,0,0));
+        panel.setFPSDisplayed(true);
+        panel.setMirrored(true);
+
+
+        Thread qrCodeThred = new Thread(()->{
+            while(true){
+                this.isFound = false;
+                BufferedImage image = webcam.getImage();
+                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
+                MultiFormatReader qrBarcodeReade = new MultiFormatReader();
+
+                Result result;
+                try {
+                    result = qrBarcodeReade.decode(bitmap);
+                    if(result != null){
+                    String qrCodeData = result.getText();
+
+
+                    ProductID.setText(qrCodeData);
+                    for(Product searchQr : products){
+                        if(ProductID.getText().equals(searchQr.getId())){
+                            ProductID.setText("");
+                            productName.setText("");
+                            productCategory.setText("");
+                            ProductBuyingPrice.setText("");
+                            productSellingPrice.setText("");
+                            expirationDate.setText("");
+                            numberItem.setText("");
+                            this.isFound = true;
+                            ProductID.setText(String.valueOf(searchQr.getId()));
+                            productName.setText(searchQr.getName());
+                            productCategory.setText(searchQr.getCategory());
+                            ProductBuyingPrice.setText(String.valueOf(searchQr.getBuyingPrice()));
+                            productSellingPrice.setText(String.valueOf(searchQr.getSellingPrice()));
+                            expirationDate.setText(String.valueOf(searchQr.getExpirationDate()));
+                            numberItem.setText(String.valueOf(searchQr.getItemNo())); 
+                            break;
+                        }
+                    }
+
+                    if(this.isFound == false){
+                        JOptionPane.showMessageDialog(null, "Not Found!", "Error 404",JOptionPane.ERROR_MESSAGE);
+                        ProductID.setText("");
+                        productName.setText("");
+                        productCategory.setText("");
+                        ProductBuyingPrice.setText("");
+                        productSellingPrice.setText("");
+                        expirationDate.setText("");
+                        numberItem.setText("");
+
+                    }
+
+
+                }
+
+                } catch (NotFoundException ex) {
+                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+
+            }
+        });
+        qrCodeThred.start();
+
+
+
+
                 
     }
     
@@ -717,14 +794,14 @@ System.out.println(products);
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
-        boolean objectFound = false;
+        boolean isFound = false;
         if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
         }else{
            for(Client search: clients){
-               if(ClientId.getText().replaceAll(" ", "").equals(search.getId().replaceAll(" ", ""))){
+               if( Integer.parseInt(ClientId.getText()) == search.getId() ){
                    System.out.println("id found");
-                   ClientId.setText(search.getId());
+                   ClientId.setText(String.valueOf(search.getId()));
                    ClientName.setText(search.getName());
                    ClientTelephone.setText(search.getTelephone());
                    AddressStr.setText(String.valueOf(search.getAdress()));
@@ -732,7 +809,7 @@ System.out.println(products);
                    break;
                }else if(ClientName.getText().toLowerCase().replaceAll(" ", "").equals(search.getName().toLowerCase().replaceAll(" ", ""))){
                    System.out.println("Name found found");
-                   ClientId.setText(search.getId());
+                   ClientId.setText(String.valueOf(search.getId()));
                    ClientName.setText(search.getName());
                    ClientTelephone.setText(search.getTelephone());
                    AddressStr.setText(String.valueOf(search.getAdress()));
@@ -763,7 +840,7 @@ System.out.println(products);
       String ad=AddressStr.getText();
       String[]parts=ad.split("-");
       Address address = new Address(Integer.parseInt(parts[0]),parts[1],parts[2]);
-      Client c = new Client(ClientId.getText(),ClientName.getText(),ClientTelephone.getText(),address); 
+      Client c = new Client(Integer.valueOf(ClientId.getText()),ClientName.getText(),ClientTelephone.getText(),address); 
       clients.add(c);
       
        try {
@@ -867,39 +944,34 @@ System.out.println(products);
     
     private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
         boolean objectFound = false;
+        Object foundProduct = null;
         System.out.println("Button clicked");
         //check the texts are not empty
         if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
         }//search
         else{
-            for(Product pro: products){
-                //search by id
-                if(ProductID.getText().equals(pro.getId())){
-                    ProductID.setText(pro.getId());
-                    productName.setText(pro.getName());
-                    productCategory.setText(pro.getCategory());
-                    ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
-                    productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
-                    expirationDate.setText(pro.getExpirationDate());
-                    numberItem.setText(String.valueOf(pro.getItemNo()));
-                    objectFound = true;
-                    break;
-                }//search by name
-                else if(productName.getText().toLowerCase().replaceAll(" ","").equals(pro.getName().toLowerCase().replaceAll(" ", ""))){
-                      ProductID.setText(pro.getId());
-                      productName.setText(pro.getName());
-                      productCategory.setText(pro.getCategory());
-                      ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
-                      productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
-                      expirationDate.setText(pro.getExpirationDate());
-                      numberItem.setText(String.valueOf(pro.getItemNo()));
-                      objectFound = true;
-                      break;
+            try {
+                foundProduct = find(Integer.parseInt(ProductID.getText()), "product");
+                
+            } catch (NumberFormatException e) {
+                
+                foundProduct = find("product", productName.getText());
+                
+            }finally{
+                
+                if(foundProduct == null){
+                    JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }
-            }
-            if(objectFound == false){
-                JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
+                
+                Product pro = (Product) foundProduct;
+                ProductID.setText(String.valueOf(pro.getId()));
+                productName.setText(pro.getName());
+                productCategory.setText(pro.getCategory());
+                ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
+                productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
+                expirationDate.setText(pro.getExpirationDate());
+                numberItem.setText(String.valueOf(pro.getItemNo()));
             }
         }
     }//GEN-LAST:event_FindNumberActionPerformed
@@ -914,7 +986,7 @@ System.out.println(products);
         /*get the data from the texts then add the data to the Arraylist*
         
         */
-       Product pro = new Product(ProductID.getText(),productName.getText(),productCategory.getText()
+       Product pro = new Product(Integer.parseInt(ProductID.getText()),productName.getText(),productCategory.getText()
         ,Double.parseDouble(ProductBuyingPrice.getText()),Double.parseDouble(productSellingPrice.getText()),expirationDate.getText(),Integer.parseInt(numberItem.getText()));
         products.add(pro);
         
