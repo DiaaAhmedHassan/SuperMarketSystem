@@ -38,10 +38,7 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         products = new ArrayList<>();
         clients = new ArrayList<>();
-        
-         
-       
-      
+
         //finish reading Qr code
        
     //read the product data from file using BufferedReader
@@ -768,7 +765,7 @@ System.out.println(products);
       
        try {
             writer = new BufferedWriter(new FileWriter("clientsData.csv"));
-            writer.write(("id,name,phone,address\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+            writer.write(("id,name,phone,address\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
             writer.close();
             System.out.println("Added to file succefuly");
            
@@ -787,37 +784,14 @@ System.out.println(products);
     }//GEN-LAST:event_ClearClientActionPerformed
 
     private void DeleteClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteClientActionPerformed
+    
         if(ClientId.getText().isEmpty() || ClientName.getText().isEmpty() || ClientTelephone.getText().isEmpty() || AddressStr.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "there is an empty fields");
+            JOptionPane.showMessageDialog(null, "There are empty fields!","Error 404", JOptionPane.ERROR_MESSAGE);
         }else{
-            //find object
-            for(Client client : clients){
-                if(ClientId.getText().equals(client.getId())){
-                    
-                    int option = JOptionPane.showConfirmDialog(null, "Are you sure you want to permanently delete this record ?", "warning", JOptionPane.YES_OPTION);
-                    if(option == JOptionPane.YES_OPTION){
-                        //working
-                        
-                        try {
-                            clients.remove(client);
-                            writer = new BufferedWriter(new FileWriter("clientsData.csv"));
-                            writer.write(("id,name,phone,address\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
-                        
-                            ProductID.setText("");
-                            productName.setText("");
-                            productCategory.setText("");
-                            ProductBuyingPrice.setText("");
-                            productSellingPrice.setText("");
-                            expirationDate.setText("");
-                            numberItem.setText("");
-
-                            
-                        } catch (IOException ex) {
-                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            System.out.println("ERROR");
-                        }
-                    }
-                }
+            int option = JOptionPane.showConfirmDialog(null,"Are you sure you want to permanently delete this record?","Warning",JOptionPane.YES_NO_OPTION);
+          
+            if(option == JOptionPane.YES_OPTION){
+                
             }
         }
     }//GEN-LAST:event_DeleteClientActionPerformed
@@ -961,7 +935,7 @@ System.out.println(products);
         numberItem.setText("");
     }//GEN-LAST:event_clearProductActionPerformed
 
-    public boolean thereIsEmptyFields(String identfier){
+    public boolean thereAreEmptyFields(String identfier){
         if("product".equals(identfier)){
             if(ProductID.getText().isEmpty() || 
                     productName.getText().isEmpty() ||
@@ -986,12 +960,12 @@ System.out.println(products);
             return false;
         }
         
-        return false;      
+        return true;      
     }
     private void DeleteProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteProductActionPerformed
 
-        if(thereIsEmptyFields("product")){
-            JOptionPane.showMessageDialog(null, "There is an empty feilds!","Error 404",JOptionPane.ERROR_MESSAGE);
+        if(thereAreEmptyFields("product")){
+            JOptionPane.showMessageDialog(null, "There are empty fields!","Error 404",JOptionPane.ERROR_MESSAGE);
         }else{
             //find the product
             for (Product proSearch : products) {
