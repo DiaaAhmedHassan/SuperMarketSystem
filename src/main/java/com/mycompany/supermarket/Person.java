@@ -2,23 +2,23 @@ package com.mycompany.supermarket;
 
 public abstract class Person
 {
-    private String id, name, telephone;
+    private int id;
+    private String name, telephone;
     
     private Address adress;
 
-    public Person(String id, String name, String telephone, Address adress) {
+    public Person(int id, String name, String telephone, Address adress) {
         this.id = id;
         this.name = name;
         this.telephone = telephone;
         this.adress = adress;
     }
 
-    
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

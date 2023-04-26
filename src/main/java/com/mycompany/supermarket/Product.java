@@ -11,12 +11,13 @@ import java.util.Date;
  * @author DELL
  */
 public class Product {
-    private String id, name ,category;
+    private int id;
+    private String name ,category;
     private double BuyingPrice, sellingPrice;
     private String expirationDate;
     private int  itemNo;
 
-    public Product(String id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate, int itemNo) {
+    public Product(int id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate, int itemNo) {
         this.id = id;
         this.name = name;
         this.category = category;
@@ -34,11 +35,11 @@ public class Product {
         this.itemNo = itemNo;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

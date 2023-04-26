@@ -13,7 +13,7 @@ public class Client extends Person {
     private String dateSubscribed;//date of initialization saved to CSV as a string
     
 
-    public Client(String id, String name, String telephone, Address adress){
+    public Client(int id, String name, String telephone, Address adress){
         super(id, name, telephone,adress);
         isGolden=false;
     

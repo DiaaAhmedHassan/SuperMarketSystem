@@ -39,11 +39,18 @@ public class StaffForm extends javax.swing.JFrame {
         int homeNumber = 0;
         double memberSalary = 0;
         
+        String cardId = "";
+        String username = "";
+        String cardCode = "";
+        
         //input variables
         String id, name, phoneNumber = "";
         try {
             reader = new BufferedReader(new FileReader("StaffMembers.csv"));
             
+            if((row = reader.readLine()) == null){
+                System.out.println("Null reader");
+            }else{
             while((row = reader.readLine()) != null)
             {
                 String[] parts = row.split(",");
@@ -57,6 +64,13 @@ public class StaffForm extends javax.swing.JFrame {
                 town = addresss[1];
                 memberSalary = Double.parseDouble(parts[5]);
                 
+                String[] cardParts = parts[6].split("-");
+                
+                cardId = cardParts[0];
+                username = cardParts[1];
+                cardCode = cardParts[2];
+                
+                Card userCard = new Card(cardId, username, cardCode);
                 Address staffAddress = new Address(homeNumber, street, town);
                 Staff member = new Staff(Integer.parseInt(memberId), memberName, memberPhone, memberAge, staffAddress, memberSalary);
                 staffMembers.add(member);
@@ -68,6 +82,7 @@ public class StaffForm extends javax.swing.JFrame {
             }
             reader.close();
             System.out.println(staffMembers);
+            }
             
             
         } 
@@ -89,9 +104,9 @@ public class StaffForm extends javax.swing.JFrame {
         clearStaff = new javax.swing.JButton();
         findButtonStaff = new javax.swing.JButton();
         addButtonStaff = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        cardCode = new javax.swing.JTextField();
+        cardId = new javax.swing.JTextField();
+        cardUsername = new javax.swing.JTextField();
         memberName = new javax.swing.JTextField();
         memberPhone = new javax.swing.JTextField();
         memberAddress = new javax.swing.JTextField();
@@ -148,16 +163,16 @@ public class StaffForm extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        cardCode.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cardCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                cardCodeActionPerformed(evt);
             }
         });
 
-        jTextField2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cardId.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
-        jTextField3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        cardUsername.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         memberName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         memberName.addActionListener(new java.awt.event.ActionListener() {
@@ -244,15 +259,15 @@ public class StaffForm extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jTextField2)
-                        .addComponent(jTextField3)
+                        .addComponent(cardId)
+                        .addComponent(cardUsername)
                         .addComponent(clearStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createSequentialGroup()
                             .addComponent(findButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(31, 31, 31)
                             .addComponent(addButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(deleteStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)))
+                        .addComponent(cardCode, javax.swing.GroupLayout.Alignment.TRAILING)))
                 .addGap(91, 91, 91))
         );
         layout.setVerticalGroup(
@@ -263,11 +278,11 @@ public class StaffForm extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cardId, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
                         .addComponent(jLabel3)
                         .addGap(4, 4, 4)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cardUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(27, 27, 27))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(15, 15, 15)
@@ -288,7 +303,7 @@ public class StaffForm extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                    .addComponent(cardCode, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
                     .addComponent(memberPhone))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel7)
@@ -321,6 +336,9 @@ public class StaffForm extends javax.swing.JFrame {
         memberPhone.setText("");
         memberAddress.setText("");
         memberSalary.setText("");
+        cardId.setText("");
+        cardUsername.setText("");
+        cardCode.setText("");
     }//GEN-LAST:event_clearStaffActionPerformed
 
     private void deleteStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteStaffActionPerformed
@@ -336,8 +354,8 @@ public class StaffForm extends javax.swing.JFrame {
                     if(option == JOptionPane.YES_OPTION){
                         staffMembers.remove(searchStaff);
                         try {
-                            writer = new BufferedWriter(new FileWriter("productData.csv"));
-                            writer.write(String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                            writer = new BufferedWriter(new FileWriter("StaffMembers.csv"));
+                            writer.write(("id,name,phone,age,address,salary,cardId,username,cardCode\n")+String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
                         
                             memberId.setText("");
                             memberName.setText("");
@@ -345,6 +363,10 @@ public class StaffForm extends javax.swing.JFrame {
                             memberPhone.setText("");
                             memberAddress.setText("");
                             memberSalary.setText("");
+                            cardId.setText("");
+                            cardUsername.setText("");
+                            cardCode.setText("");
+                                    
                                      
                         } catch (IOException ex) {
                             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -374,13 +396,15 @@ public class StaffForm extends javax.swing.JFrame {
         }
         
         Address address = new Address(homeNumber,street,town);
+        Card card = new Card(cardId.getText(), cardUsername.getText(), cardCode.getText());
         
+
         Staff member = new Staff(Integer.parseInt(memberId.getText()),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Double.parseDouble(memberSalary.getText()));
         staffMembers.add(member);
         try {
             //write
             writer = new BufferedWriter(new FileWriter("StaffMembers.csv"));
-            writer.write(String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|",","));
+            writer.write(("id,name,phone,age,address,salary,cardId,username,cardCode\n")+String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|",","));
             writer.close();
             System.out.println("Added to the file");
         } catch (IOException ex) {
@@ -390,9 +414,9 @@ public class StaffForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_addButtonStaffActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void cardCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardCodeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_cardCodeActionPerformed
 
     private void memberAddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_memberAddressActionPerformed
         // TODO add your handling code here:
@@ -411,6 +435,7 @@ public class StaffForm extends javax.swing.JFrame {
         //use getters
         //search accourding to the filled field
         //
+        boolean isFound = false;
         
         if(memberId.getText().isEmpty() && memberName.getText().isEmpty() && memberPhone.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
@@ -418,30 +443,43 @@ public class StaffForm extends javax.swing.JFrame {
         
         for(Staff staff: staffMembers){
             /*Search by id*/
+
             if(memberId.getText().equals(staff.getId())){
+                isFound = true;
                 memberId.setText(String.valueOf(staff.getId()));
                 memberName.setText(staff.getName());
                 memberAge.setText(String.valueOf(staff.getAge()));
                 memberPhone.setText(staff.getTelephone());
                 memberAddress.setText(staff.getAdress().toString());
                 memberSalary.setText(String.valueOf(staff.getSalary()));
+                cardId.setText(String.valueOf(staff.getCard().getId()));
+                cardUsername.setText(staff.getCard().getUsername());
+                cardCode.setText(staff.getCard().getCode());
                 break;
                /*Search by name*/
             }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(staff.getName().toLowerCase().replaceAll(" ", ""))){
                 memberId.setText(String.valueOf(staff.getId()));
+               isFound = true;
                 memberName.setText(staff.getName());
-                memberAge.setText(String.valueOf(staff.getAge()));
+                memberAge.setText(String.valueOf( staff.getAge()));
                 memberPhone.setText(staff.getTelephone());
                 memberAddress.setText(staff.getAdress().toString());
-                memberSalary.setText(String.valueOf(staff.getSalary()));
+                memberSalary.setText(String.valueOf(staff.getAdress()));
+                cardId.setText(String.valueOf(staff.getCard().getId()));
+                cardUsername.setText(staff.getCard().getUsername());
+                cardCode.setText(staff.getCard().getCode());
                 break;
             }
             else    
             {
-                JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
+                System.out.println("not found");
                        
             }
         }
+        }
+        
+        if(!isFound){
+             JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_findButtonStaffActionPerformed
 
@@ -455,6 +493,9 @@ public class StaffForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButtonStaff;
+    private javax.swing.JTextField cardCode;
+    private javax.swing.JTextField cardId;
+    private javax.swing.JTextField cardUsername;
     private javax.swing.JButton clearStaff;
     private javax.swing.JButton deleteStaff;
     private javax.swing.JButton findButtonStaff;
@@ -467,9 +508,6 @@ public class StaffForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField memberAddress;
     private javax.swing.JTextField memberAge;
     private javax.swing.JTextField memberId;
