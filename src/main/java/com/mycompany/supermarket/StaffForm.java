@@ -72,7 +72,7 @@ public class StaffForm extends javax.swing.JFrame {
                 
                 Card userCard = new Card(cardParts[0], cardParts[1], cardParts[2]);
                 Address staffAddress = new Address(homeNumber, street, town);
-                Staff member = new Staff(Integer.parseInt(memberId), memberName, memberPhone, memberAge, staffAddress, memberSalary);
+                Staff member = new Staff(Integer.parseInt(memberId), memberName, memberPhone, memberAge, staffAddress, memberSalary,userCard);
                 staffMembers.add(member);
                 
                 //consistantly checking for new inputs
@@ -399,7 +399,7 @@ public class StaffForm extends javax.swing.JFrame {
         Card card = new Card(cardId.getText(), cardUsername.getText(), cardCode.getText());
         
 
-        Staff member = new Staff(Integer.parseInt(memberId.getText()),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Double.parseDouble(memberSalary.getText()));
+        Staff member = new Staff(Integer.parseInt(memberId.getText()),memberName.getText(),memberPhone.getText(),Integer.parseInt(memberAge.getText()),address,Double.parseDouble(memberSalary.getText()),card);
         staffMembers.add(member);
         try {
             //write
@@ -500,7 +500,7 @@ public class StaffForm extends javax.swing.JFrame {
                 
                 if(foundProduct == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
-                }
+                }else{
                 
                 Staff staff = (Staff) foundProduct;
                 memberId.setText(String.valueOf(staff.getId()));
@@ -512,6 +512,7 @@ public class StaffForm extends javax.swing.JFrame {
                 cardId.setText(String.valueOf(staff.getCard().getId()));
                 cardUsername.setText(staff.getCard().getUsername());
                 cardCode.setText(staff.getCard().getCode());
+                }
             }
         }
     }//GEN-LAST:event_findButtonStaffActionPerformed

@@ -7,7 +7,7 @@ public class Staff extends Person{
     
 
 
-    public Staff(int id, String name, String telephone, int age, Address adress, double salary) {
+    public Staff(int id, String name, String telephone, int age, Address adress, double salary, Card card) {
 
         super(id, name, telephone, adress);
         this.salary = salary;

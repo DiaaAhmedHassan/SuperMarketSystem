@@ -31,10 +31,20 @@ public class NewJFrame extends javax.swing.JFrame {
     boolean isFound;
     private Webcam webcam = null;
     private WebcamPanel panel = null;
+    private static Object objectFound = null;
     public static ArrayList<Product> products;
     public static ArrayList<Client> clients;
     
     
+    
+    public static boolean isNumiric(String string){
+        try{
+            Integer.parseInt(string);
+            return true;
+        }catch(NumberFormatException ex){
+                return false;
+             }
+    }
     public static Object find(String object, String name)
     {
         //search my name
@@ -90,6 +100,8 @@ public class NewJFrame extends javax.swing.JFrame {
         return(returned);
         
     }
+   
+    //overload
     public static Object find(int id, String object)
     {
         //search my id
@@ -261,43 +273,30 @@ System.out.println(products);
                     if(result != null){
                     String qrCodeData = result.getText();
 
+                    if(isNumiric(qrCodeData)){
 
                     ProductID.setText(qrCodeData);
-                    for(Product searchQr : products){
-                        if(ProductID.getText().equals(searchQr.getId())){
-                            ProductID.setText("");
-                            productName.setText("");
-                            productCategory.setText("");
-                            ProductBuyingPrice.setText("");
-                            productSellingPrice.setText("");
-                            expirationDate.setText("");
-                            numberItem.setText("");
-                            this.isFound = true;
-                            ProductID.setText(String.valueOf(searchQr.getId()));
-                            productName.setText(searchQr.getName());
-                            productCategory.setText(searchQr.getCategory());
-                            ProductBuyingPrice.setText(String.valueOf(searchQr.getBuyingPrice()));
-                            productSellingPrice.setText(String.valueOf(searchQr.getSellingPrice()));
-                            expirationDate.setText(String.valueOf(searchQr.getExpirationDate()));
-                            numberItem.setText(String.valueOf(searchQr.getItemNo())); 
-                            break;
-                        }
+                    
+                    
+                    objectFound = find(Integer.parseInt(qrCodeData),"product");
+                    if(objectFound == null){
+                        JOptionPane.showMessageDialog(null, "Not found", "Error 404",JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        Product pro = (Product) objectFound;
+                        ProductID.setText(String.valueOf(pro.getId()));
+                        productName.setText(pro.getName());
+                        productCategory.setText(pro.getCategory());
+                        ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
+                        productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
+                        expirationDate.setText(pro.getExpirationDate());
+                        numberItem.setText(String.valueOf(pro.getItemNo()));
                     }
-
-                    if(this.isFound == false){
-                        JOptionPane.showMessageDialog(null, "Not Found!", "Error 404",JOptionPane.ERROR_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Not Valid", "Error 404",JOptionPane.ERROR_MESSAGE);
                         ProductID.setText("");
-                        productName.setText("");
-                        productCategory.setText("");
-                        ProductBuyingPrice.setText("");
-                        productSellingPrice.setText("");
-                        expirationDate.setText("");
-                        numberItem.setText("");
-
                     }
-
-
-                }
+                    
+                    }
 
                 } catch (NotFoundException ex) {
                     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -873,13 +872,14 @@ System.out.println(products);
                 
                 if(foundProduct == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
-                }
+                }else{
                 
                 Client cli = (Client) foundProduct;
                 ClientId.setText(String.valueOf(cli.getId()));
                 ClientName.setText(cli.getName());
                 ClientTelephone.setText(cli.getTelephone());
                 AddressStr.setText(String.valueOf(cli.getAdress()));
+                }
             }
         }
     }//GEN-LAST:event_FindClientActionPerformed
@@ -993,8 +993,7 @@ System.out.println(products);
                 
                 if(foundProduct == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
-                }
-                
+                }else{ 
                 Product pro = (Product) foundProduct;
                 ProductID.setText(String.valueOf(pro.getId()));
                 productName.setText(pro.getName());
@@ -1003,6 +1002,7 @@ System.out.println(products);
                 productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
                 expirationDate.setText(pro.getExpirationDate());
                 numberItem.setText(String.valueOf(pro.getItemNo()));
+                }
             }
         }
     }//GEN-LAST:event_FindNumberActionPerformed
