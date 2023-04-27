@@ -31,11 +31,11 @@ public class NewJFrame extends javax.swing.JFrame {
     boolean isFound;
     private Webcam webcam = null;
     private WebcamPanel panel = null;
-    ArrayList<Product> products;
-    ArrayList<Client> clients;
+    public static ArrayList<Product> products;
+    public static ArrayList<Client> clients;
     
     
-    public Object find(String object, String name)
+    public static Object find(String object, String name)
     {
         //search my name
         //if found return the obeject
@@ -44,26 +44,26 @@ public class NewJFrame extends javax.swing.JFrame {
         
         switch(object){
             case "product":
+                System.out.println("searching for a product py name");
                 name = name.toLowerCase().replaceAll(" ", "");
-                for(Product product : products)
+            for (Product product : products) {
+                if(name.equals(product.getName().toLowerCase().replaceAll(" ", "")))
                 {
-                    if(name.equals(product.getName().toLowerCase().replaceAll(" ", "")))
-                    {
-                        isFound = true;
-                        returned = product;
-                        System.out.println(product.toString());
-                        break;
-                    }
+                    returned = product;
+                    System.out.println(product.toString());
+                    break;
                 }
+            }
             break;
+
+
             case "client":
-                
+                System.out.println("search for a client by name");
                 name = name.toLowerCase().replaceAll(" ", "");
                 for(Client client : clients)
                 {
                     if(name.equals(client.getName().toLowerCase().replaceAll(" ", "")))
                     {
-                        isFound = true;
                         returned = client;
                         System.out.println(client.toString());
                         break;
@@ -72,13 +72,12 @@ public class NewJFrame extends javax.swing.JFrame {
                 
             break;
             case "staff":
-                
+                System.out.println("searching for a staff member by name");
                 name = name.toLowerCase().replaceAll(" ", "");
                 for(Staff staff : StaffForm.staffMembers)
                 {
                     if(name.equals(staff.getName().toLowerCase().replaceAll(" ", "")))
                     {
-                        isFound = true;
                         returned = staff;
                         System.out.println(staff.toString());
                         break;
@@ -91,26 +90,59 @@ public class NewJFrame extends javax.swing.JFrame {
         return(returned);
         
     }
-    public Object find(int id, String object)
+    public static Object find(int id, String object)
     {
         //search my id
         //if found return the obeject
         //if not return null
-        boolean isFound = false;
         Object returned = null;
-        // in case of product
-        for(Product product : products)
-        {
-            if(id == product.getId())
-            {
-                isFound = true;
-                returned = product;
-                System.out.println(product.toString());
-                break;
-            }
+        
+        
+        switch(object){
+            case "client":
+                System.out.println("search for a client by id");
+                for(Client cli : clients)
+                {
+                    if(id == cli.getId())
+                    {
+                        returned = cli;
+                        System.out.println(cli.toString());
+                        break;
+                    }
+                }
+                
+            break;
+            case "product":
+                System.out.println("search for a product by id");
+                for(Product product : products)
+                {
+                    if(id == product.getId())
+                    {
+                        returned = product;
+                        System.out.println(product.toString());
+                        break;
+                    }
+                }
+            break;
+            case "staff":
+                System.out.println("search for a staff member by id");
+                for(Staff staff : StaffForm.staffMembers)
+                {
+                    if(id == staff.getId())
+                    {
+                        returned = staff;
+                        System.out.println(staff.toString());
+                        break;
+                    }
+                }
+                
+            break;
         }
+        
         return(returned);
     }
+    
+    
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
@@ -791,39 +823,65 @@ System.out.println(products);
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
-        boolean isFound = false;
+//        boolean isFound = false;
+//        if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
+//            JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
+//        }else{
+//           for(Client search: clients){
+//               if( Integer.parseInt(ClientId.getText()) == search.getId() ){
+//                   System.out.println("id found");
+//                   ClientId.setText(String.valueOf(search.getId()));
+//                   ClientName.setText(search.getName());
+//                   ClientTelephone.setText(search.getTelephone());
+//                   AddressStr.setText(String.valueOf(search.getAdress()));
+//                   isFound = true;
+//                   break;
+//               }else if(ClientName.getText().toLowerCase().replaceAll(" ", "").equals(search.getName().toLowerCase().replaceAll(" ", ""))){
+//                   System.out.println("Name found found");
+//                   ClientId.setText(String.valueOf(search.getId()));
+//                   ClientName.setText(search.getName());
+//                   ClientTelephone.setText(search.getTelephone());
+//                   AddressStr.setText(String.valueOf(search.getAdress()));
+//                   isFound = true;
+//                   break;
+//               }else{
+//                   System.out.println("Not found");
+//                   isFound = false;
+//               }
+//           }
+//        }
+//        
+//        if(!isFound){
+//            JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
+//        } 
+            
+        Object foundProduct = null;
+        System.out.println("Button clicked");
+        //check the texts are not empty
         if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "The fieldes are empty! ","Error 404",JOptionPane.ERROR_MESSAGE);          
-        }else{
-           for(Client search: clients){
-               if( Integer.parseInt(ClientId.getText()) == search.getId() ){
-                   System.out.println("id found");
-                   ClientId.setText(String.valueOf(search.getId()));
-                   ClientName.setText(search.getName());
-                   ClientTelephone.setText(search.getTelephone());
-                   AddressStr.setText(String.valueOf(search.getAdress()));
-                   isFound = true;
-                   break;
-               }else if(ClientName.getText().toLowerCase().replaceAll(" ", "").equals(search.getName().toLowerCase().replaceAll(" ", ""))){
-                   System.out.println("Name found found");
-                   ClientId.setText(String.valueOf(search.getId()));
-                   ClientName.setText(search.getName());
-                   ClientTelephone.setText(search.getTelephone());
-                   AddressStr.setText(String.valueOf(search.getAdress()));
-                   isFound = true;
-                   break;
-               }else{
-                   System.out.println("Not found");
-                   isFound = false;
-               }
-           }
+            JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+        }//search
+        else{
+            try {
+                foundProduct = find(Integer.parseInt(ClientId.getText()), "client");
+                
+            } catch (NumberFormatException e) {
+                
+                foundProduct = find("client", ClientName.getText());
+                
+            }finally{
+                
+                if(foundProduct == null){
+                    JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
+                }
+                
+                Client cli = (Client) foundProduct;
+                ClientId.setText(String.valueOf(cli.getId()));
+                ClientName.setText(cli.getName());
+                ClientTelephone.setText(cli.getTelephone());
+                AddressStr.setText(String.valueOf(cli.getAdress()));
+            }
         }
-        
-        if(!isFound){
-            JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
-        } 
-            
-            
     }//GEN-LAST:event_FindClientActionPerformed
 
     private void AddClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddClientActionPerformed
@@ -917,7 +975,6 @@ System.out.println(products);
         
     
     private void FindNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindNumberActionPerformed
-        boolean objectFound = false;
         Object foundProduct = null;
         System.out.println("Button clicked");
         //check the texts are not empty

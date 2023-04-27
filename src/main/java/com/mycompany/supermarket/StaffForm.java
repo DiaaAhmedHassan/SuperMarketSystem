@@ -66,11 +66,11 @@ public class StaffForm extends javax.swing.JFrame {
                 
                 String[] cardParts = parts[6].split("-");
                 
-                cardId = cardParts[0];
-                username = cardParts[1];
-                cardCode = cardParts[2];
+//                cardId = cardParts[0];
+//                username = cardParts[1];
+//                cardCode = cardParts[2];
                 
-                Card userCard = new Card(cardId, username, cardCode);
+                Card userCard = new Card(cardParts[0], cardParts[1], cardParts[2]);
                 Address staffAddress = new Address(homeNumber, street, town);
                 Staff member = new Staff(Integer.parseInt(memberId), memberName, memberPhone, memberAge, staffAddress, memberSalary);
                 staffMembers.add(member);
@@ -435,31 +435,75 @@ public class StaffForm extends javax.swing.JFrame {
         //use getters
         //search accourding to the filled field
         //
-        boolean isFound = false;
-        
-        if(memberId.getText().isEmpty() && memberName.getText().isEmpty() && memberPhone.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
-        }else{
-        
-        for(Staff staff: staffMembers){
-            /*Search by id*/
+//        boolean isFound = false;
+//        
+//        if(memberId.getText().isEmpty() && memberName.getText().isEmpty() && memberPhone.getText().isEmpty()){
+//            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
+//        }else{
+//        
+//        for(Staff staff: staffMembers){
+//            /*Search by id*/
+//
+//            if(memberId.getText().equals(staff.getId())){
+//                isFound = true;
+//                memberId.setText(String.valueOf(staff.getId()));
+//                memberName.setText(staff.getName());
+//                memberAge.setText(String.valueOf(staff.getAge()));
+//                memberPhone.setText(staff.getTelephone());
+//                memberAddress.setText(staff.getAdress().toString());
+//                memberSalary.setText(String.valueOf(staff.getSalary()));
+//                cardId.setText(String.valueOf(staff.getCard().getId()));
+//                cardUsername.setText(staff.getCard().getUsername());
+//                cardCode.setText(staff.getCard().getCode());
+//                break;
+//               /*Search by name*/
+//            }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(staff.getName().toLowerCase().replaceAll(" ", ""))){
+//                memberId.setText(String.valueOf(staff.getId()));
+//               isFound = true;
+//                memberName.setText(staff.getName());
+//                memberAge.setText(String.valueOf( staff.getAge()));
+//                memberPhone.setText(staff.getTelephone());
+//                memberAddress.setText(staff.getAdress().toString());
+//                memberSalary.setText(String.valueOf(staff.getAdress()));
+//                cardId.setText(String.valueOf(staff.getCard().getId()));
+//                cardUsername.setText(staff.getCard().getUsername());
+//                cardCode.setText(staff.getCard().getCode());
+//                break;
+//            }
+//            else    
+//            {
+//                System.out.println("not found");
+//                       
+//            }
+//        }
+//        }
+//        
+//        if(!isFound){
+//             JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
+//        }
 
-            if(memberId.getText().equals(staff.getId())){
-                isFound = true;
+        Object foundProduct = null;
+        System.out.println("Button clicked");
+        //check the texts are not empty
+        if(memberId.getText().isEmpty() && memberName.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
+        }//search
+        else{
+            try {
+                foundProduct = NewJFrame.find(Integer.parseInt(memberId.getText()), "product");
+                
+            } catch (NumberFormatException e) {
+                
+                foundProduct = NewJFrame.find("product", memberName.getText());
+                
+            }finally{
+                
+                if(foundProduct == null){
+                    JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
+                }
+                
+                Staff staff = (Staff) foundProduct;
                 memberId.setText(String.valueOf(staff.getId()));
-                memberName.setText(staff.getName());
-                memberAge.setText(String.valueOf(staff.getAge()));
-                memberPhone.setText(staff.getTelephone());
-                memberAddress.setText(staff.getAdress().toString());
-                memberSalary.setText(String.valueOf(staff.getSalary()));
-                cardId.setText(String.valueOf(staff.getCard().getId()));
-                cardUsername.setText(staff.getCard().getUsername());
-                cardCode.setText(staff.getCard().getCode());
-                break;
-               /*Search by name*/
-            }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(staff.getName().toLowerCase().replaceAll(" ", ""))){
-                memberId.setText(String.valueOf(staff.getId()));
-               isFound = true;
                 memberName.setText(staff.getName());
                 memberAge.setText(String.valueOf( staff.getAge()));
                 memberPhone.setText(staff.getTelephone());
@@ -468,18 +512,7 @@ public class StaffForm extends javax.swing.JFrame {
                 cardId.setText(String.valueOf(staff.getCard().getId()));
                 cardUsername.setText(staff.getCard().getUsername());
                 cardCode.setText(staff.getCard().getCode());
-                break;
             }
-            else    
-            {
-                System.out.println("not found");
-                       
-            }
-        }
-        }
-        
-        if(!isFound){
-             JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_findButtonStaffActionPerformed
 
