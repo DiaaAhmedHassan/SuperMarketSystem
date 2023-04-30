@@ -280,7 +280,8 @@ System.out.println(products);
                     
                     objectFound = find(Integer.parseInt(qrCodeData),"product");
                     if(objectFound == null){
-                        JOptionPane.showMessageDialog(null, "Not found", "Error 404",JOptionPane.ERROR_MESSAGE);
+                        ProductID.setText(qrCodeData);
+                        
                     }else{
                         Product pro = (Product) objectFound;
                         ProductID.setText(String.valueOf(pro.getId()));
