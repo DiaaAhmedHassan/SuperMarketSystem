@@ -855,7 +855,7 @@ System.out.println(products);
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
-            
+
         Object foundClient = null;
         System.out.println("Button clicked");
         
