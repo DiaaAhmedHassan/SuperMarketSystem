@@ -21,7 +21,7 @@ public class SuperMarket {
                @Override
                public void run() {
                    new NewJFrame().setVisible(true);
-                   //System.out.println(dateDifference("11/11/2011", "11/11/2012"));
+                  
                }
            });
            

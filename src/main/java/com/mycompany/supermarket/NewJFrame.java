@@ -433,7 +433,7 @@ System.out.println(products);
         });
 
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel3.setText("Telephon number");
+        jLabel3.setText("Telephone number");
 
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel4.setText("Address");
@@ -701,7 +701,6 @@ System.out.println(products);
                             .addComponent(ClientId, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(DeleteClient, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(ClearClient, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -712,7 +711,8 @@ System.out.println(products);
                                     .addComponent(AddClient, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(AddressStr, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(ClientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)))
+                                .addComponent(ClientName, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -756,13 +756,14 @@ System.out.println(products);
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(posText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(shiftText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(readQr, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(changeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(changeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(posText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(shiftText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(readQr, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25)
@@ -855,31 +856,30 @@ System.out.println(products);
 
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
             
-        Object foundProduct = null;
+        Object foundClient = null;
         System.out.println("Button clicked");
+        
         //check the texts are not empty
         if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
-        }//search
+        }
+        //starting the search
         else{
             try {
-                foundProduct = find(Integer.parseInt(ClientId.getText()), "client");
+                foundClient = find(Integer.parseInt(ClientId.getText()), "client");
                 
             } catch (NumberFormatException e) {
                 
-                foundProduct = find("client", ClientName.getText());
+                foundClient = find("client", ClientName.getText());
                 
             }finally{
                 
-                if(foundProduct == null){
+                if(foundClient == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }else{
                 
-                Client cli = (Client) foundProduct;
-                ClientId.setText(String.valueOf(cli.getId()));
-                ClientName.setText(cli.getName());
-                ClientTelephone.setText(cli.getTelephone());
-                AddressStr.setText(String.valueOf(cli.getAdress()));
+                Client result = (Client) foundClient;
+                result.display();
                 }
             }
         }
@@ -995,14 +995,8 @@ System.out.println(products);
                 if(foundProduct == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }else{ 
-                Product pro = (Product) foundProduct;
-                ProductID.setText(String.valueOf(pro.getId()));
-                productName.setText(pro.getName());
-                productCategory.setText(pro.getCategory());
-                ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
-                productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
-                expirationDate.setText(pro.getExpirationDate());
-                numberItem.setText(String.valueOf(pro.getItemNo()));
+                Product result = (Product) foundProduct;
+                result.display();
                 }
             }
         }
@@ -1203,21 +1197,21 @@ System.out.println(products);
     private javax.swing.JButton AddClient;
     private javax.swing.JButton AddProduct;
     private javax.swing.JButton AddToBill;
-    private javax.swing.JTextField AddressStr;
+    public static javax.swing.JTextField AddressStr;
     private javax.swing.JTextArea Bill;
     private javax.swing.JButton ClearClient;
-    private javax.swing.JTextField ClientId;
-    private javax.swing.JTextField ClientName;
-    private javax.swing.JTextField ClientTelephone;
+    public static javax.swing.JTextField ClientId;
+    public static javax.swing.JTextField ClientName;
+    public static javax.swing.JTextField ClientTelephone;
     private javax.swing.JButton DeleteClient;
     private javax.swing.JButton DeleteProduct;
     private javax.swing.JButton FindClient;
     private javax.swing.JButton FindNumber;
-    private javax.swing.JTextField ProductBuyingPrice;
-    private javax.swing.JTextField ProductID;
+    public static javax.swing.JTextField ProductBuyingPrice;
+    public static javax.swing.JTextField ProductID;
     private javax.swing.JComboBox<String> changeCombo;
     private javax.swing.JButton clearProduct;
-    private javax.swing.JTextField expirationDate;
+    public static javax.swing.JTextField expirationDate;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1233,11 +1227,11 @@ System.out.println(products);
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField numberItem;
+    public static javax.swing.JTextField numberItem;
     private javax.swing.JLabel posText;
-    private javax.swing.JTextField productCategory;
-    private javax.swing.JTextField productName;
-    private javax.swing.JTextField productSellingPrice;
+    public static javax.swing.JTextField productCategory;
+    public static javax.swing.JTextField productName;
+    public static javax.swing.JTextField productSellingPrice;
     private javax.swing.JPanel qrPanel;
     private javax.swing.JButton readQr;
     private javax.swing.JLabel shiftText;

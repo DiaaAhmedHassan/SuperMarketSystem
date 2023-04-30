@@ -441,33 +441,33 @@ public class StaffForm extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
 //        }else{
 //        
-//        for(Staff staff: staffMembers){
+//        for(Staff result: staffMembers){
 //            /*Search by id*/
 //
-//            if(memberId.getText().equals(staff.getId())){
+//            if(memberId.getText().equals(result.getId())){
 //                isFound = true;
-//                memberId.setText(String.valueOf(staff.getId()));
-//                memberName.setText(staff.getName());
-//                memberAge.setText(String.valueOf(staff.getAge()));
-//                memberPhone.setText(staff.getTelephone());
-//                memberAddress.setText(staff.getAdress().toString());
-//                memberSalary.setText(String.valueOf(staff.getSalary()));
-//                cardId.setText(String.valueOf(staff.getCard().getId()));
-//                cardUsername.setText(staff.getCard().getUsername());
-//                cardCode.setText(staff.getCard().getCode());
+//                memberId.setText(String.valueOf(result.getId()));
+//                memberName.setText(result.getName());
+//                memberAge.setText(String.valueOf(result.getAge()));
+//                memberPhone.setText(result.getTelephone());
+//                memberAddress.setText(result.getAdress().toString());
+//                memberSalary.setText(String.valueOf(result.getSalary()));
+//                cardId.setText(String.valueOf(result.getCard().getId()));
+//                cardUsername.setText(result.getCard().getUsername());
+//                cardCode.setText(result.getCard().getCode());
 //                break;
 //               /*Search by name*/
-//            }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(staff.getName().toLowerCase().replaceAll(" ", ""))){
-//                memberId.setText(String.valueOf(staff.getId()));
+//            }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(result.getName().toLowerCase().replaceAll(" ", ""))){
+//                memberId.setText(String.valueOf(result.getId()));
 //               isFound = true;
-//                memberName.setText(staff.getName());
-//                memberAge.setText(String.valueOf( staff.getAge()));
-//                memberPhone.setText(staff.getTelephone());
-//                memberAddress.setText(staff.getAdress().toString());
-//                memberSalary.setText(String.valueOf(staff.getAdress()));
-//                cardId.setText(String.valueOf(staff.getCard().getId()));
-//                cardUsername.setText(staff.getCard().getUsername());
-//                cardCode.setText(staff.getCard().getCode());
+//                memberName.setText(result.getName());
+//                memberAge.setText(String.valueOf( result.getAge()));
+//                memberPhone.setText(result.getTelephone());
+//                memberAddress.setText(result.getAdress().toString());
+//                memberSalary.setText(String.valueOf(result.getAdress()));
+//                cardId.setText(String.valueOf(result.getCard().getId()));
+//                cardUsername.setText(result.getCard().getUsername());
+//                cardCode.setText(result.getCard().getCode());
 //                break;
 //            }
 //            else    
@@ -502,16 +502,8 @@ public class StaffForm extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }else{
                 
-                Staff staff = (Staff) foundProduct;
-                memberId.setText(String.valueOf(staff.getId()));
-                memberName.setText(staff.getName());
-                memberAge.setText(String.valueOf( staff.getAge()));
-                memberPhone.setText(staff.getTelephone());
-                memberAddress.setText(staff.getAdress().toString());
-                memberSalary.setText(String.valueOf(staff.getAdress()));
-                cardId.setText(String.valueOf(staff.getCard().getId()));
-                cardUsername.setText(staff.getCard().getUsername());
-                cardCode.setText(staff.getCard().getCode());
+                Staff result = (Staff) foundProduct;
+                result.display();
                 }
             }
         }
@@ -527,9 +519,9 @@ public class StaffForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButtonStaff;
-    private javax.swing.JTextField cardCode;
-    private javax.swing.JTextField cardId;
-    private javax.swing.JTextField cardUsername;
+    public static javax.swing.JTextField cardCode;
+    public static javax.swing.JTextField cardId;
+    public static javax.swing.JTextField cardUsername;
     private javax.swing.JButton clearStaff;
     private javax.swing.JButton deleteStaff;
     private javax.swing.JButton findButtonStaff;
@@ -542,11 +534,11 @@ public class StaffForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField memberAddress;
-    private javax.swing.JTextField memberAge;
-    private javax.swing.JTextField memberId;
-    private javax.swing.JTextField memberName;
-    private javax.swing.JTextField memberPhone;
-    private javax.swing.JTextField memberSalary;
+    public static javax.swing.JTextField memberAddress;
+    public static javax.swing.JTextField memberAge;
+    public static javax.swing.JTextField memberId;
+    public static javax.swing.JTextField memberName;
+    public static javax.swing.JTextField memberPhone;
+    public static javax.swing.JTextField memberSalary;
     // End of variables declaration//GEN-END:variables
 }

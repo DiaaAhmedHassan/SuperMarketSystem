@@ -1,5 +1,9 @@
 package com.mycompany.supermarket;
 
+import static com.mycompany.supermarket.NewJFrame.AddressStr;
+import static com.mycompany.supermarket.NewJFrame.ClientId;
+import static com.mycompany.supermarket.NewJFrame.ClientName;
+import static com.mycompany.supermarket.NewJFrame.ClientTelephone;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +48,16 @@ public class Client extends Person {
     public String toString() {
         return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"\n";
     }
+    public void display()
+    {
+        NewJFrame.ClientId.setText(String.valueOf(this.getId()));
+        NewJFrame.ClientName.setText(this.getName());
+        NewJFrame.ClientTelephone.setText(this.getTelephone());
+        NewJFrame.AddressStr.setText(String.valueOf(this.getAdress()));
+    }
     
         
-    
+    //toGolden method:
+    //constantly checking for the golden client condition
+    //when true a message asking for the client's birthday and favProduct is prompted
 }
