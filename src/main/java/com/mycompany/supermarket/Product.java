@@ -4,6 +4,13 @@
  */
 package com.mycompany.supermarket;
 
+import static com.mycompany.supermarket.NewJFrame.ProductBuyingPrice;
+import static com.mycompany.supermarket.NewJFrame.ProductID;
+import static com.mycompany.supermarket.NewJFrame.expirationDate;
+import static com.mycompany.supermarket.NewJFrame.numberItem;
+import static com.mycompany.supermarket.NewJFrame.productCategory;
+import static com.mycompany.supermarket.NewJFrame.productName;
+import static com.mycompany.supermarket.NewJFrame.productSellingPrice;
 import java.util.Date;
 
 /**
@@ -100,6 +107,16 @@ public class Product {
     @Override
     public String toString() {
         return id+"|"+name+"|"+category+"|"+BuyingPrice+"|"+sellingPrice+"|"+expirationDate+"|"+itemNo+"\n";
+    }
+    public void display()
+    {
+        NewJFrame.ProductID.setText(String.valueOf(this.getId()));
+        NewJFrame.productName.setText(this.getName());
+        NewJFrame.productCategory.setText(this.getCategory());
+        NewJFrame.ProductBuyingPrice.setText(String.valueOf(this.getBuyingPrice()));
+        NewJFrame.productSellingPrice.setText(String.valueOf(this.getSellingPrice()));
+        NewJFrame.expirationDate.setText(this.getExpirationDate());
+        NewJFrame.numberItem.setText(String.valueOf(this.getItemNo()));
     }
     
     
