@@ -21,6 +21,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.awt.*;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.time.DayOfWeek;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -45,6 +46,7 @@ public class NewJFrame extends javax.swing.JFrame {
     private int pointCounter = 1;
     public static ArrayList<Product> products;
     public static ArrayList<Client> clients;
+    Product productFound;
    
     
     
@@ -457,7 +459,7 @@ System.out.println(products);
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jLabel17 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        discountOption = new javax.swing.JComboBox<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         notificationSection = new javax.swing.JTextArea();
         jLabel19 = new javax.swing.JLabel();
@@ -808,8 +810,13 @@ System.out.println(products);
         jLabel17.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel17.setText("Discount");
 
-        jComboBox2.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "item for week", "all for day" }));
+        discountOption.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        discountOption.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "item for week", "all for day" }));
+        discountOption.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                discountOptionActionPerformed(evt);
+            }
+        });
 
         notificationSection.setColumns(20);
         notificationSection.setRows(5);
@@ -850,7 +857,7 @@ System.out.println(products);
                                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addContainerGap()
-                                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(discountOption, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addContainerGap()
                                         .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -1012,7 +1019,7 @@ System.out.println(products);
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(discountOption, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
@@ -1203,8 +1210,8 @@ System.out.println(products);
                 if(foundProduct == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }else{ 
-                Product result = (Product) foundProduct;
-                result.display();
+                productFound = (Product) foundProduct;
+                productFound.display();
                 }
             }
         }
@@ -1408,6 +1415,33 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_ClientTelephone3ActionPerformed
 
+    private void discountOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discountOptionActionPerformed
+        String value = discountOption.getSelectedItem().toString();
+      
+        switch(value){
+            case "item for week":
+                String per = JOptionPane.showInputDialog(null, "Insert discount percentage ","Discount",JOptionPane.QUESTION_MESSAGE);
+                productFound.weeklyDiscount(Double.parseDouble(per));
+               
+            {
+                try {
+                    writer = new BufferedWriter(new FileWriter("productData.csv"));
+                    writer.write(("id,name,category,buying,selling,expiration,number\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                    writer.close();
+                    System.out.println("Added to file succefuly");
+                    
+                } catch (IOException ex) {
+                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                break;
+
+                
+               
+                
+        }
+    }//GEN-LAST:event_discountOptionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1434,9 +1468,9 @@ System.out.println(products);
     public static javax.swing.JTextField ProductID;
     private javax.swing.JComboBox<String> changeCombo;
     private javax.swing.JButton clearProduct;
+    private javax.swing.JComboBox<String> discountOption;
     public static javax.swing.JTextField expirationDate;
     private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
