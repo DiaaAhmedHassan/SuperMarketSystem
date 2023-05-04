@@ -165,7 +165,7 @@ public class NewJFrame extends javax.swing.JFrame {
         
         return(returned);
     }
-    public boolean checkDate(String stringDate){
+    public boolean checkDate(String stringDate, String key){
         //paramitar stringDate used to take the date we want to check
         //split the parts taken from the file
         String[] dateParts = stringDate.split("/");
@@ -179,11 +179,22 @@ public class NewJFrame extends javax.swing.JFrame {
         int month = calendar.get(Calendar.MONTH)+1;
         int year = calendar.get(Calendar.YEAR);
    
+        switch(key){
+            case "product":
                  if(year>stringYear){
                     return true;
                 }else{ 
                     return (month>stringMonth && year>=stringYear) || (day>=stringDay && month>=stringMonth);
                 }
+            case "client":
+                if(year > stringYear + 5){
+                    return true;
+                }else{
+                    return false;
+                }
+                default:
+                    return false;
+               }
                   
     }
     
@@ -226,6 +237,11 @@ public class NewJFrame extends javax.swing.JFrame {
         Product pro = new Product(id, name, category, buyingPrice, sellingPrice, expDate, items);
         //enter the object to the arrayList 
         products.add(pro); 
+        
+        //check expiration
+        if(checkDate(expDate, "product")){
+            notificationSection.setText(notificationSection.getText() + "\n" +  "The expiry date of "+pro.getName()+" has expired");
+        }
     }
         
         //finish reading
