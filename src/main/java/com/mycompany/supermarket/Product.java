@@ -99,11 +99,17 @@ public class Product {
         return itemNo--;
     }
     
-    public double weeklyDiscount(){
+    public double weeklyDiscount(double discoundPersent){
         //todo weekly discount code
-        return 0;
+        double temp = sellingPrice * (discoundPersent/100);
+        sellingPrice -= temp;
+        return sellingPrice;
     }
 
+   
+    
+    
+    
     @Override
     public String toString() {
         return id+"|"+name+"|"+category+"|"+BuyingPrice+"|"+sellingPrice+"|"+expirationDate+"|"+itemNo+"\n";
@@ -118,7 +124,7 @@ public class Product {
         NewJFrame.expirationDate.setText(this.getExpirationDate());
         NewJFrame.numberItem.setText(String.valueOf(this.getItemNo()));
     }
-    
+ 
     
 
 

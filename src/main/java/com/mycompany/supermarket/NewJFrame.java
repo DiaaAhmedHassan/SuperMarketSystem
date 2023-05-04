@@ -1413,6 +1413,20 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_ClientTelephone3ActionPerformed
 
+    public void dayDiscount(double per){
+        for(Product pro: products){
+            double newPrice = pro.weeklyDiscount(per);
+            pro.setSellingPrice(newPrice);
+        }
+        
+         try {
+                writer = new BufferedWriter(new FileWriter("productData.csv"));
+                writer.write(("id,name,category,buying,selling,expiration,number\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
+                writer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
     private void discountOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discountOptionActionPerformed
         String value = discountOption.getSelectedItem().toString();
       
@@ -1432,6 +1446,10 @@ System.out.println(products);
                     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+                break;
+            case "all for day":
+                String perc = JOptionPane.showInputDialog(null,"Insert discount percentage","Discount", JOptionPane.QUESTION_MESSAGE);
+                dayDiscount(Double.parseDouble(perc));
                 break;
 
                 
