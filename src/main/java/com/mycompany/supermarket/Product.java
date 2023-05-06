@@ -23,6 +23,7 @@ public class Product {
     private double BuyingPrice, sellingPrice;
     private String expirationDate;
     private int  itemNo;
+    private boolean hasDiscounted;
 
     public Product(int id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate, int itemNo) {
         this.id = id;
@@ -50,6 +51,15 @@ public class Product {
         this.id = id;
     }
 
+    public boolean isHasDiscounted() {
+        return hasDiscounted;
+    }
+
+    public void setHasDiscounted(boolean hasDiscounted) {
+        this.hasDiscounted = hasDiscounted;
+    }
+
+    
     public String getName() {
         return name;
     }
@@ -99,11 +109,15 @@ public class Product {
         return itemNo--;
     }
     
-    public double weeklyDiscount(double discoundPersent){
-        //todo weekly discount code
-        double temp = sellingPrice * (discoundPersent/100);
-        sellingPrice -= temp;
-        return sellingPrice;
+    public double weeklyDiscount(double discountPersent){
+        //todo weekly discount 
+        return sellingPrice -= sellingPrice * (discountPersent/100);
+    }
+    
+    public double reversDiscount(double discountPersent){
+     
+                                //30/1-25 = 
+        return sellingPrice =  sellingPrice/(1-(discountPersent/100));
     }
 
    

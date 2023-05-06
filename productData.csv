@@ -1,4 +1,4 @@
 id,name,category,buying,selling,expiration,number
-4545,Milk,Diary,23.0,7.0,4/7/2024,7000
-45115,Cheese,Diary,35.0,20.0,1/5/2023,8000
-84454,Brazzeliancoffee,Coffee,20.0,15.0,4/8/2024,300
+4545,Milk,Diary,23,28,4/7/2024,7000
+45115,Cheese,Diary,35,40,1/5/2023,8000
+84454,Brazzeliancoffee,Coffee,20,30,4/8/2024,300
