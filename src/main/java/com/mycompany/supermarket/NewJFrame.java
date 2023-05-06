@@ -36,17 +36,28 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class NewJFrame extends javax.swing.JFrame {
     
-    BufferedWriter writer;
-    BufferedReader reader;
-    boolean isFound;
+    //-------------- file manipulation ------------
+    public static BufferedWriter writer;
+    public static BufferedReader reader;
+    
+    //-------------- webcam----------------
     private Webcam webcam = null;
     private WebcamPanel panel = null;
+
+    //--------------- search helpers -------------
+    boolean isFound;
     private static Object objectFound = null;
-    private int shiftCounter = 1;
-    private int pointCounter = 1;
+    public static Product productResult = null;//the latest product search result in the global scope
+    public static Client clientResult = null;//the latest client search result in the global scope
+    //------------------ lists ---------------------
     public static ArrayList<Product> products;
     public static ArrayList<Client> clients;
-    Product productFound;
+    public static ArrayList<GoldenClient> goldenClients;
+    
+    //----------- shifts ---------------
+    private int shiftCounter = 1;
+    private int pointCounter = 1;
+    
    
     
     
@@ -59,14 +70,14 @@ public class NewJFrame extends javax.swing.JFrame {
                 return false;
              }
     }
-    public static Object find(String object, String name)
+    public static Object find(String key, String name)
     {
-        //search my name
+        //search by name
         //if found return the obeject
         //if not return null
         Object returned = null;
         
-        switch(object){
+        switch(key){
             case "product":
                 System.out.println("searching for a product py name");
                 name = name.toLowerCase().replaceAll(" ", "");
@@ -116,7 +127,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
    
     //overload
-    public static Object find(int id, String object)
+    public static Object find(int id, String key)
     {
         //search my id
         //if found return the obeject
@@ -124,7 +135,7 @@ public class NewJFrame extends javax.swing.JFrame {
         Object returned = null;
         
         
-        switch(object){
+        switch(key){
             case "client":
                 System.out.println("search for a client by id");
                 for(Client cli : clients)
@@ -178,8 +189,8 @@ public class NewJFrame extends javax.swing.JFrame {
         //init calendar
         GregorianCalendar calendar = new GregorianCalendar();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH)+1;
-        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;// added 1 because months start from zero
+        int year = calendar.get(Calendar.YEAR);//Jan is 0, Feb is 1, mar is 2......
    
         switch(key){
             case "product":
@@ -189,14 +200,14 @@ public class NewJFrame extends javax.swing.JFrame {
                     return (month>stringMonth && year>=stringYear) || (day>=stringDay && month>=stringMonth);
                 }
             case "client":
-                if(year > stringYear + 5){
+                if(year >= stringYear + 5){
                     return true;
                 }else{
                     return false;
                 }
-                default:
-                    return false;
-               }
+            default:
+                return false;
+            }
                   
     }
     
@@ -363,8 +374,8 @@ System.out.println(products);
                             double perc = Double.parseDouble(discountParts[2]);
                             
                             if(today<endDay){
-                               productFound.setSellingPrice(productFound.weeklyDiscount(perc));
-                               products.add(productFound);
+                               productResult.setSellingPrice(productResult.weeklyDiscount(perc));
+                               products.add(productResult);
                                 System.out.println(products);
                             }
                              
@@ -479,12 +490,12 @@ System.out.println(products);
         AddToBill = new javax.swing.JButton();
         changeCombo = new javax.swing.JComboBox<>();
         readQr = new javax.swing.JButton();
-        ClientTelephone1 = new javax.swing.JTextField();
+        ClientSubDate = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        ClientTelephone2 = new javax.swing.JTextField();
+        goldenBirthday = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
-        ClientTelephone3 = new javax.swing.JTextField();
+        goldenFav = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -493,6 +504,7 @@ System.out.println(products);
         jScrollPane2 = new javax.swing.JScrollPane();
         notificationSection = new javax.swing.JTextArea();
         jLabel19 = new javax.swing.JLabel();
+        toGolden = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Supermarket");
@@ -768,10 +780,10 @@ System.out.println(products);
             }
         });
 
-        ClientTelephone1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        ClientTelephone1.addActionListener(new java.awt.event.ActionListener() {
+        ClientSubDate.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        ClientSubDate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClientTelephone1ActionPerformed(evt);
+                ClientSubDateActionPerformed(evt);
             }
         });
 
@@ -781,20 +793,20 @@ System.out.println(products);
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel7.setText("Date of birth");
 
-        ClientTelephone2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        ClientTelephone2.addActionListener(new java.awt.event.ActionListener() {
+        goldenBirthday.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        goldenBirthday.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClientTelephone2ActionPerformed(evt);
+                goldenBirthdayActionPerformed(evt);
             }
         });
 
         jLabel15.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel15.setText("Favourite product");
 
-        ClientTelephone3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        ClientTelephone3.addActionListener(new java.awt.event.ActionListener() {
+        goldenFav.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        goldenFav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ClientTelephone3ActionPerformed(evt);
+                goldenFavActionPerformed(evt);
             }
         });
 
@@ -855,6 +867,16 @@ System.out.println(products);
         jLabel19.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel19.setText("Notification");
 
+        toGolden.setBackground(new java.awt.Color(0, 0, 0));
+        toGolden.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        toGolden.setForeground(new java.awt.Color(255, 255, 255));
+        toGolden.setText("to Golden");
+        toGolden.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toGoldenActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -897,7 +919,7 @@ System.out.println(products);
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ClientId, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ClientTelephone1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ClientSubDate, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(DeleteClient, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -906,7 +928,7 @@ System.out.println(products);
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(FindClient, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(AddClient, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(AddClient, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(AddressStr, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -915,9 +937,10 @@ System.out.println(products);
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ClientTelephone2, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(goldenBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(ClientTelephone3, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(goldenFav, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(toGolden, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -995,33 +1018,36 @@ System.out.println(products);
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(ClientName, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ClientTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(AddressStr, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(ClientTelephone1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(FindClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(AddClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(ClearClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(DeleteClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel19, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(toGolden, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ClientTelephone, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(AddressStr, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ClientSubDate, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(19, 19, 19)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                                    .addComponent(FindClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(AddClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(ClearClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(DeleteClient, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
@@ -1060,11 +1086,11 @@ System.out.println(products);
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ClientTelephone2, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(goldenBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(ClientTelephone3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(goldenFav, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(49, 49, 49))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1103,7 +1129,7 @@ System.out.println(products);
         System.out.println("Button clicked");
         
         //check the texts are not empty
-        if(ClientId.getText().isEmpty() && ClientName.getText().isEmpty()){
+        if(thereAreEmptyFields("client")){
             JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
         }
         //starting the search
@@ -1119,10 +1145,11 @@ System.out.println(products);
                 
                 if(foundClient == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
+                    clientResult = null;
                 }else{
                 
-                Client result = (Client) foundClient;
-                result.display();
+                clientResult = (Client) foundClient;
+                clientResult.display();
                 }
             }
         }
@@ -1227,7 +1254,8 @@ System.out.println(products);
         Object foundProduct = null;
         System.out.println("Button clicked");
         //check the texts are not empty
-        if(ProductID.getText().isEmpty() && productName.getText().isEmpty()){
+        
+        if(thereAreEmptyFields("product")){
             JOptionPane.showMessageDialog(null, "The fields are empty","Error 404",JOptionPane.ERROR_MESSAGE);
         }//search
         else{
@@ -1244,7 +1272,7 @@ System.out.println(products);
                 if(foundProduct == null){
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }else{ 
-                productFound = (Product) foundProduct;
+                productResult = (Product) foundProduct;
                 
                     try {
                         File file = new File("DiscountList.csv");
@@ -1264,8 +1292,8 @@ System.out.println(products);
                             perc = Double.parseDouble(discountParts[2]);
                             
                             if(today<endDay){
-                               productFound.setSellingPrice(productFound.weeklyDiscount(perc));
-                               products.add(productFound);
+                               productResult.setSellingPrice(productResult.weeklyDiscount(perc));
+                               products.add(productResult);
                                
                                 System.out.println(products);
                             }
@@ -1278,11 +1306,11 @@ System.out.println(products);
                         System.out.println("Io ex");
                     }
                 
-                productFound.display();
+                productResult.display();
                     System.out.println(perc);
                     if(today<endDay){
-                    productFound.setSellingPrice(productFound.reversDiscount(perc));
-                    System.out.println(productFound.getSellingPrice());
+                    productResult.setSellingPrice(productResult.reversDiscount(perc));
+                    System.out.println(productResult.getSellingPrice());
                     }
                 perc = 0;
                 }
@@ -1477,17 +1505,17 @@ System.out.println(products);
             }
     }//GEN-LAST:event_changeComboActionPerformed
 
-    private void ClientTelephone1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientTelephone1ActionPerformed
+    private void ClientSubDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientSubDateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClientTelephone1ActionPerformed
+    }//GEN-LAST:event_ClientSubDateActionPerformed
 
-    private void ClientTelephone2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientTelephone2ActionPerformed
+    private void goldenBirthdayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goldenBirthdayActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClientTelephone2ActionPerformed
+    }//GEN-LAST:event_goldenBirthdayActionPerformed
 
-    private void ClientTelephone3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientTelephone3ActionPerformed
+    private void goldenFavActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goldenFavActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ClientTelephone3ActionPerformed
+    }//GEN-LAST:event_goldenFavActionPerformed
 
     public void dayDiscount(double per){
         
@@ -1553,6 +1581,21 @@ System.out.println(products);
         }
     }//GEN-LAST:event_discountOptionActionPerformed
 
+    private void toGoldenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toGoldenActionPerformed
+        if(thereAreEmptyFields("client"))
+        {
+            JOptionPane.showMessageDialog(null, "There are empty fields!", "Error 404", JOptionPane.ERROR_MESSAGE);
+        }
+        else if(goldenBirthday.getText().isEmpty() || goldenFav.getText().isEmpty())
+        {
+            JOptionPane.showMessageDialog(null, "please enter a date of birth and a favorite product", "Error 404", JOptionPane.ERROR_MESSAGE);
+        }
+        else
+        {
+            clientResult.toGolden();
+        }
+    }//GEN-LAST:event_toGoldenActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1567,10 +1610,8 @@ System.out.println(products);
     private javax.swing.JButton ClearClient;
     public static javax.swing.JTextField ClientId;
     public static javax.swing.JTextField ClientName;
+    public static javax.swing.JTextField ClientSubDate;
     public static javax.swing.JTextField ClientTelephone;
-    public static javax.swing.JTextField ClientTelephone1;
-    public static javax.swing.JTextField ClientTelephone2;
-    public static javax.swing.JTextField ClientTelephone3;
     private javax.swing.JButton DeleteClient;
     private javax.swing.JButton DeleteProduct;
     private javax.swing.JButton FindClient;
@@ -1581,6 +1622,8 @@ System.out.println(products);
     private javax.swing.JButton clearProduct;
     private javax.swing.JComboBox<String> discountOption;
     public static javax.swing.JTextField expirationDate;
+    public static javax.swing.JTextField goldenBirthday;
+    public static javax.swing.JTextField goldenFav;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -1614,5 +1657,6 @@ System.out.println(products);
     private javax.swing.JPanel qrPanel;
     private javax.swing.JButton readQr;
     private javax.swing.JLabel shiftText;
+    private javax.swing.JButton toGolden;
     // End of variables declaration//GEN-END:variables
 }

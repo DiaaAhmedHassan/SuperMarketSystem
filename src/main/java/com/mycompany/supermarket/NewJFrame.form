@@ -73,7 +73,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="ClientId" alignment="0" min="-2" pref="205" max="-2" attributes="0"/>
                           <Component id="jLabel1" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
-                          <Component id="ClientTelephone1" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
+                          <Component id="ClientSubDate" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
                           <Component id="jLabel6" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                               <Component id="DeleteClient" alignment="0" max="32767" attributes="0"/>
@@ -82,7 +82,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="FindClient" min="-2" pref="140" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="AddClient" max="32767" attributes="0"/>
+                                  <Component id="AddClient" min="-2" pref="140" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jLabel4" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
                               <Component id="AddressStr" alignment="0" min="-2" pref="286" max="-2" attributes="0"/>
@@ -94,9 +94,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel7" min="-2" pref="187" max="-2" attributes="0"/>
-                          <Component id="ClientTelephone2" min="-2" pref="195" max="-2" attributes="0"/>
+                          <Component id="goldenBirthday" min="-2" pref="195" max="-2" attributes="0"/>
                           <Component id="jLabel15" alignment="0" min="-2" pref="187" max="-2" attributes="0"/>
-                          <Component id="ClientTelephone3" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                          <Component id="goldenFav" alignment="0" min="-2" pref="195" max="-2" attributes="0"/>
+                          <Component id="toGolden" min="-2" pref="140" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="32767" attributes="0"/>
                       <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
@@ -194,36 +195,41 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" attributes="0">
-                                      <Component id="jLabel2" min="-2" pref="24" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="ClientName" min="-2" pref="31" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jLabel3" min="-2" pref="24" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="ClientTelephone" min="-2" pref="31" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jLabel4" min="-2" pref="24" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="AddressStr" min="-2" pref="30" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" min="-2" pref="24" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="ClientTelephone1" min="-2" pref="31" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Group type="103" groupAlignment="3" attributes="0">
-                                          <Component id="FindClient" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                          <Component id="AddClient" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
-                                      </Group>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="ClearClient" min="-2" pref="37" max="-2" attributes="0"/>
-                                      <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="DeleteClient" min="-2" pref="37" max="-2" attributes="0"/>
-                                  </Group>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel19" min="-2" pref="24" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="jScrollPane2" min="-2" pref="481" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="jLabel2" min="-2" pref="24" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="ClientName" min="-2" pref="31" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="toGolden" min="-2" pref="37" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="jLabel3" min="-2" pref="24" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="ClientTelephone" min="-2" pref="31" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="jLabel4" min="-2" pref="24" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="AddressStr" min="-2" pref="30" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Component id="jLabel6" min="-2" pref="24" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="ClientSubDate" min="-2" pref="31" max="-2" attributes="0"/>
+                                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="3" attributes="0">
+                                                  <Component id="FindClient" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                                  <Component id="AddClient" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                                              </Group>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="ClearClient" min="-2" pref="37" max="-2" attributes="0"/>
+                                              <EmptySpace max="-2" attributes="0"/>
+                                              <Component id="DeleteClient" min="-2" pref="37" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
                                   </Group>
                               </Group>
                           </Group>
@@ -273,11 +279,11 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel7" min="-2" pref="24" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="ClientTelephone2" min="-2" pref="31" max="-2" attributes="0"/>
+                                              <Component id="goldenBirthday" min="-2" pref="31" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Component id="jLabel15" min="-2" pref="24" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="ClientTelephone3" min="-2" pref="31" max="-2" attributes="0"/>
+                                              <Component id="goldenFav" min="-2" pref="31" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
@@ -828,14 +834,14 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="readQrActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="ClientTelephone1">
+    <Component class="javax.swing.JTextField" name="ClientSubDate">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClientTelephone1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClientSubDateActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -857,14 +863,14 @@
         <Property name="text" type="java.lang.String" value="Date of birth"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="ClientTelephone2">
+    <Component class="javax.swing.JTextField" name="goldenBirthday">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClientTelephone2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goldenBirthdayActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -878,14 +884,14 @@
         <Property name="text" type="java.lang.String" value="Favourite product"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="ClientTelephone3">
+    <Component class="javax.swing.JTextField" name="goldenFav">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ClientTelephone3ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goldenFavActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
@@ -1000,6 +1006,23 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Notification"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="toGolden">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="0" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="18" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="to Golden"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="toGoldenActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

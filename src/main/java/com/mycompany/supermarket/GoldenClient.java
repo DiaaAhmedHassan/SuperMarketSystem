@@ -11,31 +11,35 @@ import java.util.Date;
  * @author DELL
  */
 public class GoldenClient extends Client{
-    Date birthday;
-    Product fav_Product;
+    String birthday;
+    Product favProduct;
     
     
     public GoldenClient(int id, String name, String telephone, Address adress
-            , int payment, boolean isGolden, Date birthday, Product fav_product) {
+                        , double payment, boolean isGolden, String birthday, String favorite)
+    {
         super(id, name, telephone, adress);
         this.birthday = birthday;
-        this.fav_Product = fav_product;
+        
+        Object found = NewJFrame.find("client", favorite);
+        Product pro = (Product) found;
+        this.favProduct = pro;
     }
 
     public String getBirthday() {
-        return SuperMarket.format(this.birthday);
+        return birthday;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(String birthday) {
         this.birthday = birthday;
     }
 
-    public Product getFav_Product() {
-        return fav_Product;
+    public Product getFavProduct() {
+        return this.favProduct;
     }
 
-    public void setFav_Product(Product fav_Product) {
-        this.fav_Product = fav_Product;
+    public void setFavProduct(Product favorite) {
+        this.favProduct = favorite;
     }
     
    /*

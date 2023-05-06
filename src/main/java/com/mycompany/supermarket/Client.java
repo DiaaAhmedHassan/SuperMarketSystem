@@ -4,16 +4,21 @@ import static com.mycompany.supermarket.NewJFrame.AddressStr;
 import static com.mycompany.supermarket.NewJFrame.ClientId;
 import static com.mycompany.supermarket.NewJFrame.ClientName;
 import static com.mycompany.supermarket.NewJFrame.ClientTelephone;
+import static com.mycompany.supermarket.NewJFrame.clientResult;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Client extends Person {
     private int home_number;
     private double payments;
     public boolean isGolden;
-    private Date c = Calendar.getInstance().getTime();//date of each instance initialization.
     private String dateSubscribed;//date of initialization saved to CSV as a string
     
 
@@ -59,5 +64,29 @@ public class Client extends Person {
         
     //toGolden method:
     //constantly checking for the golden client condition
-    //when true a message asking for the client's birthday and favProduct is prompted
+    public void toGolden()
+    {
+        if(NewJFrame.checkDate(NewJFrame.ClientSubDate.getText(), "client"))
+        {
+            //initializing the golden client and adding it to the list
+            GoldenClient newGolden;
+            newGolden = new GoldenClient(this.getId(), this.getName(), this.getTelephone(), this.getAdress(), this.getPayments(), true, NewJFrame.goldenBirthday.getText(), NewJFrame.goldenFav.getText());
+            //NewJFrame.goldenClients.add();
+            //writing to the file
+            try
+            {
+            NewJFrame.writer = new BufferedWriter(new FileWriter("goldenData.csv"));
+            NewJFrame.writer.write(("id,name,phone,address, subscribtion date, birthday, favorite product\n")+String.valueOf(NewJFrame.goldenClients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
+            NewJFrame.writer.close();
+            System.out.println("Added to file succefuly");
+           
+            //catch the expetion
+            }
+            catch (IOException ex)
+            {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }   
+        }
+    }
+
 }
