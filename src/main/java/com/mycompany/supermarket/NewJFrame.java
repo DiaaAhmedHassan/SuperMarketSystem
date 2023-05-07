@@ -1573,6 +1573,28 @@ System.out.println(products);
 
             case "all for day":
                 //second choice function
+                String msgValue2 = JOptionPane.showInputDialog(null, "Enter the discount percentage: ","Discount", JOptionPane.INFORMATION_MESSAGE);
+                for(Product p1 :products){
+                    p1.setSellingPrice(p1.weeklyDiscount(Double.parseDouble(msgValue2)));
+                try {
+                    File file = new File("DiscountList.csv");
+                    writer = new BufferedWriter(new FileWriter(file,true));
+                    if(file.length() == 0){
+                        writer.write("endDay,id,discPerc"+"\n"+String.valueOf(day+1)+","+String.valueOf(p1.getId())+","+msgValue2);
+                        
+                    }else{
+                   
+                    writer.write("\n"+String.valueOf(day+1)+","+String.valueOf(p1.getId())+","+msgValue2);
+                    
+                    }
+                    writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+                
+                   
+                }
                 break;
 
                 
