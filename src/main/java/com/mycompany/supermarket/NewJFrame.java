@@ -30,6 +30,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import jdk.jfr.events.FileReadEvent;
 
 
 
@@ -53,8 +54,9 @@ public class NewJFrame extends javax.swing.JFrame {
     public static ArrayList<Product> products;
     public static ArrayList<Client> clients;
     public static ArrayList<GoldenClient> goldenClients;
+    public static ArrayList<Product> discountProducts;
     
-    //----------- shifts ---------------
+    //----------- counters ---------------
     private int shiftCounter = 1;
     private int pointCounter = 1;
     
@@ -215,13 +217,9 @@ public class NewJFrame extends javax.swing.JFrame {
         initComponents();
         products = new ArrayList<>();
         clients = new ArrayList<>();
+        discountProducts  = new ArrayList<>();
         GregorianCalendar calendar = new GregorianCalendar();
-        int toDay = calendar.get(Calendar.DAY_OF_WEEK);
-        
-       
-       
-        
-        
+        int toDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         //finish reading Qr code
        
@@ -269,11 +267,7 @@ public class NewJFrame extends javax.swing.JFrame {
         System.out.println("Io exeption");
 
 }
-     
-    
-      
 
-    
 System.out.println(products);
  //reading client       
     try {
@@ -312,13 +306,53 @@ System.out.println(products);
     Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
 } 
 
-    
-
-    
-
+        try {
+            //read the discount list
+            reader = new BufferedReader(new FileReader("DiscountList.csv"));
+            String line = "";
+            
+            if((line = reader.readLine()) == null){
+                System.out.println("null discount reader");
+                
+            }else{
+                while((line = reader.readLine()) != null){
+                    String[] discountParts = line.split(",");
+                    int endDay =Integer.parseInt( discountParts[0]);
+                    int id = Integer.parseInt(discountParts[1]);
+                    double discountPerc = Double.parseDouble(discountParts[2]);
+                    Product discountProduct = new Product(endDay, id, discountPerc);
+                    discountProducts.add(discountProduct);
+                    
+                }
+                reader.close();
+            }
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+         System.out.println("Arrived");   
+         System.out.println(discountProducts);
+        //access the discounted products
+        for(Product normal: products){
+            System.out.println("loop1");
+            
+            for(Product discountSearch : discountProducts){
+                   if(normal.getId() == discountSearch.getId()){
+                    if(toDay<discountSearch.getEndDay()){           
+                        normal.setSellingPrice(normal.weeklyDiscount(discountSearch.getDiscountPerc()));
+                        System.out.println(toDay);
+                        System.out.println(discountSearch.getEndDay());
+                        System.out.println(normal.getSellingPrice());
+                    }
+            }
+         }
+        }
     }
+
     
-   
     private void initWebcam(){
         boolean isFound = false;
         webcam = Webcam.getDefault();
@@ -360,31 +394,7 @@ System.out.println(products);
                         
                     }else{
                         qrSound();
-                        
-                        try {
-                        //read discount list
-                        reader = new BufferedReader(new FileReader("DiscountList.csv"));
-                        String line = "";
-                      
-                        
-                        while((line = reader.readLine()) != null){
-                            String[] discountParts = line.split(",");
-                            int endDay =Integer.parseInt( discountParts[0]);
-                            String name = discountParts[1];
-                            double perc = Double.parseDouble(discountParts[2]);
-                            
-                            if(today<endDay){
-                               productResult.setSellingPrice(productResult.weeklyDiscount(perc));
-                               products.add(productResult);
-                                System.out.println(products);
-                            }
-                             
-                        }    
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }catch(IOException ex){
-                        System.out.println("Io ex");
-                    }
+                  
                         Product pro = (Product) objectFound;
                         ProductID.setText(String.valueOf(pro.getId()));
                         productName.setText(pro.getName());
@@ -1274,46 +1284,8 @@ System.out.println(products);
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                 }else{ 
                 productResult = (Product) foundProduct;
-                
-                    try {
-                        File file = new File("DiscountList.csv");
-                        //read discount list
-                        System.out.println(file.length());
-                        reader = new BufferedReader(new FileReader(file));
-                        String line = "";
-                        
-                      if(file.length() == 0){
-                          System.out.println("empty file");
-                      }else{
-                          System.out.println("reading");
-                        while((line = reader.readLine()) != null){
-                            String[] discountParts = line.split(",");
-                            endDay =Integer.parseInt( discountParts[0]);
-                            String name = discountParts[1];
-                            perc = Double.parseDouble(discountParts[2]);
-                            
-                            if(today<endDay){
-                               productResult.setSellingPrice(productResult.weeklyDiscount(perc));
-                               products.add(productResult);
-                               
-                                System.out.println(products);
-                            }
-                        }
-                             
-                        }    
-                    } catch (FileNotFoundException ex) {
-                        Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }catch(IOException ex){
-                        System.out.println("Io ex");
-                    }
-                
                 productResult.display();
-                    System.out.println(perc);
-                    if(today<endDay){
-                    productResult.setSellingPrice(productResult.reversDiscount(perc));
-                    System.out.println(productResult.getSellingPrice());
-                    }
-                perc = 0;
+              
                 }
             }
         }
@@ -1331,7 +1303,6 @@ System.out.println(products);
         */
        Product pro = new Product(Integer.parseInt(ProductID.getText()),productName.getText(),productCategory.getText()
         ,Double.parseDouble(ProductBuyingPrice.getText()),Double.parseDouble(productSellingPrice.getText()),expirationDate.getText(),Integer.parseInt(numberItem.getText()));
-       pro.setHasDiscounted(false);
        products.add(pro);
         
         //try to write the new product to the csv file
@@ -1551,15 +1522,20 @@ System.out.println(products);
                 String msgValue = JOptionPane.showInputDialog(null, "Enter the discount percentage: ","Discount", JOptionPane.INFORMATION_MESSAGE);
                 foundProduct = find(Integer.parseInt(ProductID.getText()), "product");
                 Product item = (Product) foundProduct;
+                item.setSellingPrice(item.weeklyDiscount(Double.parseDouble(msgValue)));
+                productSellingPrice.setText(String.valueOf(item.getSellingPrice()));
                 
            
                 try {
                     File file = new File("DiscountList.csv");
-                    writer = new BufferedWriter(new FileWriter(file));
+                    writer = new BufferedWriter(new FileWriter(file,true));
                     if(file.length() == 0){
-                        writer.write(String.valueOf(day+6)+","+String.valueOf(item.getName())+","+msgValue);
+                        writer.write("endDay,id,discPerc"+"\n"+String.valueOf(day+6)+","+String.valueOf(item.getId())+","+msgValue);
+                        
                     }else{
-                    writer.write("\n"+String.valueOf(day+6)+","+String.valueOf(item.getName())+","+msgValue);
+                   
+                    writer.write("\n"+String.valueOf(day+6)+","+String.valueOf(item.getId())+","+msgValue);
+                    
                     }
                     writer.close();
                 } catch (IOException ex) {

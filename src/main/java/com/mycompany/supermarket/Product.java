@@ -11,6 +11,7 @@ import static com.mycompany.supermarket.NewJFrame.numberItem;
 import static com.mycompany.supermarket.NewJFrame.productCategory;
 import static com.mycompany.supermarket.NewJFrame.productName;
 import static com.mycompany.supermarket.NewJFrame.productSellingPrice;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -23,7 +24,9 @@ public class Product {
     private double BuyingPrice, sellingPrice;
     private String expirationDate;
     private int  itemNo;
-    private boolean hasDiscounted;
+    private int endDay;
+    private double discountPerc;
+
 
     public Product(int id, String name, String category, double BuyingPrice, double sellingPrice, String expirationDate, int itemNo) {
         this.id = id;
@@ -34,6 +37,14 @@ public class Product {
         this.expirationDate = expirationDate;
         this.itemNo = itemNo;
     }
+    
+    public Product(int endDay, int id, double discountPerc){
+        this.id = id;
+        this.endDay = endDay;
+        this.discountPerc = discountPerc;
+    }
+    
+   
 
     public int getItemNo() {
         return itemNo;
@@ -47,18 +58,27 @@ public class Product {
         return id;
     }
 
+    public int getEndDay() {
+        return endDay;
+    }
+
+    public void setEndDay(int endDay) {
+        this.endDay = endDay;
+    }
+
+    public double getDiscountPerc() {
+        return discountPerc;
+    }
+
+    public void setDiscountPerc(double discountPerc) {
+        this.discountPerc = discountPerc;
+    }
+    
+    
+
     public void setId(int id) {
         this.id = id;
     }
-
-    public boolean isHasDiscounted() {
-        return hasDiscounted;
-    }
-
-    public void setHasDiscounted(boolean hasDiscounted) {
-        this.hasDiscounted = hasDiscounted;
-    }
-
     
     public String getName() {
         return name;
@@ -110,16 +130,15 @@ public class Product {
     }
     
     public double weeklyDiscount(double discountPersent){
-        //todo weekly discount 
         return sellingPrice -= sellingPrice * (discountPersent/100);
     }
     
     public double reversDiscount(double discountPersent){
      
-                                //30/1-25 = 
         return sellingPrice =  sellingPrice/(1-(discountPersent/100));
     }
-
+    
+    
    
     
     
@@ -127,6 +146,10 @@ public class Product {
     @Override
     public String toString() {
         return id+"|"+name+"|"+category+"|"+BuyingPrice+"|"+sellingPrice+"|"+expirationDate+"|"+itemNo+"\n";
+    }
+    
+    public String dicountToString(){
+        return endDay+","+id+","+discountPerc;
     }
     public void display()
     {
