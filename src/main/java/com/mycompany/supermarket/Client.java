@@ -40,6 +40,16 @@ public class Client extends Person {
         this.payments=payment;
     }
 
+    public String getDateSubscribed() {
+        return dateSubscribed;
+    }
+
+    public void setDateSubscribed(String dateSubscribed) {
+        this.dateSubscribed = dateSubscribed;
+    }
+    
+    
+
     public double getPayments() {
         return payments;
     }
@@ -51,7 +61,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"\n";
+        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"|"+dateSubscribed+"\n";
     }
     public void display()
     {
@@ -66,6 +76,7 @@ public class Client extends Person {
     //constantly checking for the golden client condition
     public void toGolden()
     {
+        
         if(NewJFrame.checkDate(NewJFrame.ClientSubDate.getText(), "client"))
         {
             //initializing the golden client and adding it to the list

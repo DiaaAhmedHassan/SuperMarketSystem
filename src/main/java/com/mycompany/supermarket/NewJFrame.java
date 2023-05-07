@@ -178,7 +178,7 @@ public class NewJFrame extends javax.swing.JFrame {
         
         return(returned);
     }
-    public boolean checkDate(String stringDate, String key){
+    public static boolean checkDate(String stringDate, String key){
         //paramitar stringDate used to take the date we want to check
         //split the parts taken from the file
         String[] dateParts = stringDate.split("/");
@@ -1167,6 +1167,7 @@ System.out.println(products);
       String[]parts=ad.split("-");
       Address address = new Address(Integer.parseInt(parts[0]),parts[1],parts[2]);
       Client c = new Client(Integer.valueOf(ClientId.getText()),ClientName.getText(),ClientTelephone.getText(),address); 
+      c.setDateSubscribed(ClientSubDate.getText());
       clients.add(c);
       
        try {
@@ -1378,12 +1379,12 @@ System.out.println(products);
 
     public boolean thereAreEmptyFields(String identfier){
         if("product".equals(identfier)){
-            if(ProductID.getText().isEmpty() || 
-                    productName.getText().isEmpty() ||
-                    productCategory.getText().isEmpty() ||
-                    ProductBuyingPrice.getText().isEmpty() ||
-                    productSellingPrice.getText().isEmpty() ||
-                    expirationDate.getText().isEmpty() ||
+            if(ProductID.getText().isEmpty() && 
+                    productName.getText().isEmpty() &&
+                    productCategory.getText().isEmpty() &&
+                    ProductBuyingPrice.getText().isEmpty() &&
+                    productSellingPrice.getText().isEmpty() &&
+                    expirationDate.getText().isEmpty() &&
                     numberItem.getText().isEmpty()){
                 return true;
                 
