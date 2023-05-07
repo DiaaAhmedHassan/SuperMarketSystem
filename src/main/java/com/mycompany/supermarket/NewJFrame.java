@@ -288,10 +288,12 @@ System.out.println(products);
         String telephone = oneValues[2];
         String address = oneValues[3];       
         String[] splited =address.split("-");
+        String date = oneValues[4];
         
         
         //enter the data as paramiters in the object
         Client client = new Client(id,name,telephone,new Address(Integer.parseInt(splited[2]),splited[1],splited[0]));
+        client.setDateSubscribed(date);
         //enter the object to the arrayList 
         clients.add(client);
         
@@ -804,6 +806,7 @@ System.out.println(products);
         jLabel7.setText("Date of birth");
 
         goldenBirthday.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        goldenBirthday.setEnabled(false);
         goldenBirthday.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goldenBirthdayActionPerformed(evt);
@@ -814,6 +817,7 @@ System.out.println(products);
         jLabel15.setText("Favourite product");
 
         goldenFav.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        goldenFav.setEnabled(false);
         goldenFav.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 goldenFavActionPerformed(evt);
@@ -881,6 +885,7 @@ System.out.println(products);
         toGolden.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         toGolden.setForeground(new java.awt.Color(255, 255, 255));
         toGolden.setText("to Golden");
+        toGolden.setEnabled(false);
         toGolden.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 toGoldenActionPerformed(evt);
@@ -1137,6 +1142,8 @@ System.out.println(products);
 
         Object foundClient = null;
         System.out.println("Button clicked");
+        GregorianCalendar calendar = new GregorianCalendar();
+        int year = calendar.get(Calendar.YEAR);
         
         //check the texts are not empty
         if(thereAreEmptyFields("client")){
@@ -1159,7 +1166,15 @@ System.out.println(products);
                 }else{
                 
                 clientResult = (Client) foundClient;
+                
                 clientResult.display();
+                String[] datePart = ClientSubDate.getText().split("/");
+                int subYear = Integer.parseInt(datePart[2]);
+                if(subYear+5<=year){
+                    goldenBirthday.setEnabled(true);
+                    goldenFav.setEnabled(true);
+                    toGolden.setEnabled(true);
+                }
                 }
             }
         }
@@ -1197,6 +1212,14 @@ System.out.println(products);
         ClientName.setText("");
         ClientTelephone.setText("");
         AddressStr.setText("");
+        ClientSubDate.setText("");
+        goldenBirthday.setText("");
+        goldenFav.setText("");
+        goldenBirthday.setEnabled(false);
+        goldenFav.setEnabled(false);
+        toGolden.setEnabled(false);
+        
+        
         
     }//GEN-LAST:event_ClearClientActionPerformed
 

@@ -69,6 +69,8 @@ public class Client extends Person {
         NewJFrame.ClientName.setText(this.getName());
         NewJFrame.ClientTelephone.setText(this.getTelephone());
         NewJFrame.AddressStr.setText(String.valueOf(this.getAdress()));
+        NewJFrame.ClientSubDate.setText(this.getDateSubscribed());
+        
     }
     
         
@@ -84,6 +86,8 @@ public class Client extends Person {
             newGolden = new GoldenClient(this.getId(), this.getName(), this.getTelephone(), this.getAdress(), this.getPayments(), true, NewJFrame.goldenBirthday.getText(), NewJFrame.goldenFav.getText());
             //NewJFrame.goldenClients.add();
             //writing to the file
+            NewJFrame.goldenClients.add(newGolden);
+            
             try
             {
             NewJFrame.writer = new BufferedWriter(new FileWriter("goldenData.csv"));
