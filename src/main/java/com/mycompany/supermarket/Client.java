@@ -19,15 +19,21 @@ public class Client extends Person {
     private int home_number;
     private double payments;
     public boolean isGolden;
-    private String dateSubscribed;//date of initialization saved to CSV as a string
+    private String subDate;//date of initialization saved to CSV as a string
     
 
     public Client(int id, String name, String telephone, Address adress){
         super(id, name, telephone,adress);
         isGolden=false;
-    
+        payments = 0;
     }
-    
+    public Client(int id, String name, String telephone, Address adress, String subDate) {
+        super(id, name, telephone, adress);
+        isGolden = false;
+        this.subDate = subDate;
+        payments = 0;
+
+    }
     public void setHomeNumber(int home_number){
         this.home_number=home_number;
     }
@@ -40,12 +46,12 @@ public class Client extends Person {
         this.payments=payment;
     }
 
-    public String getDateSubscribed() {
-        return dateSubscribed;
+    public String getSubDate() {
+        return subDate;
     }
 
-    public void setDateSubscribed(String dateSubscribed) {
-        this.dateSubscribed = dateSubscribed;
+    public void setSubDate(String subDate) {
+        this.subDate = subDate;
     }
     
     
@@ -61,7 +67,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"|"+dateSubscribed+"\n";
+        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"|"+getSubDate()+ "|" + getPayments() +"\n";
     }
     public void display()
     {
@@ -69,7 +75,7 @@ public class Client extends Person {
         NewJFrame.ClientName.setText(this.getName());
         NewJFrame.ClientTelephone.setText(this.getTelephone());
         NewJFrame.AddressStr.setText(String.valueOf(this.getAdress()));
-        NewJFrame.ClientSubDate.setText(this.getDateSubscribed());
+        NewJFrame.ClientSubDate.setText(this.getSubDate());
         
     }
     
@@ -92,15 +98,21 @@ public class Client extends Person {
             {
             NewJFrame.writer = new BufferedWriter(new FileWriter("goldenData.csv"));
             NewJFrame.writer.write(("id,name,phone,address, subscribtion date, birthday, favorite product\n")+String.valueOf(NewJFrame.goldenClients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
-            NewJFrame.writer.close();
             System.out.println("Added to file succefuly");
            
-            //catch the expetion
+            //catch the excpetion
             }
             catch (IOException ex)
             {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }   
+            }
+            finally{
+                try {
+                    NewJFrame.writer.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
     }
 

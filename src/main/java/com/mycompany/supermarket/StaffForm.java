@@ -18,77 +18,54 @@ import javax.swing.JOptionPane;
  */
 public class StaffForm extends javax.swing.JFrame {
     
-    BufferedWriter writer;
-    BufferedReader reader;
+    public static BufferedWriter writer;
+    public static BufferedReader reader;
     public static ArrayList<Staff> staffMembers;
     
 
     /**
      * Creates new form StaffForm
      */
+    
+    public static void staffReload()
+    {
+        String row = "";
+        try {
+            reader = new BufferedReader(new FileReader("StaffMembers.csv"));
+
+            if ((row = reader.readLine()) == null) {
+                System.out.println("Null reader");
+            } else {
+                while ((row = reader.readLine()) != null) {
+                    String[] parts = row.split(",");
+
+                    String[] addresss = parts[4].split("-");
+                    Address staffAddress = new Address(Integer.parseInt(addresss[2]), addresss[1], addresss[0]);
+
+                    String[] cardParts = parts[6].split("-");
+                    Card userCard = new Card(cardParts[0], cardParts[1], cardParts[2]);
+
+                    Staff member = new Staff(Integer.parseInt(parts[0]), parts[1], parts[2], Integer.parseInt(parts[3]), staffAddress, Double.parseDouble(parts[5]), userCard);
+                    staffMembers.add(member);
+                }
+                System.out.println(staffMembers);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(StaffForm.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException ex) {
+                Logger.getLogger(StaffForm.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     public StaffForm() {
         initComponents();
         staffMembers = new ArrayList();
-        String row = "";
-        String memberId = "";
-        String memberName = "";
-        String memberPhone = "";
-        int memberAge = 0;
-        String street = "";
-        String town = "";
-        int homeNumber = 0;
-        double memberSalary = 0;
         
-        String cardId = "";
-        String username = "";
-        String cardCode = "";
-        
-        //input variables
-        String id, name, phoneNumber = "";
-        try {
-            reader = new BufferedReader(new FileReader("StaffMembers.csv"));
-            
-            if((row = reader.readLine()) == null){
-                System.out.println("Null reader");
-            }else{
-            while((row = reader.readLine()) != null)
-            {
-                String[] parts = row.split(",");
-                memberId = parts[0];
-                memberName = parts[1];
-                memberPhone = parts[2];
-                memberAge = Integer.parseInt(parts[3]);
-                String[] addresss = parts[4].split("-");
-                homeNumber = Integer.parseInt(addresss[2]);
-                street = addresss[0];
-                town = addresss[1];
-                memberSalary = Double.parseDouble(parts[5]);
-                
-                String[] cardParts = parts[6].split("-");
-                
-//                cardId = cardParts[0];
-//                username = cardParts[1];
-//                cardCode = cardParts[2];
-                
-                Card userCard = new Card(cardParts[0], cardParts[1], cardParts[2]);
-                Address staffAddress = new Address(homeNumber, street, town);
-                Staff member = new Staff(Integer.parseInt(memberId), memberName, memberPhone, memberAge, staffAddress, memberSalary,userCard);
-                staffMembers.add(member);
-                
-                //consistantly checking for new inputs
-//                id = this.memberId.getText();
-//                name = this.memberName.getText();
-//                phoneNumber = this.memberPhone.getText();
-            }
-            reader.close();
-            System.out.println(staffMembers);
-            }
-            
-            
-        } 
-        catch (IOException ex) {
-            Logger.getLogger(StaffForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        staffReload();
     }
 
     /**

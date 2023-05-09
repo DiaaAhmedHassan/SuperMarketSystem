@@ -46,13 +46,8 @@ public class GoldenClient extends Client{
    ToDo 1-fav_discount method 
         2-birthday discount method
 */
-    public boolean checkBirthday()
-    {
-        //return SuperMarket.dateDifference(currentDate, this.getBirthday());
-        //waiting for the current date to be difined !!
-        //String[] current = currentDate.split("/");
-        //String[] birthday = this.getBirthday().split("/");
-        //return current[0].equals(birthday[0]) && current[1].equals(birthday[1])
-        return false;
+    @Override
+    public String toString() {
+        return getId() + "|" + getName() + "|" + getTelephone() + "|" + getAdress() + "|" + getSubDate() + "|" + getBirthday() +"|" + getFavProduct().getName() + "\n";
     }
 }

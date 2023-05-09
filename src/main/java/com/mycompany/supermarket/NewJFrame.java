@@ -23,6 +23,7 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.DayOfWeek;
+import java.util.AbstractList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.sound.sampled.AudioInputStream;
@@ -63,7 +64,7 @@ public class NewJFrame extends javax.swing.JFrame {
    
     
     
-    
+    //------------------ methods -------------
     public static boolean isNumiric(String string){
         try{
             Integer.parseInt(string);
@@ -72,6 +73,7 @@ public class NewJFrame extends javax.swing.JFrame {
                 return false;
              }
     }
+    
     public static Object find(String key, String name)
     {
         //search by name
@@ -180,6 +182,7 @@ public class NewJFrame extends javax.swing.JFrame {
         
         return(returned);
     }
+    
     public static boolean checkDate(String stringDate, String key){
         //paramitar stringDate used to take the date we want to check
         //split the parts taken from the file
@@ -213,10 +216,157 @@ public class NewJFrame extends javax.swing.JFrame {
                   
     }
     
+    public static void reload(String key)
+    {
+        //how it works:
+        //modification, adding, deleting, editing a specific object, "we are always modifying the csv file"
+        //this method will translate the rows from our file to objects
+        //it'll be called when any modification happens
+        
+        //swtich case on the key
+//        String file = null;
+//        AbstractList list = null;
+        String line = " ";
+        switch(key)
+        {//client, golden, product, staffmember
+            case "client"://the sub date missing
+                try
+                {
+                    reader = new BufferedReader(new FileReader("clientsData.csv"));
+                    while ((line = reader.readLine()) != null) {
+                        String[] row = line.split(",");
+                        String[] addressSplit = row[3].split("-");
+                        Address clientAddress = new Address(Integer.parseInt(addressSplit[0]), addressSplit[1], addressSplit[2]);
+                        clients.add(new Client(Integer.parseInt(row[0]), row[1], row[2], clientAddress, row[4]));
+                    }
+                }catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } finally {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            break;
+            case "golden":
+                
+            break;
+            case "product":
+                try {
+                reader = new BufferedReader(new FileReader("productData.csv"));
+                while ((line = reader.readLine()) != null) {
+                    String[] row = line.split(",");
+                    products.add(new Product(Integer.parseInt(row[0]), row[1], row[2], Double.parseDouble(row[3]), Double.parseDouble(row[4]), row[5], Integer.parseInt(row[6])));
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            } finally {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            break;
+        }
+    }
+    
+    private void initWebcam() {
+        boolean isFound = false;
+        webcam = Webcam.getDefault();
+
+        GregorianCalendar calendar = new GregorianCalendar();
+        int today = calendar.get(Calendar.DAY_OF_MONTH);
+
+        webcam.open();
+        panel = new WebcamPanel(webcam);
+
+        qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 0, 0));
+        panel.setFPSDisplayed(true);
+        panel.setMirrored(true);
+
+        Thread qrCodeThred = new Thread(() -> {
+            while (true) {
+                this.isFound = false;
+                BufferedImage image = webcam.getImage();
+                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
+                MultiFormatReader qrBarcodeReade = new MultiFormatReader();
+
+                Result result;
+                try {
+                    result = qrBarcodeReade.decode(bitmap);
+                    if (result != null) {
+                        String qrCodeData = result.getText();
+
+                        if (isNumiric(qrCodeData)) {
+
+                            ProductID.setText(qrCodeData);
+
+                            objectFound = find(Integer.parseInt(qrCodeData), "product");
+                            if (objectFound == null) {
+                                qrSound();
+
+                                ProductID.setText(qrCodeData);
+
+                            } else {
+                                qrSound();
+
+                                Product pro = (Product) objectFound;
+                                ProductID.setText(String.valueOf(pro.getId()));
+                                productName.setText(pro.getName());
+                                productCategory.setText(pro.getCategory());
+                                ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
+                                productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
+                                expirationDate.setText(pro.getExpirationDate());
+                                numberItem.setText(String.valueOf(pro.getItemNo()));
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Not Valid", "Error 404", JOptionPane.ERROR_MESSAGE);
+                            ProductID.setText("");
+                        }
+
+                    }
+
+                } catch (NotFoundException ex) {
+                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+        qrCodeThred.start();
+
+    }
+    
+    private void qrSound() {
+        File file = new File("qrSound.wav");
+
+        try {
+            AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+            try {
+                Clip clip = AudioSystem.getClip();
+                clip.open(stream);
+                clip.start();
+            } catch (LineUnavailableException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        } catch (UnsupportedAudioFileException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
         clients = new ArrayList<>();
+        goldenClients = new ArrayList<>();
         discountProducts  = new ArrayList<>();
         GregorianCalendar calendar = new GregorianCalendar();
         int toDay = calendar.get(Calendar.DAY_OF_MONTH);
@@ -293,7 +443,7 @@ System.out.println(products);
         
         //enter the data as paramiters in the object
         Client client = new Client(id,name,telephone,new Address(Integer.parseInt(splited[2]),splited[1],splited[0]));
-        client.setDateSubscribed(date);
+        client.setSubDate(date);
         //enter the object to the arrayList 
         clients.add(client);
         
@@ -353,105 +503,7 @@ System.out.println(products);
          }
         }
     }
-
-    
-    private void initWebcam(){
-        boolean isFound = false;
-        webcam = Webcam.getDefault();
-       
-        GregorianCalendar calendar = new GregorianCalendar();
-        int today = calendar.get(Calendar.DAY_OF_MONTH);
-       
-        webcam.open();
-        panel = new WebcamPanel(webcam);
-
-        qrPanel.add(panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0,0,0,0));
-        panel.setFPSDisplayed(true);
-        panel.setMirrored(true);
-
-
-        Thread qrCodeThred = new Thread(()->{
-            while(true){
-                this.isFound = false;
-                BufferedImage image = webcam.getImage();
-                BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(new BufferedImageLuminanceSource(image)));
-                MultiFormatReader qrBarcodeReade = new MultiFormatReader();
-
-                Result result;
-                try {
-                    result = qrBarcodeReade.decode(bitmap);
-                    if(result != null){
-                    String qrCodeData = result.getText();
-
-                    if(isNumiric(qrCodeData)){
-
-                    ProductID.setText(qrCodeData);
-                    
-                    
-                    objectFound = find(Integer.parseInt(qrCodeData),"product");
-                    if(objectFound == null){
-                        qrSound();
-                        
-                        ProductID.setText(qrCodeData);
-                        
-                    }else{
-                        qrSound();
-                  
-                        Product pro = (Product) objectFound;
-                        ProductID.setText(String.valueOf(pro.getId()));
-                        productName.setText(pro.getName());
-                        productCategory.setText(pro.getCategory());
-                        ProductBuyingPrice.setText(String.valueOf(pro.getBuyingPrice()));
-                        productSellingPrice.setText(String.valueOf(pro.getSellingPrice()));
-                        expirationDate.setText(pro.getExpirationDate());
-                        numberItem.setText(String.valueOf(pro.getItemNo()));
-                    }
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Not Valid", "Error 404",JOptionPane.ERROR_MESSAGE);
-                        ProductID.setText("");
-                    }
-                    
-                    }
-
-                } catch (NotFoundException ex) {
-                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-
-            }
-        });
-        qrCodeThred.start();
-
-
-
-
-                
-    }
-    
-    private void qrSound(){
-        File file = new File("qrSound.wav");
-                
-                try {
-                    AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-                    try {
-                        Clip clip = AudioSystem.getClip();
-                        clip.open(stream);
-                        clip.start();
-                    } catch (LineUnavailableException ex) {
-                        Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                } catch (UnsupportedAudioFileException ex) {
-                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
-                    Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-    }
-    
-    
-    
-   
-
+    //----------------- gui components ---------------
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1192,7 +1244,7 @@ System.out.println(products);
       String[]parts=ad.split("-");
       Address address = new Address(Integer.parseInt(parts[0]),parts[1],parts[2]);
       Client c = new Client(Integer.valueOf(ClientId.getText()),ClientName.getText(),ClientTelephone.getText(),address); 
-      c.setDateSubscribed(ClientSubDate.getText());
+      c.setSubDate(ClientSubDate.getText());
       clients.add(c);
       
        try {
