@@ -115,7 +115,9 @@ public class NewJFrame extends javax.swing.JFrame {
                 name = name.toLowerCase().replaceAll(" ", "");
                 for(Staff staff : StaffForm.staffMembers)
                 {
-                    if(name.equals(staff.getName().toLowerCase().replaceAll(" ", "")))
+                  String code =  staff.getCard().getCode();
+                    System.out.println(code);
+                    if(name.equals(code))
                     {
                         returned = staff;
                         System.out.println(staff.toString());
@@ -374,12 +376,37 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     
+    public void showStaffName(){
+        Object foundStaff = null;
+        
+        String pointNumber = String.valueOf(posText.getText().charAt(15));
+        String shiftNumber = String.valueOf(shiftText.getText().charAt(7));
+        String card ="p"+ pointNumber+"s"+shiftNumber;
+        try{
+        foundStaff = find("staff",card);
+        Staff member = (Staff) foundStaff;
+        staffName.setText("Staff member: "+member.getCard().getUsername());
+        }catch(Exception e){
+            staffName.setText("Staff member: None");
+            
+        }
+        
+        
+        
+        
+        System.out.println(card);
+        //find the code of the card
+        
+        System.out.println(pointNumber+" "+shiftNumber);
+    }
+    
     public NewJFrame() {
         initComponents();
         products = new ArrayList<>();
         clients = new ArrayList<>();
         goldenClients = new ArrayList<>();
         discountProducts  = new ArrayList<>();
+        StaffForm.staffMembers = new ArrayList<>();
         GregorianCalendar calendar = new GregorianCalendar();
         int toDay = calendar.get(Calendar.DAY_OF_MONTH);
 
@@ -532,8 +559,7 @@ System.out.println(products);
                     String goldenAddress = goldenParts[3];
                     
                     String[] addressParts = goldenAddress.split("-");
-                        
-                   
+                    
                     String subDate = goldenParts[4];
                     String dateOfBirth = goldenParts[5];
                     String favouritProduct = goldenParts[6];
@@ -550,6 +576,10 @@ System.out.println(products);
         
         System.out.println("this is the golden data ");
         System.out.println(goldenClients);
+        
+        
+        StaffForm.staffReload();
+        showStaffName();
     }
     //----------------- gui components ---------------
     /**
@@ -574,7 +604,7 @@ System.out.println(products);
         ClearClient = new javax.swing.JButton();
         DeleteClient = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        staffName = new javax.swing.JLabel();
         posText = new javax.swing.JLabel();
         shiftText = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
@@ -716,8 +746,8 @@ System.out.println(products);
             .addGap(0, 9, Short.MAX_VALUE)
         );
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
-        jLabel5.setText("Staff member:");
+        staffName.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        staffName.setText("Staff member:");
 
         posText.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         posText.setText("Point of sale: 1");
@@ -1001,7 +1031,7 @@ System.out.println(products);
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(staffName, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(posText, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -1104,7 +1134,7 @@ System.out.println(products);
             .addGroup(layout.createSequentialGroup()
                 .addGap(6, 6, 6)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(staffName, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(posText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(shiftText, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1640,6 +1670,7 @@ System.out.println(products);
                 break;
                 
             }
+        showStaffName();
     }//GEN-LAST:event_changeComboActionPerformed
 
     private void ClientSubDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClientSubDateActionPerformed
@@ -1801,7 +1832,6 @@ System.out.println(products);
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -1821,6 +1851,7 @@ System.out.println(products);
     private javax.swing.JPanel qrPanel;
     private javax.swing.JButton readQr;
     private javax.swing.JLabel shiftText;
+    private javax.swing.JLabel staffName;
     private javax.swing.JButton toGolden;
     // End of variables declaration//GEN-END:variables
 }

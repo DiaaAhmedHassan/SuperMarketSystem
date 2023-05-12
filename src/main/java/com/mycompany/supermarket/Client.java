@@ -98,7 +98,7 @@ public class Client extends Person {
             try
             {
             NewJFrame.writer = new BufferedWriter(new FileWriter("goldenData.csv"));
-            NewJFrame.writer.write(("id,name,phone,address, subscribtion date, birthday, favorite product\n")+String.valueOf(NewJFrame.goldenClients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
+            NewJFrame.writer.write(("id,name,phone,address, subscribtion date, birthday, favorite product\n")+String.valueOf(NewJFrame.goldenClients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ",").replaceFirst(" ", ""));
             System.out.println("Added to file succefuly");
            
             //catch the excpetion

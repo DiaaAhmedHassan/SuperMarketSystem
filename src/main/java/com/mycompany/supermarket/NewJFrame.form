@@ -32,7 +32,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel5" min="-2" pref="257" max="-2" attributes="0"/>
+                      <Component id="staffName" min="-2" pref="257" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="posText" min="-2" pref="257" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -162,7 +162,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel5" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
+                  <Component id="staffName" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="posText" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="shiftText" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                   <Component id="jButton6" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
@@ -487,7 +487,7 @@
         </DimensionLayout>
       </Layout>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel5">
+    <Component class="javax.swing.JLabel" name="staffName">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="18" style="1"/>
