@@ -88,8 +88,9 @@ public class Client extends Person {
         if(NewJFrame.checkDate(NewJFrame.ClientSubDate.getText(), "client"))
         {
             //initializing the golden client and adding it to the list
+            
             GoldenClient newGolden;
-            newGolden = new GoldenClient(this.getId(), this.getName(), this.getTelephone(), this.getAdress(), this.getPayments(), true, NewJFrame.goldenBirthday.getText(), NewJFrame.goldenFav.getText());
+            newGolden = new GoldenClient(this.getId(), this.getName(), this.getTelephone(), this.getAdress(), true,NewJFrame.ClientSubDate.getText(), NewJFrame.goldenBirthday.getText(), NewJFrame.goldenFav.getText());
             //NewJFrame.goldenClients.add();
             //writing to the file
             NewJFrame.goldenClients.add(newGolden);
@@ -115,5 +116,9 @@ public class Client extends Person {
             }
         }
     }
+    
+    
+    
+   
 
 }

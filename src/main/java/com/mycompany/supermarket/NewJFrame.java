@@ -178,7 +178,19 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
                 
             break;
+            
+            case "golden":
+                System.out.println("Searching for golden client");
+                for(GoldenClient golden: goldenClients){
+                    
+                   if(id == golden.getId()){
+                       returned = golden;
+                       System.out.println(golden.toString());
+                       break;
+                   }
+                }
         }
+        
         
         return(returned);
     }
@@ -502,6 +514,42 @@ System.out.println(products);
             }
          }
         }
+        
+        //read golden clients
+        
+            try {
+                reader = new BufferedReader(new FileReader("goldenData.csv"));
+                String line = "";
+                
+                if((line = reader.readLine()) == null){
+                    System.out.println("null golden reader");
+                }else{
+                while((line = reader.readLine())!= null){
+                    String[] goldenParts = line.split(",");
+                    int id = Integer.parseInt(goldenParts[0]);
+                    String name = goldenParts[1];
+                    String phone = goldenParts[2];
+                    String goldenAddress = goldenParts[3];
+                    
+                    String[] addressParts = goldenAddress.split("-");
+                        
+                   
+                    String subDate = goldenParts[4];
+                    String dateOfBirth = goldenParts[5];
+                    String favouritProduct = goldenParts[6];
+                    GoldenClient golden = new GoldenClient(id, name, phone,  new Address(Integer.parseInt(addressParts[2]), addressParts[1], addressParts[0]), true,subDate, dateOfBirth, favouritProduct);
+                    goldenClients.add(golden);
+                }
+                reader.close();
+                }
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        System.out.println("this is the golden data ");
+        System.out.println(goldenClients);
     }
     //----------------- gui components ---------------
     /**
@@ -1190,6 +1238,22 @@ System.out.println(products);
         // TODO add your handling code here:
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
+    public void findInGolden(Client golden){
+        Object foundClient = null;
+        try{
+        foundClient = find(golden.getId(),"golden");
+        GoldenClient gold = (GoldenClient)foundClient;
+            System.out.println(gold.favProduct);
+       // gold.displayGolden();
+        }catch(Exception ex){
+            foundClient = find("golden",golden.getName());
+        GoldenClient gold = (GoldenClient)foundClient;
+        gold.displayGolden();
+        }
+        
+        
+    }
+    
     private void FindClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FindClientActionPerformed
 
         Object foundClient = null;
@@ -1216,17 +1280,43 @@ System.out.println(products);
                     JOptionPane.showMessageDialog(null, "Not found! ","Error 404",JOptionPane.ERROR_MESSAGE);
                     clientResult = null;
                 }else{
+                 clientResult = (Client) foundClient;
+          
+               
+             
+                 System.out.println(clientResult.isGolden);
+              
                 
-                clientResult = (Client) foundClient;
+                   
+                    
+                   
                 
-                clientResult.display();
-                String[] datePart = ClientSubDate.getText().split("/");
+                
+                String[] datePart = clientResult.getSubDate().split("/");
                 int subYear = Integer.parseInt(datePart[2]);
                 if(subYear+5<=year){
+                    clientResult.isGolden = true;
+                    System.out.println(clientResult.isGolden);
                     goldenBirthday.setEnabled(true);
                     goldenFav.setEnabled(true);
                     toGolden.setEnabled(true);
                 }
+                
+                    if(clientResult.isGolden){
+                      //search in golded data
+                      try{
+                          clientResult.display();
+                          foundClient = find(clientResult.getId(),"golden");
+                          GoldenClient gold = (GoldenClient)foundClient;
+                          gold.displayGolden();
+                          
+                      }catch(Exception e){
+                          System.out.println("Not found in golden data");
+                      }
+                      
+                  }else{
+                clientResult.display();
+                    }
                 }
             }
         }

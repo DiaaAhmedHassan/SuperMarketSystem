@@ -12,18 +12,17 @@ import java.util.Date;
  */
 public class GoldenClient extends Client{
     String birthday;
-    Product favProduct;
+    String favProduct;
     
     
     public GoldenClient(int id, String name, String telephone, Address adress
-                        , double payment, boolean isGolden, String birthday, String favorite)
+                       , boolean isGolden,String subdate, String birthday, String favorite)
     {
-        super(id, name, telephone, adress);
+        super(id, name, telephone, adress, subdate);
         this.birthday = birthday;
         
         Object found = NewJFrame.find("client", favorite);
-        Product pro = (Product) found;
-        this.favProduct = pro;
+        this.favProduct = favorite;
     }
 
     public String getBirthday() {
@@ -34,12 +33,19 @@ public class GoldenClient extends Client{
         this.birthday = birthday;
     }
 
-    public Product getFavProduct() {
+    public String getFavProduct() {
         return this.favProduct;
     }
 
-    public void setFavProduct(Product favorite) {
+    public void setFavProduct(String favorite) {
         this.favProduct = favorite;
+    }
+    
+    public void displayGolden(){
+        super.display();
+        NewJFrame.goldenBirthday.setText(birthday);
+        NewJFrame.goldenFav.setText(favProduct);
+        
     }
     
    /*
@@ -48,6 +54,6 @@ public class GoldenClient extends Client{
 */
     @Override
     public String toString() {
-        return getId() + "|" + getName() + "|" + getTelephone() + "|" + getAdress() + "|" + getSubDate() + "|" + getBirthday() +"|" + getFavProduct().getName() + "\n";
+        return getId() + "|" + getName() + "|" + getTelephone() + "|" + getAdress() + "|" + getSubDate() + "|" + getBirthday() +"|" + getFavProduct()+ "\n";
     }
 }
