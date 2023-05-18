@@ -125,8 +125,9 @@ public class Product {
         return "";
     }
     
-    public int decreaseItemNo(){
-        return itemNo--;
+    public void decreaseItemNo(){
+        setItemNo(getItemNo()-1);
+        
     }
     
     public double weeklyDiscount(double discountPersent){
