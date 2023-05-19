@@ -125,8 +125,8 @@ public class Product {
         return "";
     }
     
-    public void decreaseItemNo(){
-        setItemNo(getItemNo()-1);
+    public void decreaseItemNo(int decrease){
+        setItemNo(getItemNo()-decrease);
         
     }
     

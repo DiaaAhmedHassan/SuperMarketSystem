@@ -360,7 +360,7 @@ public class NewJFrame extends javax.swing.JFrame {
                                 numberItem.setText(String.valueOf(pro.getItemNo()));
                                 addToBill();
                                 productResult = pro;
-                                productResult.decreaseItemNo();
+                                productResult.decreaseItemNo(Integer.parseInt(itemsNumber.getText()));
                                 numberItem.setText(String.valueOf(productResult.getItemNo()));
                             }
                         } else {
@@ -1799,34 +1799,63 @@ System.out.println(products);
     }//GEN-LAST:event_DeleteProductActionPerformed
 
     public void addToBill(){
-        
-        if(itemsNumber.getText().isEmpty()){
+        GregorianCalendar calendar = new GregorianCalendar();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        double price = Double.parseDouble(itemsNumber.getText())*Double.parseDouble(productSellingPrice.getText());
+         if(itemsNumber.getText().isEmpty()){
             itemsNumber.setText("1");
         }
-        double price = Double.parseDouble(itemsNumber.getText())*Double.parseDouble(productSellingPrice.getText());
-        
-        if(!thereAreEmptyFields("product")){
-        bill.setText(bill.getText()+"\n"+itemsNumber.getText()+" "+productName.getText()+"\t"+price);
-        tottalPrice += price;
-            System.out.println(tottalPrice);
-            tottalLabel.setText("Tottal: "+String.valueOf(tottalPrice));   
-//            numberItem.setText(String.valueOf(productResult.getItemNo()));
-            
-            
-           
+            //golden case
+        /*10% for birth day 
+        20% for favourite product
+        2% for golden clients*/
+        //check for golden clients
+        if(clientResult.isGolden){
+            //10% birth day
+            String birthPart[] = goldenBirthday.getText().split("/");
+            int birthday = Integer.parseInt(birthPart[0]);
+            int birthMonth = Integer.parseInt(birthPart[1]);
+            if(birthday == day && birthMonth == month){
+                     if(!thereAreEmptyFields("product")){
+                         price -= price*(10/100.0);            
+            }
+                     //20% fav product
+        }else if(goldenFav.getText().toLowerCase().replaceAll(" ", "").equals(productName.getText().toLowerCase().replaceAll(" ", ""))){ //fav product
+                if(!thereAreEmptyFields("product")){
+                    price -= price*(20/100.0);              
+            } 
+                
+            }else{ //2% golden client
+                 if(!thereAreEmptyFields("product")){
+                    price -= price*(2/100.0);           
+            } 
         }
+            
+        }else{
+
+        if(!thereAreEmptyFields("product")){
+        bill.setText(bill.getText()+"\n"+itemsNumber.getText()+" "+productName.getText()+"\t"+price);          
+        }
+        }
+        
+                     bill.setText(bill.getText()+"\n"+itemsNumber.getText()+" "+productName.getText()+"\t"+price);
+                        tottalPrice += price;
+            System.out.println(tottalPrice);
+            tottalLabel.setText("Tottal: "+String.valueOf(tottalPrice));  
        
+    
     }
     
     private void AddToBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddToBillActionPerformed
         addToBill();
-        productResult.decreaseItemNo();
+        productResult.decreaseItemNo(Integer.parseInt(itemsNumber.getText()));
         numberItem.setText(String.valueOf(productResult.getItemNo()));
         
         try {
-            writer = new BufferedWriter(new FileWriter("productsData.csv"));
+            writer = new BufferedWriter(new FileWriter("productData.csv"));
            products.set(products.indexOf(productResult),productResult);
-               writer.write(String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
+               writer.write(("id,name,category,buying,selling,expiration,number\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
            writer.close();
         } catch (IOException ex) {
             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
