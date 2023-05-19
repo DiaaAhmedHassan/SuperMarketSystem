@@ -475,6 +475,10 @@ public class NewJFrame extends javax.swing.JFrame {
         if(checkDate(expDate, "product")){
             notificationSection.setText(notificationSection.getText() + "\n" +  "The expiry date of "+pro.getName()+" has expired");
         }
+        if(pro.getItemNo()<=10){
+            notificationSection.setText(notificationSection.getText()+"\n"+pro.getName()+" stock is running out");
+            
+        }
     }
         
         //finish reading
@@ -1666,6 +1670,9 @@ System.out.println(products);
                 }else{ 
                 productResult = (Product) foundProduct;
                 productResult.display();
+                if(productResult.getItemNo()<=10){
+                    JOptionPane.showMessageDialog(null, productResult.getName()+" stock is running out","Alert",JOptionPane.INFORMATION_MESSAGE);
+                }
               
                 }
             }
@@ -1839,10 +1846,11 @@ System.out.println(products);
         }
         }
         
+        
                      bill.setText(bill.getText()+"\n"+itemsNumber.getText()+" "+productName.getText()+"\t"+price);
                         tottalPrice += price;
             System.out.println(tottalPrice);
-            tottalLabel.setText("Tottal: "+String.valueOf(tottalPrice));  
+            tottalLabel.setText("Tottal: "+String.valueOf(tottalPrice));
        
     
     }
