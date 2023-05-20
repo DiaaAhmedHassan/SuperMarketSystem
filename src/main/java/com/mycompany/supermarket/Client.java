@@ -67,7 +67,7 @@ public class Client extends Person {
 
     @Override
     public String toString() {
-        return getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"|"+getSubDate()+ "|" + getPayments() +"\n";
+        return ""+getId() + "|"+ getName() +"|"+ getTelephone()+"|"+getAdress()+"|"+getSubDate()+ "|" + getPayments()+"\n";
     }
     public void display()
     {
@@ -95,25 +95,7 @@ public class Client extends Person {
             //writing to the file
             NewJFrame.goldenClients.add(newGolden);
             
-            try
-            {
-            NewJFrame.writer = new BufferedWriter(new FileWriter("goldenData.csv"));
-            NewJFrame.writer.write(("id,name,phone,address, subscribtion date, birthday, favorite product\n")+String.valueOf(NewJFrame.goldenClients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ",").replaceFirst(" ", ""));
-            System.out.println("Added to file succefuly");
-           
-            //catch the excpetion
-            }
-            catch (IOException ex)
-            {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            finally{
-                try {
-                    NewJFrame.writer.close();
-                } catch (IOException ex) {
-                    Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            NewJFrame.writeToFiles("golden");
         }
     }
     

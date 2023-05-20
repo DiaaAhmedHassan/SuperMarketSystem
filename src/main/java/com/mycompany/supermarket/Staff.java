@@ -14,6 +14,7 @@ public class Staff extends Person{
     private double salary;
     private int age;
     private Card card;
+    private double BillsTottal;
     
 
 
@@ -23,6 +24,7 @@ public class Staff extends Person{
         this.salary = salary;
         this.age = age;
         this.card = card;
+        this.BillsTottal = 0;
     }
 
     public Card getCard() {
@@ -40,8 +42,17 @@ public class Staff extends Person{
     public void setAge(int age) {
         this.age = age;
     }
+
+    public double getBillsTottal() {
+        return BillsTottal;
+    }
+
+    public void setBillsTottal(double BillsTottal) {
+        this.BillsTottal = BillsTottal;
+    }
        
-    public void setSalary(int salary){
+    
+    public void setSalary(double salary){
         this.salary=salary;
 }
     public double getSalary(){
@@ -59,7 +70,7 @@ public class Staff extends Person{
         StaffForm.memberAge.setText(String.valueOf(this.getAge()));
         StaffForm.memberPhone.setText(this.getTelephone());
         StaffForm.memberAddress.setText(this.getAdress().toString());
-        StaffForm.memberSalary.setText(String.valueOf(this.getAdress()));
+        StaffForm.memberSalary.setText(String.valueOf(this.getSalary()));
         StaffForm.cardId.setText(String.valueOf(this.getCard().getId()));
         StaffForm.cardUsername.setText(this.getCard().getUsername());
         StaffForm.cardCode.setText(this.getCard().getCode());

@@ -21,7 +21,7 @@ public class StaffForm extends javax.swing.JFrame {
     public static BufferedWriter writer;
     public static BufferedReader reader;
     public static ArrayList<Staff> staffMembers;
-    
+    public static Staff member;
 
     /**
      * Creates new form StaffForm
@@ -45,7 +45,7 @@ public class StaffForm extends javax.swing.JFrame {
                     String[] cardParts = parts[6].split("-");
                     Card userCard = new Card(cardParts[0], cardParts[1], cardParts[2]);
 
-                    Staff member = new Staff(Integer.parseInt(parts[0]), parts[1], parts[2], Integer.parseInt(parts[3]), staffAddress, Double.parseDouble(parts[5]), userCard);
+                    member = new Staff(Integer.parseInt(parts[0]), parts[1], parts[2], Integer.parseInt(parts[3]), staffAddress, Double.parseDouble(parts[5]), userCard);
                     staffMembers.add(member);
                 }
                 System.out.println(staffMembers);
@@ -99,6 +99,7 @@ public class StaffForm extends javax.swing.JFrame {
         memberSalary = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         memberAge = new javax.swing.JTextField();
+        clearStaff1 = new javax.swing.JButton();
 
         deleteStaff.setBackground(new java.awt.Color(255, 0, 0));
         deleteStaff.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -210,6 +211,16 @@ public class StaffForm extends javax.swing.JFrame {
 
         memberAge.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
+        clearStaff1.setBackground(new java.awt.Color(0, 0, 0));
+        clearStaff1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        clearStaff1.setForeground(new java.awt.Color(255, 255, 255));
+        clearStaff1.setText("Update");
+        clearStaff1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearStaff1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -231,20 +242,20 @@ public class StaffForm extends javax.swing.JFrame {
                     .addComponent(memberAge, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10))
                 .addGap(69, 69, 69)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel5)
                     .addComponent(jLabel3)
                     .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(cardId)
-                        .addComponent(cardUsername)
-                        .addComponent(clearStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(findButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(31, 31, 31)
-                            .addComponent(addButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(deleteStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cardCode, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addComponent(cardId)
+                    .addComponent(cardUsername)
+                    .addComponent(clearStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(findButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(addButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(deleteStaff, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cardCode, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(clearStaff1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(91, 91, 91))
         );
         layout.setVerticalGroup(
@@ -287,20 +298,23 @@ public class StaffForm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(memberAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(findButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addButtonStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearStaff1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(memberSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(clearStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(memberAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(memberSalary, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(112, 112, 112))
+                        .addComponent(deleteStaff, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(70, 70, 70))
         );
 
         pack();
@@ -408,56 +422,7 @@ public class StaffForm extends javax.swing.JFrame {
     }//GEN-LAST:event_memberSalaryActionPerformed
 
     private void findButtonStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findButtonStaffActionPerformed
-        // TODO add your handling code here:
-        //use getters
-        //search accourding to the filled field
-        //
-//        boolean isFound = false;
-//        
-//        if(memberId.getText().isEmpty() && memberName.getText().isEmpty() && memberPhone.getText().isEmpty()){
-//            JOptionPane.showMessageDialog(null, "The feileds is empty!","Error 404",JOptionPane.ERROR_MESSAGE);
-//        }else{
-//        
-//        for(Staff result: staffMembers){
-//            /*Search by id*/
-//
-//            if(memberId.getText().equals(result.getId())){
-//                isFound = true;
-//                memberId.setText(String.valueOf(result.getId()));
-//                memberName.setText(result.getName());
-//                memberAge.setText(String.valueOf(result.getAge()));
-//                memberPhone.setText(result.getTelephone());
-//                memberAddress.setText(result.getAdress().toString());
-//                memberSalary.setText(String.valueOf(result.getSalary()));
-//                cardId.setText(String.valueOf(result.getCard().getId()));
-//                cardUsername.setText(result.getCard().getUsername());
-//                cardCode.setText(result.getCard().getCode());
-//                break;
-//               /*Search by name*/
-//            }else if(memberName.getText().replaceAll(" ", "").toLowerCase().equals(result.getName().toLowerCase().replaceAll(" ", ""))){
-//                memberId.setText(String.valueOf(result.getId()));
-//               isFound = true;
-//                memberName.setText(result.getName());
-//                memberAge.setText(String.valueOf( result.getAge()));
-//                memberPhone.setText(result.getTelephone());
-//                memberAddress.setText(result.getAdress().toString());
-//                memberSalary.setText(String.valueOf(result.getAdress()));
-//                cardId.setText(String.valueOf(result.getCard().getId()));
-//                cardUsername.setText(result.getCard().getUsername());
-//                cardCode.setText(result.getCard().getCode());
-//                break;
-//            }
-//            else    
-//            {
-//                System.out.println("not found");
-//                       
-//            }
-//        }
-//        }
-//        
-//        if(!isFound){
-//             JOptionPane.showMessageDialog(null, "Not found","Error 404",JOptionPane.ERROR_MESSAGE);
-//        }
+
 
         Object foundProduct = null;
         System.out.println("Button clicked");
@@ -467,11 +432,11 @@ public class StaffForm extends javax.swing.JFrame {
         }//search
         else{
             try {
-                foundProduct = NewJFrame.find(Integer.parseInt(memberId.getText()), "product");
+                foundProduct = NewJFrame.find(Integer.parseInt(memberId.getText()), "staff");
                 
             } catch (NumberFormatException e) {
                 
-                foundProduct = NewJFrame.find("product", memberName.getText());
+                foundProduct = NewJFrame.find("staffName", memberName.getText());
                 
             }finally{
                 
@@ -490,6 +455,23 @@ public class StaffForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_memberNameActionPerformed
 
+    private void clearStaff1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearStaff1ActionPerformed
+        member.setId(Integer.parseInt(memberId.getText()));
+        member.setName(memberName.getText());
+        member.setAge(Integer.parseInt(memberAge.getText()));
+        
+        member.setTelephone(memberPhone.getText());
+        String addressParts[] = memberAddress.getText().split("-");
+        Address address = new Address(Integer.parseInt(addressParts[2]), addressParts[1], addressParts[0]);
+        member.setAdress(address);
+        
+        member.setSalary(Double.parseDouble(memberSalary.getText()));
+        
+        member.setCard(new Card(cardId.getText(), cardUsername.getText(), cardCode.getText()));
+        staffMembers.set(staffMembers.indexOf(member), member);
+        NewJFrame.writeToFiles("staff");
+    }//GEN-LAST:event_clearStaff1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -500,6 +482,7 @@ public class StaffForm extends javax.swing.JFrame {
     public static javax.swing.JTextField cardId;
     public static javax.swing.JTextField cardUsername;
     private javax.swing.JButton clearStaff;
+    private javax.swing.JButton clearStaff1;
     private javax.swing.JButton deleteStaff;
     private javax.swing.JButton findButtonStaff;
     private javax.swing.JLabel jLabel1;
