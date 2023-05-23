@@ -130,7 +130,7 @@ public class Product {
         
     }
     
-    public double weeklyDiscount(double discountPersent){
+    public double Discount(double discountPersent){
         return sellingPrice -= sellingPrice * (discountPersent/100);
     }
     
