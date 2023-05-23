@@ -69,7 +69,9 @@ public class NewJFrame extends javax.swing.JFrame {
     
     
     //------------------ methods -------------
-    public static boolean isNumiric(String string){
+    
+    //check the strings if it's numeric
+    public static boolean isNumeric(String string){
         try{
             Integer.parseInt(string);
             return true;
@@ -78,6 +80,8 @@ public class NewJFrame extends javax.swing.JFrame {
              }
     }
     
+    
+    //This method is used in find process
     public static Object find(String key, String name)
     {
         //search by name
@@ -152,7 +156,7 @@ public class NewJFrame extends javax.swing.JFrame {
         
     }
    
-    //overload
+    //overload for the find method to find by id
     public static Object find(int id, String key)
     {
         //search my id
@@ -217,6 +221,8 @@ public class NewJFrame extends javax.swing.JFrame {
         return(returned);
     }
     
+    
+    //this method is used to compare between current date and another date
     public static boolean checkDate(String stringDate, String key){
         //paramitar stringDate used to take the date we want to check
         //split the parts taken from the file
@@ -232,7 +238,7 @@ public class NewJFrame extends javax.swing.JFrame {
         int year = calendar.get(Calendar.YEAR);//Jan is 0, Feb is 1, mar is 2......
    
         switch(key){
-            case "product":
+            case "product": //2022 sy< 2023 cy ex
                  if(year>stringYear){ //false
                   return true;
                 }else if(year == stringYear){
@@ -258,66 +264,8 @@ public class NewJFrame extends javax.swing.JFrame {
                   
     }
     
-    public static void reload(String key)
-    {
-        //how it works:
-        //modification, adding, deleting, editing a specific object, "we are always modifying the csv file"
-        //this method will translate the rows from our file to objects
-        //it'll be called when any modification happens
-        
-        //swtich case on the key
-//        String file = null;
-//        AbstractList list = null;
-        String line = " ";
-        switch(key)
-        {//client, golden, product, staffmember
-            case "client"://the sub date missing
-                try
-                {
-                    reader = new BufferedReader(new FileReader("clientsData.csv"));
-                    while ((line = reader.readLine()) != null) {
-                        String[] row = line.split(",");
-                        String[] addressSplit = row[3].split("-");
-                        Address clientAddress = new Address(Integer.parseInt(addressSplit[0]), addressSplit[1], addressSplit[2]);
-                        clients.add(new Client(Integer.parseInt(row[0]), row[1], row[2], clientAddress, row[4]));
-                    }
-                }catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } finally {
-                    try {
-                        reader.close();
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            break;
-            case "golden":
-                
-            break;
-            case "product":
-                try {
-                reader = new BufferedReader(new FileReader("productData.csv"));
-                while ((line = reader.readLine()) != null) {
-                    String[] row = line.split(",");
-                    products.add(new Product(Integer.parseInt(row[0]), row[1], row[2], Double.parseDouble(row[3]), Double.parseDouble(row[4]), row[5], Integer.parseInt(row[6])));
-                }
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            break;
-        }
-    }
-    
+   
+    //this method used to show bill defaults
     public void showBillDefs(){
         GregorianCalendar calendar = new GregorianCalendar();
         int month = calendar.get(Calendar.MONTH)+1;
@@ -327,6 +275,8 @@ public class NewJFrame extends javax.swing.JFrame {
         
     }
     
+    
+    //using webcam and read the qr code
     private void initWebcam() {
      
         boolean isFound = false;
@@ -344,12 +294,8 @@ public class NewJFrame extends javax.swing.JFrame {
         panel.setFPSDisplayed(true);
         panel.setMirrored(true);
         
-        
 
         
-        
-       
-
         Thread qrCodeThred = new Thread(() -> {
             while (true) {
                 this.isFound = false;
@@ -363,7 +309,7 @@ public class NewJFrame extends javax.swing.JFrame {
                     if (result != null) {
                         String qrCodeData = result.getText();
 
-                        if (isNumiric(qrCodeData)) {
+                        if (isNumeric(qrCodeData)) {
 
                             ProductID.setText(qrCodeData);
 
@@ -410,7 +356,7 @@ public class NewJFrame extends javax.swing.JFrame {
     }
     
     
-    
+    //creat sound for the qr reading
     private void qrSound() {
         File file = new File("qrSound.wav");
 
@@ -431,12 +377,13 @@ public class NewJFrame extends javax.swing.JFrame {
         }
     }
     
+    //used to know who is the staff member working in this shift and point of sale
     public void showStaffName(){
         Object foundStaff = null;
         
         String pointNumber = String.valueOf(posText.getText().charAt(15));
         String shiftNumber = String.valueOf(shiftText.getText().charAt(7));
-        String card ="p"+ pointNumber+"s"+shiftNumber;
+        String card ="p"+ pointNumber+"s"+shiftNumber; //p1s1
         try{
         foundStaff = find("staff",card);
         member = (Staff) foundStaff;
@@ -481,6 +428,7 @@ public class NewJFrame extends javax.swing.JFrame {
     if((line = reader.readLine()) == null){
         System.out.println("products null reader");
     }else{
+        //line = "4545,Milk,Diary,23.0,28.0,4/7/2024,10000"
     while ((line = reader.readLine()) != null) {
         String[] oneValues = line.split(","); //spiliting 
         
@@ -594,7 +542,8 @@ System.out.println(products);
             for(Product discountSearch : discountProducts){
                    if(normal.getId() == discountSearch.getId()){
                     if(toDay<discountSearch.getEndDay()){           
-                        normal.setSellingPrice(normal.weeklyDiscount(discountSearch.getDiscountPerc()));
+                        //set selling price with 
+                        normal.setSellingPrice(normal.Discount(discountSearch.getDiscountPerc()));
                         System.out.println(toDay);
                         System.out.println(discountSearch.getEndDay());
                         System.out.println(normal.getSellingPrice());
@@ -1515,6 +1464,7 @@ System.out.println(products);
         ClientTelephone.setNextFocusableComponent(AddressStr);
     }//GEN-LAST:event_ClientTelephoneActionPerformed
 
+    //used to find the client if it's exist in the golden clients file
     public void findInGolden(Client golden){
         Object foundClient = null;
         try{
@@ -1569,7 +1519,7 @@ System.out.println(products);
                     
                    
                 
-                
+                //check if the golden is passed 5 years subscription and display bill with discount
                 String[] datePart = clientResult.getSubDate().split("/");
                 int subYear = Integer.parseInt(datePart[2]);
                 if(subYear+5<=year){
@@ -1600,6 +1550,7 @@ System.out.println(products);
             }
         }
         
+        //show the name of the client in the bill
         bill.setText(bill.getText()+"\nClient: "+clientResult.getName()+"\n---------------------------");
         
     }//GEN-LAST:event_FindClientActionPerformed
@@ -1616,18 +1567,9 @@ System.out.println(products);
       c.setSubDate(ClientSubDate.getText());
       clients.add(c);
       
-       try {
-            writer = new BufferedWriter(new FileWriter("clientsData.csv"));
-            writer.write(("id,name,phone,address,subdate\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
-            writer.close();
-            System.out.println("Added to file succefuly");
-           
-           //catch the expetion
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }}
+         writeToFiles("clients");
     }//GEN-LAST:event_AddClientActionPerformed
-
+    }
     private void ClearClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearClientActionPerformed
         ClientId.setText("");
         ClientName.setText("");
@@ -1850,6 +1792,8 @@ System.out.println(products);
      
     }//GEN-LAST:event_DeleteProductActionPerformed
 
+    //add the product to bill
+    
     public void addToBill(){
         GregorianCalendar calendar = new GregorianCalendar();
         int day = calendar.get(Calendar.DAY_OF_MONTH);
@@ -1891,9 +1835,8 @@ System.out.println(products);
         }
         }
         
-        
-                     bill.setText(bill.getText()+"\n"+itemsNumber.getText()+" "+productName.getText()+"\t"+price);
-                        tottalPrice += price;
+            bill.setText(bill.getText()+"\n"+itemsNumber.getText()+" "+productName.getText()+"\t"+price);
+            tottalPrice += price;
             System.out.println(tottalPrice);
             tottalLabel.setText("Tottal: "+String.valueOf(tottalPrice));
        
@@ -1905,14 +1848,7 @@ System.out.println(products);
         productResult.decreaseItemNo(Integer.parseInt(itemsNumber.getText()));
         numberItem.setText(String.valueOf(productResult.getItemNo()));
         
-        try {
-            writer = new BufferedWriter(new FileWriter("productData.csv"));
-           products.set(products.indexOf(productResult),productResult);
-               writer.write(("id,name,category,buying,selling,expiration,number\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
-           writer.close();
-        } catch (IOException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        writeToFiles("products");
     }//GEN-LAST:event_AddToBillActionPerformed
 
     private void AddressStrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddressStrActionPerformed
@@ -1991,17 +1927,11 @@ System.out.println(products);
         
         
         for(Product pro: products){
-            double newPrice = pro.weeklyDiscount(per);
+            double newPrice = pro.Discount(per);
             pro.setSellingPrice(newPrice);
         }
         
-         try {
-                writer = new BufferedWriter(new FileWriter("productData.csv"));
-                writer.write(("id,name,category,buying,selling,expiration,number\n")+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(" ", "").replaceAll(",", "").replaceAll("\\|", ","));
-                writer.close();
-            } catch (IOException ex) {
-                Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        writeToFiles("products");
     }
     private void discountOptionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discountOptionActionPerformed
         String value = discountOption.getSelectedItem().toString();
@@ -2020,7 +1950,7 @@ System.out.println(products);
                 String msgValue = JOptionPane.showInputDialog(null, "Enter the discount percentage: ","Discount", JOptionPane.INFORMATION_MESSAGE);
                 foundProduct = find(Integer.parseInt(ProductID.getText()), "product");
                 Product item = (Product) foundProduct;
-                item.setSellingPrice(item.weeklyDiscount(Double.parseDouble(msgValue)));
+                item.setSellingPrice(item.Discount(Double.parseDouble(msgValue)));
                 productSellingPrice.setText(String.valueOf(item.getSellingPrice()));
                 
            
@@ -2050,7 +1980,7 @@ System.out.println(products);
                 //second choice function
                 String msgValue2 = JOptionPane.showInputDialog(null, "Enter the discount percentage: ","Discount", JOptionPane.INFORMATION_MESSAGE);
                 for(Product p1 :products){
-                    p1.setSellingPrice(p1.weeklyDiscount(Double.parseDouble(msgValue2)));
+                    p1.setSellingPrice(p1.Discount(Double.parseDouble(msgValue2)));
                 try {
                     File file = new File("DiscountList.csv");
                     writer = new BufferedWriter(new FileWriter(file,true));
@@ -2230,20 +2160,24 @@ System.out.println(products);
         tottalLabel.setText("Tottal: 0.0");
         itemsNumber.setText("1");
         tottalPrice = 0.0;
+        //reset the bill
       
         
         
     }//GEN-LAST:event_AddToBill1ActionPerformed
-  public static void writeToFiles(String key) {
+  
+    //method used to write data to the files
+    public static void writeToFiles(String key) {
        
       try { 
       switch(key){
-           
+           //write product to file of the products
            case "product":
                 writer = new BufferedWriter(new FileWriter("productData.csv"));
                 writer.write("id,name,category,buying,selling,expiration,number\n"+String.valueOf(products).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
                 writer.close();
                    break;
+           //write clients to client file        
            case "clients":
                writer = new BufferedWriter(new FileWriter("clientsData.csv"));
                writer.write(("id,name,phone,address,subdate\n")+String.valueOf(clients).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|", ","));
@@ -2255,7 +2189,7 @@ System.out.println(products);
               writer.close();
            case "staff":
                writer = new BufferedWriter(new FileWriter("StaffMembers.csv"));
-               writer.write(("id,name,phone,age,address,salary,cardId,username,cardCode\n")+String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|",",").replaceAll(" ", ""));
+               writer.write(("id,name,phone,age,address,salary,cardId,username\n")+String.valueOf(staffMembers).replaceAll("\\[", "").replaceAll("\\]", "").replaceAll(",", "").replaceAll("\\|",",").replaceAll(" ", ""));
                writer.close();
                break;
                
@@ -2281,6 +2215,8 @@ System.out.println(products);
     }
     private void updateClientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateClientActionPerformed
 
+        //update client with new data
+        
         if(!clientResult.isGolden){
         clientResult.setId(Integer.parseInt(ClientId.getText()));
         clientResult.setName(ClientName.getText());
